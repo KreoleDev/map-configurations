@@ -31,6 +31,7 @@ export default function PageAddnewmapsComponent() {
   description={ `Crie um novo mapa configurando suas propriedades básicas, centro e funcionalidades.` }
   iconBackButton={ `AlarmClockOff` }
   variant={ `h3` }
+  className={ cn('','',) }
   
 >
   <div className="flex items-center gap-2">
@@ -55,9 +56,9 @@ iconSize={ 20 }
   
 >
 </IGRPHeadline>
-<div className={ cn('block','mt-6 mr-5 mb-6 ml-5 mx-5 my-6','border border-solid border-[#D3D3D3] rounded-xl',)}    >
+<div className={ cn('block','border-0 border-solid border-[#D3D3D3]',)}    >
 	<div className={ cn('grid grid grid-cols-2 grid-rows-1 gap-2 justify-items-stretch items-start','mr-5 ml-5 mx-5','overflow-visibleborder border-solid border-[#D3D3D3] rounded-xl',)}    >
-	<div className={ cn('mt-6 mb-6 my-6 pr-50%','border border-solid border-[#D3D3D3] rounded-xl',)}    >
+	<div className={ cn('mt-6 mb-6 my-6 pt-6 pr-50% pb-2','border border-solid border-[#D3D3D3] rounded-xl',)}    >
 	<IGRPHeadline
   name={ `headline2` }
   title={ `Mapa Básico` }
@@ -156,7 +157,7 @@ maxLines={ 1 }
 >
   Zoom: 10
 </IGRPText></div></div>
-<div className={ cn('mt-6 mb-6 my-6','border border-solid border-[#D3D3D3] rounded-xl',)}    >
+<div className={ cn('mt-6 mb-6 my-6 pt-6 pb-2','border border-solid border-[#D3D3D3] rounded-xl',)}    >
 	<IGRPHeadline
   name={ `headline3` }
   title={ `Mapa de Análise` }
@@ -271,7 +272,7 @@ maxLines={ 1 }
   Zoom: 32
 </IGRPText></div></div></div>
 <div className={ cn('grid grid grid-cols-2 grid-rows-1 gap-2 justify-items-stretch items-start','mr-5 ml-5 mx-5',)}    >
-	<div className={ cn('mb-6','border border-solid border-[#D3D3D3] rounded-xl',)}    >
+	<div className={ cn('mb-6 pt-6 pb-2','border border-solid border-[#D3D3D3] rounded-xl',)}    >
 	<IGRPHeadline
   name={ `headline4` }
   title={ `Mapa de Apresentação` }
@@ -369,7 +370,7 @@ maxLines={ 1 }
 >
   Zoom: 12
 </IGRPText></div></div>
-<div className={ cn('mb-6','border border-solid border-[#D3D3D3] rounded-xl',)}    >
+<div className={ cn('mb-6 pt-6 pb-2','border border-solid border-[#D3D3D3] rounded-xl',)}    >
 	<IGRPHeadline
   name={ `headline5` }
   title={ `Mapa de Navegação` }
