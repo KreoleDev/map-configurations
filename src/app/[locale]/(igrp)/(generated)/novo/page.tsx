@@ -401,39 +401,6 @@ maxLines={ 1 }
   
 >
   Widgets úteis
-</IGRPText></div>
-<div className={ cn('ml-10',)}    >
-	<IGRPText
-  name={ `text19` }
-  
-variant={ `primary` }
-weight={ `light` }
-size={ `sm` }
-align={ `left` }
-spacing={ `normal` }
-maxLines={ 1 }
-
-  className={ cn('','mb--16',) }
-  
-  
->
-  Centro: -444, -444
-</IGRPText>
-<IGRPText
-  name={ `text18` }
-  
-variant={ `primary` }
-weight={ `light` }
-size={ `sm` }
-align={ `left` }
-spacing={ `normal` }
-maxLines={ 1 }
-
-  className={ cn() }
-  
-  
->
-  Zoom: 21
 </IGRPText></div></div></div></div></div></div></div>
   );
 }
