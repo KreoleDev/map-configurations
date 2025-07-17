@@ -21,6 +21,8 @@ export default function PageNewComponent() {
   
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -29,7 +31,7 @@ export default function PageNewComponent() {
   name={ `pageHeader1` }
   title={ `Novo Mapa` }
   description={ `Crie um novo mapa configurando suas propriedades básicas, centro e funcionalidades.` }
-  iconBackButton={ `Search` }
+  iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/maps` }
   variant={ `h3` }

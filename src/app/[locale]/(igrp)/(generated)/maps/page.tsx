@@ -13,8 +13,12 @@ import { IGRPDataTableHeaderSortToggle, IGRPDataTableHeaderSortDropdown, IGRPDat
 import { 
   IGRPPageHeader,
 	IGRPButton,
+	IGRPInputSearch,
 	IGRPDataTable,
-	IGRPDataTableRowAction 
+	IGRPDataTableRowAction,
+	IGRPDataTableDropdownMenu,
+	IGRPDataTableDropdownMenuAlert,
+	IGRPDataTableDropdownMenuLink 
 } from "@igrp/igrp-framework-react-design-system";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +29,8 @@ export default function PageMapsComponent() {
   const [contentTabletable1, setContentTabletable1] = useState<any[]>([]);
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -55,9 +61,26 @@ iconName={ `Plus` }
 </div>
 </IGRPPageHeader>
 
-<div className={ cn('mr-5 ml-5 mx-5','border border-solid border-[#D3D3D3] rounded-xl',)}    >
-	<IGRPDataTable<any, any>
-  className={ cn('','mr-8 mb-8 ml-8 mx-8','border-0 border-solid border-[#FFFFFf] rounded-bottoml-[7px]',) }
+<div className={ cn('mr-5 ml-5 mx-5','border border-solid border-[#D3D3D3] rounded-xl',' border rounded-lg',)}    >
+	<div className={ cn(' px-4 pt-2',)}    >
+	<IGRPInputSearch
+  name={ `inputSearch1` }
+  label={ undefined }
+showStartIcon={ true }
+startIcon={ `Search` }
+submitIcon={ `ArrowRight` }
+required={ false }
+
+
+placeholder={ `Search...` }
+  className={ cn() }
+  setValueChange={ (value) => '' }
+  
+>
+</IGRPInputSearch></div>
+<IGRPDataTable<any, any>
+  tableClassName={ `rounded-none` }
+  className={ cn('',) }
   columns={
     [
         {
@@ -77,7 +100,7 @@ iconName={ `Plus` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
-          header: 'Centro'
+          header: 'Enquadramento'
 ,accessorKey: 'tableTextCell3',
           cell: ({ row }) => {
           return row.getValue("tableTextCell3")
@@ -108,6 +131,32 @@ iconName={ `Plus` }
 
 return (
 <IGRPDataTableRowAction>
+  <IGRPDataTableDropdownMenu
+  items={
+    [
+      {
+        component: IGRPDataTableDropdownMenuAlert,
+        props: {
+          modalTitle: `New Alert`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `default`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: (e) => {},
+          children: <>A new alert triggered</>
+}
+      },
+      {
+        component: IGRPDataTableDropdownMenuLink,
+        props: {
+          labelTrigger: `Editar`,icon: `SquarePen`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
+}
+      },
+      {
+        component: IGRPDataTableDropdownMenuLink,
+        props: {
+          labelTrigger: `Viewer`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
+}
+      },
+]
+  }
+>
+</IGRPDataTableDropdownMenu>
 </IGRPDataTableRowAction>
 );
           },
