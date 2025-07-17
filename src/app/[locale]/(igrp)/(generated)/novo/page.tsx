@@ -336,39 +336,6 @@ maxLines={ 1 }
   
 >
   Sem distrações
-</IGRPText></div>
-<div className={ cn('mt--4 ml-10',)}    >
-	<IGRPText
-  name={ `text12` }
-  
-variant={ `primary` }
-weight={ `light` }
-size={ `sm` }
-align={ `left` }
-spacing={ `normal` }
-maxLines={ 2 }
-
-  className={ cn('','mb--16',) }
-  
-  
->
-  Centro: 3,55,  -5,98
-</IGRPText>
-<IGRPText
-  name={ `text11` }
-  
-variant={ `primary` }
-weight={ `light` }
-size={ `sm` }
-align={ `left` }
-spacing={ `normal` }
-maxLines={ 1 }
-
-  className={ cn('','mb-',) }
-  
-  
->
-  Zoom: 12
 </IGRPText></div></div>
 <div className={ cn('mb-6 pt-6 pb-2','border border-solid border-[#D3D3D3] rounded-xl',)}    >
 	<IGRPHeadline
