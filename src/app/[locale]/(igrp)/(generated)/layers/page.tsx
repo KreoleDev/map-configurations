@@ -34,8 +34,8 @@ export default function PageLayersComponent() {
 	<div className={ cn('section',' space-x-6 space-y-6',)}    >
 	<IGRPPageHeader
   name={ `pageHeader1` }
-  title={ `Gestão de Camadas` }
-  description={ `Configure camadas, associe a aplicativos, e gerencie as propriedades e permissões.` }
+  title={ `Gestão de Layers` }
+  description={ `Configure layers, associe a aplicativos, e gerencie as propriedades e permissões.` }
   iconBackButton={ `Search` }
   variant={ `h3` }
   

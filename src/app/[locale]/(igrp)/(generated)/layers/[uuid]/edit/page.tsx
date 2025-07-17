@@ -28,8 +28,8 @@ export default function PageEditlayersComponent({ params } : { params: Promise<{
 	<div className={ cn('section',' space-x-6 space-y-6',)}    >
 	<IGRPPageHeader
   name={ `pageHeader1` }
-  title={ `Editar Camada` }
-  description={ `Edite camada configurando suas propriedades básicas, tipo, fonte e permissões` }
+  title={ `Editar Layers` }
+  description={ `Edite Layers configurando suas propriedades básicas, tipo, fonte e permissões` }
   iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/layers` }

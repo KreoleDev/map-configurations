@@ -27,8 +27,8 @@ export default function PageNewlayerComponent() {
 	<div className={ cn('section',' space-x-6 space-y-6',)}    >
 	<IGRPPageHeader
   name={ `pageHeader1` }
-  title={ `Nova Camada` }
-  description={ `Crie uma nova camada configurando suas propriedades básicas, tipo, fonte e permissões` }
+  title={ `Nova Layers` }
+  description={ `Crie uma nova layers configurando suas propriedades básicas, tipo, fonte e permissões` }
   iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/layers` }
