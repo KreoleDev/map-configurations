@@ -13,18 +13,13 @@ import { z } from "@igrp/igrp-framework-react-design-system"
 import { IGRPOptionsProps } from "@igrp/igrp-framework-react-design-system";
 import { 
   IGRPForm,
-	IGRPCard,
-	IGRPCardHeader,
-	IGRPHeadline,
-	IGRPCardContent,
+	IGRPTabs,
+	IGRPTabItem,
 	IGRPInputText,
 	IGRPTextarea,
 	IGRPCombobox,
 	IGRPSwitch,
-	IGRPCardFooter,
 	IGRPText,
-	IGRPTabs,
-	IGRPTabItem,
 	IGRPFormList 
 } from "@igrp/igrp-framework-react-design-system";
 
@@ -32,9 +27,9 @@ export default function Mapform({  } : {  }) {
 
   const formform1Ref = useRef<IGRPFormHandle<anyZodType> | null>(null);
   const [contentFormform1, setContentFormform1] = useState<z.infer<anyZodType>>(null);
+  const [tabstabs1Items, setTabstabs1Items] = useState<IGRPTabItem[]>([]);
   const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
   const [selectcombobox2Options, setSelectcombobox2Options] = useState<IGRPOptionsProps[]>([]);
-  const [tabstabs1Items, setTabstabs1Items] = useState<IGRPTabItem[]>([]);
   const [formListformList1Default, setFormListformList1Default] = useState<any>({});
   const [selectcombobox4Options, setSelectcombobox4Options] = useState<IGRPOptionsProps[]>([]);
   const [selectcombobox3Options, setSelectcombobox3Options] = useState<IGRPOptionsProps[]>([]);
@@ -53,38 +48,21 @@ formRef={ formform1Ref }
   defaultValues={ contentFormform1 }
 >
   <>
-  <div className={ cn('grid','grid-cols-1 ','md:grid-cols-2 ','lg:grid-cols-2 ',' gap-4',)}    >
-	<div className={ cn('col-span-1 flex flex-col gap-6 ',)}    >
-	<IGRPCard
-  name={ `card1` }
-  
-  
-  
->
-  <IGRPCardHeader
-  
->
-  <IGRPHeadline
-  name={ `headline1` }
-  title={ `Informações Básicas` }
-description={ undefined }
-variant={ `h4` }
-roleColor={ `solid` }
-color={ `primary` }
-showIcon={ false }
-
-
-  className={ cn('mt-6',) }
-  
-  
->
-</IGRPHeadline>
-</IGRPCardHeader>
-  <IGRPCardContent
-  className={ cn('','space-x-3','space-y-3','grid grid grid-cols-1 grid-rows-1 gap-2 justify-items-stretch items-start',) }
-  
->
-  <IGRPInputText
+  <IGRPTabs
+  variant={ `default` }
+  tabContentClassName={ `border-transparent-none border rounded-lg` }
+  showIcon={ true }
+  iconPlacement={ `start` }
+  tabListClassName={ cn() }
+  items={
+    [
+        {
+          value: `informacoesBasicas`,
+          label: `Informações Básicas`,
+          icon: `Map`,
+content: (<>
+            <div className={ cn('grid','grid-cols-1 ',' gap-4',)}    >
+	<IGRPInputText
   name={ `inputText1` }
   label={ `Nome` }
 showIcon={ false }
@@ -92,12 +70,12 @@ required={ true }
 
 
 placeholder={ `Nome do mapa` }
-  className={ cn('','','mb-4',) }
+  className={ cn('','col-span-1','mb-4',) }
   onChange={ () => {} }
   
 >
 </IGRPInputText>
-  <IGRPTextarea
+<IGRPTextarea
   name={ `inputTextarea1` }
   
 label={ `Descrição` }
@@ -106,17 +84,16 @@ required={ false }
 
 
 placeholder={ `Descrição do mapa` }
-  className={ cn('','',) }
+  className={ cn('','col-span-1',) }
   onChange={ () => {} }
   
 >
 </IGRPTextarea>
-  <IGRPCombobox
+<IGRPCombobox
   name={ `combobox1` }
   label={ `Basemap` }
 variant={ `single` }
 placeholder={ `Seletione uma opção` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -124,59 +101,30 @@ iconName={ `CornerDownRight` }
 
 
 
-  className={ cn('','','',) }
+  className={ cn('','col-span-1','',) }
   onChange={ () => {} }
   options={ selectcombobox1Options }
 >
 </IGRPCombobox>
-  <IGRPSwitch
+<IGRPSwitch
   name={ `switch1` }
   label={ `Mapa ativo` }
 gridSize={ `full` }
 
-  className={ cn('','','',) }
+  className={ cn('','col-span-1','',) }
   
 
   
 >
-</IGRPSwitch>
-</IGRPCardContent>
-  <IGRPCardFooter
-  
->
-</IGRPCardFooter>
-</IGRPCard></div>
-<div className={ cn('col-span-1 flex flex-col gap-6 ',)}    >
-	<IGRPCard
-  name={ `card2` }
-  
-  className={ cn() }
-  
-  
->
-  <IGRPCardHeader
-  
->
-  <IGRPHeadline
-  name={ `headline2` }
-  title={ `Equadramento do Mapa` }
-description={ undefined }
-variant={ `h4` }
-roleColor={ `solid` }
-color={ `primary` }
-showIcon={ false }
-
-
-  className={ cn('mt-6','mb-4',) }
-  
-  
->
-</IGRPHeadline>
-</IGRPCardHeader>
-  <IGRPCardContent
-  
->
-  <IGRPCombobox
+</IGRPSwitch></div>
+</>),
+        },
+        {
+          value: `enquadramento`,
+          label: `Equadramento do Mapa`,
+          icon: `ArrowRight`,
+content: (<>
+            <IGRPCombobox
   name={ `combobox2` }
   label={ `Usar Enquadramento Existente` }
 variant={ `single` }
@@ -192,23 +140,24 @@ iconName={ `CornerDownRight` }
   options={ selectcombobox2Options }
 >
 </IGRPCombobox>
-  <IGRPText
-  name={ `text3` }
+            <IGRPText
+  name={ `text1` }
   
 variant={ `primary` }
-weight={ `light` }
-size={ `sm` }
+weight={ `normal` }
+size={ `default` }
 align={ `center` }
 spacing={ `normal` }
-maxLines={ 1 }
+maxLines={ 3 }
 
-  className={ cn('','mt-3 mb-3 my-3',) }
+
+  className={ cn('mt-6',) }
   
   
 >
   ou configure manualmente
 </IGRPText>
-  <div className={ cn('grid grid grid-cols-3 grid-rows-1 gap-2 justify-items-stretch items-start',)}    >
+            <div className={ cn('grid grid grid-cols-3 grid-rows-1 gap-2 justify-items-stretch items-start',)}    >
 	<IGRPInputText
   name={ `inputText4` }
   label={ `Latitude` }
@@ -248,20 +197,8 @@ placeholder={ 12 }
   
 >
 </IGRPInputText></div>
-</IGRPCardContent>
-  <IGRPCardFooter
-  
->
-</IGRPCardFooter>
-</IGRPCard></div></div>
-  <IGRPTabs
-  variant={ `default` }
-  tabContentClassName={ `border-transparent-none border rounded-lg` }
-  showIcon={ true }
-  iconPlacement={ `start` }
-  tabListClassName={ cn() }
-  items={
-    [
+</>),
+        },
         {
           value: `layers`,
           label: `Layers`,
@@ -284,7 +221,6 @@ renderItem={ (_: any, index: number) => (
   label={ `Layers` }
 variant={ `single` }
 placeholder={ `Select an option...` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -301,7 +237,6 @@ iconName={ `CornerDownRight` }
   label={ `Visivel` }
 variant={ `single` }
 placeholder={ `Select an option...` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -318,7 +253,6 @@ iconName={ `CornerDownRight` }
   label={ `Grupo` }
 variant={ `single` }
 placeholder={ `Select an option...` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -355,24 +289,24 @@ content: (<>
           label: `Outros`,
           icon: `Settings`,
 content: (<>
-            <div className={ cn('grid grid grid-cols-6 grid-rows-1 gap-2 justify-items-stretch items-start','pt-6 pr-6 pb-6 pl-6 px-6 py-6','border border-solid border-[#D3D3D3] rounded-xl',)}    >
+            <div className={ cn('grid','grid-cols-6 ','md:grid-cols-3 ','lg:grid-cols-6 ',' gap-4',)}    >
 	<IGRPSwitch
-  name={ `switch2` }
-  label={ `Tela Cheia` }
+  name={ `switch3` }
+  label={ `Painel de Widgets` }
 gridSize={ `full` }
 
-  className={ cn() }
+  className={ cn('col-span-1',) }
   
 
   
 >
 </IGRPSwitch>
 <IGRPSwitch
-  name={ `switch7` }
-  label={ `Painel de Camadas` }
+  name={ `switch2` }
+  label={ `Tela Cheia` }
 gridSize={ `full` }
 
-  className={ cn() }
+  className={ cn('col-span-1',) }
   
 
   
@@ -383,7 +317,18 @@ gridSize={ `full` }
   label={ `Escala` }
 gridSize={ `full` }
 
-  className={ cn() }
+  className={ cn('col-span-1',) }
+  
+
+  
+>
+</IGRPSwitch>
+<IGRPSwitch
+  name={ `switch7` }
+  label={ `Painel de Camadas` }
+gridSize={ `full` }
+
+  className={ cn('col-span-1',) }
   
 
   
@@ -394,7 +339,7 @@ gridSize={ `full` }
   label={ `Controles de Zoom` }
 gridSize={ `full` }
 
-  className={ cn() }
+  className={ cn('col-span-1',) }
   
 
   
@@ -405,18 +350,7 @@ gridSize={ `full` }
   label={ `Localização` }
 gridSize={ `full` }
 
-  className={ cn() }
-  
-
-  
->
-</IGRPSwitch>
-<IGRPSwitch
-  name={ `switch3` }
-  label={ `Painel de Widgets` }
-gridSize={ `full` }
-
-  className={ cn() }
+  className={ cn('col-span-1',) }
   
 
   
