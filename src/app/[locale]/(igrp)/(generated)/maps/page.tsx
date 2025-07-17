@@ -29,8 +29,6 @@ export default function PageMapsComponent() {
   const [contentTabletable1, setContentTabletable1] = useState<any[]>([]);
   
   
-const { igrpToast } = useIGRPToast()
-
 
   return (
 <div className={ cn('page','space-y-6',)}    >
