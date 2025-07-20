@@ -1,3 +1,5 @@
+import { getGeometryType, getLayersType } from './configurations';
+
 async function getLayers() {
   return await fetch('/api/layer').then((res) => res.json());
 }
@@ -8,4 +10,14 @@ async function deleteLayer(id: string) {
   });
 }
 
-export { getLayers, deleteLayer };
+function useLayersConfiguration() {
+  const geometryTypeOptions = getGeometryType();
+  const layersTypeOptions = getLayersType();
+
+  return {
+    geometryTypeOptions,
+    layersTypeOptions,
+  };
+}
+
+export { getLayers, deleteLayer, useLayersConfiguration };

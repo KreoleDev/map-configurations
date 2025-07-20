@@ -22,11 +22,38 @@ import {
 	IGRPText,
 	IGRPFormList 
 } from "@igrp/igrp-framework-react-design-system";
+import {useMapConfiguration} from '@/app/[locale]/(myapp)/hooks/maps'
 
 export default function Mapform({  } : {  }) {
 
-  const formform1Ref = useRef<IGRPFormHandle<anyZodType> | null>(null);
-  const [contentFormform1, setContentFormform1] = useState<z.infer<anyZodType>>(null);
+  
+  const form1 = z.object({
+    inputText1: z.string().optional(),
+    inputTextarea1: z.string().optional(),
+    combobox1: z.string().optional(),
+    combobox2: z.string().optional(),
+    inputText4: z.string().optional(),
+    inputText2: z.string().optional(),
+    inputText3: z.string().optional(),
+    formList1: z.array(z.object({ combobox4: z.string().optional(), combobox3: z.string().optional(), combobox5: z.string().optional() })).optional()
+})
+
+type Form1ZodType = typeof form1;
+
+const initForm1: z.infer<Form1ZodType> = {
+    inputText1: ``,
+    inputTextarea1: ``,
+    combobox1: ``,
+    combobox2: ``,
+    inputText4: ``,
+    inputText2: ``,
+    inputText3: ``,
+    formList1: [{ combobox4: ``, combobox3: ``, combobox5: `` }]
+}
+
+
+  const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
+  const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [tabstabs1Items, setTabstabs1Items] = useState<IGRPTabItem[]>([]);
   const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
   const [selectcombobox2Options, setSelectcombobox2Options] = useState<IGRPOptionsProps[]>([]);
@@ -37,15 +64,25 @@ export default function Mapform({  } : {  }) {
   
 const { igrpToast } = useIGRPToast()
 
+const {isLoading,basemapsOptions, widgetsOptions, layersOptions, visibilityOptions}= useMapConfiguration();
+useEffect(() => {
+  if(isLoading)return
+  setSelectcombobox4Options(layersOptions || [])
+  setSelectcombobox3Options(visibilityOptions||[])
+  setSelectcombobox1Options(basemapsOptions||[]) 
+
+},[isLoading])
+
 
   return (
 <div className={ cn('component',)}    >
 	<IGRPForm
+  schema={ form1 }
   validationMode={ `onBlur` }
 formRef={ formform1Ref }
   className={ cn() }
   onSubmit={ (e) => {} }
-  defaultValues={ contentFormform1 }
+  defaultValues={ form1Data }
 >
   <>
   <IGRPTabs
@@ -94,6 +131,7 @@ placeholder={ `Descrição do mapa` }
   label={ `Basemap` }
 variant={ `single` }
 placeholder={ `Seletione uma opção` }
+required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -221,6 +259,7 @@ renderItem={ (_: any, index: number) => (
   label={ `Layers` }
 variant={ `single` }
 placeholder={ `Select an option...` }
+required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -237,6 +276,7 @@ iconName={ `CornerDownRight` }
   label={ `Visivel` }
 variant={ `single` }
 placeholder={ `Select an option...` }
+required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }

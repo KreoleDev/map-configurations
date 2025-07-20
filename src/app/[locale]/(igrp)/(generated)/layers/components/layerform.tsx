@@ -21,6 +21,7 @@ import {
 	IGRPSwitch,
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
+import {useLayersConfiguration} from '@/app/[locale]/(myapp)/functions/layers'
 
 export default function Layerform({  } : {  }) {
 
@@ -52,6 +53,13 @@ const initForm1: z.infer<Form1ZodType> = {
   const [selectgeomTypeOptions, setSelectgeomTypeOptions] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
+
+const { geometryTypeOptions, layersTypeOptions } = useLayersConfiguration();
+useEffect(() => {
+  setSelectcombobox1Options(layersTypeOptions || [])
+  setSelectgeomTypeOptions(geometryTypeOptions || [])
+
+}, [])
 
 
   return (

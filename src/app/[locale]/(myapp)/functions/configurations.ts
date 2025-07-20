@@ -1,29 +1,31 @@
 function getStatus() {
   return [
-    { name: 'Active', value: 'active' },
-    { name: 'Inactive', value: 'inactive' },
+    { label: 'Active', value: 'active' },
+    { label: 'Inactive', value: 'inactive' },
   ];
 }
 
 function getLayersType() {
   return [
-    { name: 'Web Feature Service', value: 'wfs' },
-    { name: 'Web Map Service', value: 'wms' },
-    { name: 'Web Coverage Service', value: 'wcs' },
+    { label: 'Web Feature Service', value: 'wfs' },
+    { label: 'Web Map Service', value: 'wms' },
+    { label: 'Web Coverage Service', value: 'wcs' },
   ];
 }
 
 function getGeometryType() {
   return [
-    { name: 'Point', value: 'point' },
-    { name: 'Line', value: 'line' },
-    { name: 'Polygon', value: 'polygon' },
+    { label: 'Point', value: 'point' },
+    { label: 'Line', value: 'line' },
+    { label: 'Polygon', value: 'polygon' },
   ];
 }
 
 function getVisibility() {
   return [
-    { name: 'Sim', value: 'Y' },
-    { name: 'Não', value: 'N' },
+    { label: 'Sim', value: 'Y' },
+    { label: 'Não', value: 'N' },
   ];
 }
+
+export { getStatus, getLayersType, getGeometryType, getVisibility };
