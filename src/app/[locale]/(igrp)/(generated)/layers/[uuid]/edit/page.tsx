@@ -22,6 +22,8 @@ export default function PageEditlayersComponent({ params } : { params: Promise<{
   
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -29,7 +31,6 @@ export default function PageEditlayersComponent({ params } : { params: Promise<{
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Editar Layers` }
-  description={ `Edite Layers configurando suas propriedades básicas, tipo, fonte e permissões` }
   iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/layers` }

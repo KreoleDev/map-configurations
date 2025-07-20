@@ -21,6 +21,8 @@ export default function PageNewwidgetsComponent() {
   
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -28,7 +30,6 @@ export default function PageNewwidgetsComponent() {
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Novo Widget` }
-  description={ `Crie um novo widget configurando suas propriedades básicas, posição e permissões` }
   iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/widgets` }

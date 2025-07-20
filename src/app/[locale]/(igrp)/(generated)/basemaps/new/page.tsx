@@ -21,6 +21,8 @@ export default function PageNewbasemapsComponent() {
   
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -28,7 +30,6 @@ export default function PageNewbasemapsComponent() {
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Novo Basemap` }
-  description={ `Crie um novo basemap configurando suas propriedades básicas, link e configurações de zoom` }
   iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/basemaps` }

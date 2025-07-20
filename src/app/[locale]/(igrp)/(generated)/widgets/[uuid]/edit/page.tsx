@@ -22,6 +22,8 @@ export default function PageEditwidgetsComponent({ params } : { params: Promise<
   
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -29,7 +31,6 @@ export default function PageEditwidgetsComponent({ params } : { params: Promise<
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Editar Widget` }
-  description={ `Edite widget configurando suas propriedades básicas, posição e permissões` }
   iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/widgets` }

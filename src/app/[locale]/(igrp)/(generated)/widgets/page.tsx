@@ -15,19 +15,60 @@ import {
 	IGRPButton,
 	IGRPInputSearch,
 	IGRPDataTable,
+	IGRPDataTableCellBadge,
 	IGRPDataTableRowAction,
 	IGRPDataTableDropdownMenu,
-	IGRPDataTableDropdownMenuAlert,
-	IGRPDataTableDropdownMenuLink 
+	IGRPDataTableDropdownMenuLink,
+	IGRPDataTableDropdownMenuAlert 
 } from "@igrp/igrp-framework-react-design-system";
+import {deleteWidget} from '@/app/[locale]/(myapp)/functions/widgets'
+import {useWidgets} from '@/app/[locale]/(myapp)/hooks/widgets'
 
 
 export default function PageWidgetsComponent() {
 
 
-  const [contentTabletable1, setContentTabletable1] = useState<any[]>([]);
+  
+  type Table1 = {
+    label: string;
+    uuid: string;
+    tableTextCell3: string;
+    tableTextCell4: string;
+    tableTextCell5: string;
+    status: string;
+}
+
+  const [contentTabletable1, setContentTabletable1] = useState<Table1[]>([]);
   
   
+const { igrpToast } = useIGRPToast()
+
+async function handleDelete (row: any): Promise<void  | undefined> {
+
+  
+try {
+  await deleteWidget(row.uuid);
+  igrpToast({
+    type: 'success',
+    title: 'Widget deleted successfully',
+  });
+} catch (error) {
+  igrpToast({
+    type: 'error',
+    title: 'Error deleting widget',
+  });
+}
+
+}
+
+const {data, isLoading} = useWidgets();
+
+useEffect(() => {
+  if(isLoading || !data) return
+  setContentTabletable1(data || [])
+
+},[data, isLoading])
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -35,7 +76,7 @@ export default function PageWidgetsComponent() {
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Gestão de Widgets` }
-  description={ `Configure widgets, associe a aplicativos, e gerencie as propriedades e permissões.` }
+  description={ `Configure widgets, associe a mapas.` }
   iconBackButton={ `Search` }
   variant={ `h3` }
   
@@ -75,24 +116,16 @@ placeholder={ `Search...` }
   
 >
 </IGRPInputSearch></div>
-<IGRPDataTable<any, any>
+<IGRPDataTable<Table1, Table1>
   tableClassName={ `rounded-none` }
   className={ cn('',) }
   columns={
     [
         {
           header: 'Label'
-,accessorKey: 'tableTextCell1',
+,accessorKey: 'label',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell1")
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
-          header: 'UUID'
-,accessorKey: 'tableTextCell2',
-          cell: ({ row }) => {
-          return row.getValue("tableTextCell2")
+          return row.getValue("label")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -122,9 +155,18 @@ placeholder={ `Search...` }
         },
         {
           header: 'Estado'
-,accessorKey: 'tableTextCell7',
+,accessorKey: 'status',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell7")
+          const rowData = row.original;
+
+
+return <IGRPDataTableCellBadge
+  label={ row.original.status }
+  variant={ `soft` }
+badgeClassName={ `` }
+>
+
+</IGRPDataTableCellBadge>
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -140,22 +182,16 @@ return (
   items={
     [
       {
+        component: IGRPDataTableDropdownMenuLink,
+        props: {
+          labelTrigger: `Editar`,icon: `SquarePen`,href: `/widgets/${row.original.uuid}/edit`,          showIcon: true,          action: (e) => {},
+}
+      },
+      {
         component: IGRPDataTableDropdownMenuAlert,
         props: {
-          modalTitle: `New Alert`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `default`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: (e) => {},
-          children: <>A new alert triggered</>
-}
-      },
-      {
-        component: IGRPDataTableDropdownMenuLink,
-        props: {
-          labelTrigger: `Editar`,icon: `SquarePen`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
-}
-      },
-      {
-        component: IGRPDataTableDropdownMenuLink,
-        props: {
-          labelTrigger: `Viewer`,icon: `Eye`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
+          modalTitle: `Eliminar`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `outline`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: () => {handleDelete(rowData)},
+          children: <>Deseja efectuar essa operaçāo?</>
 }
       },
 ]

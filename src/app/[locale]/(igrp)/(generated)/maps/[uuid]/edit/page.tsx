@@ -22,6 +22,8 @@ export default function PageEditComponent({ params } : { params: Promise<{ uuid:
   
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -29,8 +31,7 @@ export default function PageEditComponent({ params } : { params: Promise<{ uuid:
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Editar Mapa` }
-  description={ `Edite o mapa configurando suas propriedades básicas, centro e funcionalidades.` }
-  iconBackButton={ `Search` }
+  iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/maps` }
   variant={ `h3` }

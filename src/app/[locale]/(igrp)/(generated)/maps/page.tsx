@@ -15,20 +15,60 @@ import {
 	IGRPButton,
 	IGRPInputSearch,
 	IGRPDataTable,
+	IGRPDataTableCellBadge,
 	IGRPDataTableRowAction,
 	IGRPDataTableDropdownMenu,
-	IGRPDataTableDropdownMenuAlert,
-	IGRPDataTableDropdownMenuLink 
+	IGRPDataTableDropdownMenuLink,
+	IGRPDataTableDropdownMenuAlert 
 } from "@igrp/igrp-framework-react-design-system";
+import {deleteMap} from '@/app/[locale]/(myapp)/functions/maps'
+import {useMaps} from '@/app/[locale]/(myapp)/hooks/maps'
 import { useRouter } from "next/navigation";
 
 
 export default function PageMapsComponent() {
 
 
-  const [contentTabletable1, setContentTabletable1] = useState<any[]>([]);
+  
+  type Table1 = {
+    name: string;
+    uuid: string;
+    tableTextCell3: string;
+    tableTextCell5: string;
+    status: string;
+}
+
+  const [contentTabletable1, setContentTabletable1] = useState<Table1[]>([]);
   
   
+const { igrpToast } = useIGRPToast()
+
+async function handleDelete (row: any): Promise<void  | undefined> {
+
+  
+try {
+  await deleteMap(row.uuid);
+  igrpToast({
+    type: 'success',
+    title: 'Map deleted successfully',
+  });
+} catch (error) {
+  igrpToast({
+    type: 'error',
+    title: 'Error deleting map',
+  });
+}
+
+}
+
+const {data, isLoading} = useMaps();
+
+useEffect(() => {
+  if(isLoading || !data) return
+  setContentTabletable1(data || [])
+
+},[data, isLoading])
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -36,7 +76,7 @@ export default function PageMapsComponent() {
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Gestão de Mapas` }
-  description={ `Configure mapas, associe camadas e widgets, e gerencie as configurações de visualização.` }
+  description={ `Configure mapas, associe layers e widgets, e gerencie as configurações de visualização.` }
   iconBackButton={ `Search` }
   variant={ `h3` }
   
@@ -76,24 +116,24 @@ placeholder={ `Search...` }
   
 >
 </IGRPInputSearch></div>
-<IGRPDataTable<any, any>
+<IGRPDataTable<Table1, Table1>
   tableClassName={ `rounded-none` }
   className={ cn('',) }
   columns={
     [
         {
           header: 'Nome'
-,accessorKey: 'tableTextCell1',
+,accessorKey: 'name',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell1")
+          return row.getValue("name")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
           header: 'UUID'
-,accessorKey: 'tableTextCell2',
+,accessorKey: 'uuid',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell2")
+          return row.getValue("uuid")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -106,18 +146,19 @@ placeholder={ `Search...` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
-          header: 'Status'
-,accessorKey: 'tableTextCell4',
+          header: 'Estado'
+,accessorKey: 'status',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell4")
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
-          header: 'Criado em'
-,accessorKey: 'tableTextCell5',
-          cell: ({ row }) => {
-          return row.getValue("tableTextCell5")
+          const rowData = row.original;
+
+
+return <IGRPDataTableCellBadge
+  label={ row.original.status }
+  variant={ `soft` }
+badgeClassName={ `` }
+>
+
+</IGRPDataTableCellBadge>
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -133,22 +174,22 @@ return (
   items={
     [
       {
+        component: IGRPDataTableDropdownMenuLink,
+        props: {
+          labelTrigger: `Editar`,icon: `SquarePen`,href: `/maps/${row.original.uuid}/edit`,          showIcon: true,          action: (e) => {},
+}
+      },
+      {
         component: IGRPDataTableDropdownMenuAlert,
         props: {
-          modalTitle: `New Alert`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `default`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: (e) => {},
-          children: <>A new alert triggered</>
+          modalTitle: `Eliminar`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `outline`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: () => {handleDelete(rowData)},
+          children: <>Deseja efectuar essa operaçāo?</>
 }
       },
       {
         component: IGRPDataTableDropdownMenuLink,
         props: {
-          labelTrigger: `Editar`,icon: `SquarePen`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
-}
-      },
-      {
-        component: IGRPDataTableDropdownMenuLink,
-        props: {
-          labelTrigger: `Viewer`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
+          labelTrigger: `Viewer`,icon: `Map`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
 }
       },
 ]

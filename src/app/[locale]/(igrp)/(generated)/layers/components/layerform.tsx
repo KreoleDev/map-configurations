@@ -8,11 +8,13 @@
 
 import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
+import { IGRPFormHandle } from "@igrp/igrp-framework-react-design-system";
+import { z } from "@igrp/igrp-framework-react-design-system"
 import { IGRPOptionsProps } from "@igrp/igrp-framework-react-design-system";
 import { 
-  IGRPCard,
+  IGRPForm,
+	IGRPCard,
 	IGRPCardHeader,
-	IGRPHeadline,
 	IGRPCardContent,
 	IGRPInputText,
 	IGRPCombobox,
@@ -23,39 +25,57 @@ import {
 export default function Layerform({  } : {  }) {
 
   
+  const form1 = z.object({
+    inputText1: z.string().optional(),
+    inputText4: z.string().optional(),
+    combobox1: z.string().optional(),
+    inputText3: z.string().optional(),
+    geomType: z.string().optional(),
+    inputText2: z.string().optional()
+})
+
+type Form1ZodType = typeof form1;
+
+const initForm1: z.infer<Form1ZodType> = {
+    inputText1: ``,
+    inputText4: ``,
+    combobox1: ``,
+    inputText3: ``,
+    geomType: ``,
+    inputText2: ``
+}
+
+
+  const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
+  const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
-  const [selectcombobox2Options, setSelectcombobox2Options] = useState<IGRPOptionsProps[]>([]);
+  const [selectgeomTypeOptions, setSelectgeomTypeOptions] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
 
 
   return (
 <div className={ cn('component',)}    >
-	<     >
-	<IGRPCard
+	<IGRPForm
+  schema={ form1 }
+  validationMode={ `onBlur` }
+formRef={ formform1Ref }
+  className={ cn() }
+  onSubmit={ (e) => {} }
+  defaultValues={ form1Data }
+>
+  <>
+  <IGRPCard
   name={ `card1` }
   
-  className={ cn('','pt-6',) }
+  className={ cn('',) }
   
   
 >
   <IGRPCardHeader
-  className={ cn() }
+  className={ cn('',) }
   
 >
-  <IGRPHeadline
-  name={ `headline1` }
-  title={ `Informação Básica` }
-description={ undefined }
-variant={ `h4` }
-roleColor={ `solid` }
-color={ `primary` }
-showIcon={ false }
-
-  
-  
->
-</IGRPHeadline>
 </IGRPCardHeader>
   <IGRPCardContent
   className={ cn('','space-x-3','space-y-3','grid grid grid-cols-2 grid-rows-1 gap-3 justify-items-stretch items-start',) }
@@ -118,7 +138,7 @@ placeholder={ `Nome do tipo...` }
 >
 </IGRPInputText>
   <IGRPCombobox
-  name={ `combobox2` }
+  name={ `geomType` }
   label={ `Tipo de Geometria` }
 variant={ `single` }
 placeholder={ `Selecione um tipo de geometria...` }
@@ -131,7 +151,7 @@ iconName={ `CornerDownRight` }
 
   className={ cn('',) }
   onChange={ () => {} }
-  options={ selectcombobox2Options }
+  options={ selectgeomTypeOptions }
 >
 </IGRPCombobox>
   <IGRPInputText
@@ -175,6 +195,8 @@ gridSize={ `full` }
   
 >
 </IGRPCardFooter>
-</IGRPCard></></div>
+</IGRPCard>
+</>
+</IGRPForm></div>
   );
 }

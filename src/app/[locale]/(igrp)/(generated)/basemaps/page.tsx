@@ -15,19 +15,57 @@ import {
 	IGRPButton,
 	IGRPInputSearch,
 	IGRPDataTable,
+	IGRPDataTableCellBadge,
 	IGRPDataTableRowAction,
 	IGRPDataTableDropdownMenu,
-	IGRPDataTableDropdownMenuAlert,
-	IGRPDataTableDropdownMenuLink 
+	IGRPDataTableDropdownMenuLink,
+	IGRPDataTableDropdownMenuAlert 
 } from "@igrp/igrp-framework-react-design-system";
+import {deleteBasemap} from '@/app/[locale]/(myapp)/functions/basemaps'
+import {useBasemaps} from '@/app/[locale]/(myapp)/hooks/basemaps'
 
 
 export default function PageBasemapsComponent() {
 
 
-  const [contentTabletable1, setContentTabletable1] = useState<any[]>([]);
+  
+  type Table1 = {
+    name: string;
+    status: string;
+    uuid: string;
+}
+
+  const [contentTabletable1, setContentTabletable1] = useState<Table1[]>([]);
   
   
+const { igrpToast } = useIGRPToast()
+
+async function handleDelete (row: any): Promise<void  | undefined> {
+
+  
+try {
+  await deleteBasemap();
+  igrpToast({
+    type: 'success',
+    title: 'Basemap deleted successfully',
+  });
+} catch (error) {
+  igrpToast({
+    type: 'error',
+    title: 'Error deleting basemap',
+  });
+}
+
+}
+
+const {data, isLoading} = useBasemaps();
+
+useEffect(() => {
+  if(isLoading || !data) return
+  setContentTabletable1(data || [])
+
+},[data, isLoading])
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -35,7 +73,7 @@ export default function PageBasemapsComponent() {
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Gestão de Basemaps` }
-  description={ `Configure basemaps, associe a aplicativos, e gerencie as propriedades e permissões.` }
+  description={ `Configure basemaps, associe a mapas` }
   iconBackButton={ `Search` }
   variant={ `h3` }
   
@@ -75,32 +113,33 @@ placeholder={ `Search...` }
   
 >
 </IGRPInputSearch></div>
-<IGRPDataTable<any, any>
+<IGRPDataTable<Table1, Table1>
   tableClassName={ `rounded-none` }
   className={ cn() }
   columns={
     [
         {
           header: 'Nome'
-,accessorKey: 'tableTextCell1',
+,accessorKey: 'name',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell1")
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
-          header: 'UUID'
-,accessorKey: 'tableTextCell2',
-          cell: ({ row }) => {
-          return row.getValue("tableTextCell2")
+          return row.getValue("name")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
           header: 'Estado'
-,accessorKey: 'tableTextCell3',
+,accessorKey: 'status',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell3")
+          const rowData = row.original;
+
+
+return <IGRPDataTableCellBadge
+  label={ row.original.status }
+  variant={ `soft` }
+badgeClassName={ `` }
+>
+
+</IGRPDataTableCellBadge>
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -116,22 +155,16 @@ return (
   items={
     [
       {
+        component: IGRPDataTableDropdownMenuLink,
+        props: {
+          labelTrigger: `Editar`,icon: `SquarePen`,href: `/basemaps/${row.original.uuid}/edit`,          showIcon: true,          action: (e) => {},
+}
+      },
+      {
         component: IGRPDataTableDropdownMenuAlert,
         props: {
-          modalTitle: `New Alert`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `default`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: (e) => {},
-          children: <>A new alert triggered</>
-}
-      },
-      {
-        component: IGRPDataTableDropdownMenuLink,
-        props: {
-          labelTrigger: `Editar`,icon: `SquarePen`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
-}
-      },
-      {
-        component: IGRPDataTableDropdownMenuLink,
-        props: {
-          labelTrigger: `Viewer`,icon: `Eye`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
+          modalTitle: `Eliminar`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `outline`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: () => {handleDelete(rowData)},
+          children: <>Deseja efectuar essa operaçāo?</>
 }
       },
 ]

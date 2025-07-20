@@ -44,6 +44,6 @@
 export default {
   types: [],
   actions: [],
-  functions: [],
+  functions: ['functions/configurations', 'hooks/layers', 'hooks/basemaps', 'hooks/widgets', 'hooks/maps', 'functions/layers', 'functions/basemaps', 'functions/maps', 'functions/widgets'],
   components: []
 };

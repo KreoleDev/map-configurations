@@ -21,6 +21,8 @@ export default function PageNewlayerComponent() {
   
   
   
+const { igrpToast } = useIGRPToast()
+
 
   return (
 <div className={ cn('page','space-y-6',)}    >
@@ -28,7 +30,6 @@ export default function PageNewlayerComponent() {
 	<IGRPPageHeader
   name={ `pageHeader1` }
   title={ `Nova Layers` }
-  description={ `Crie uma nova layers configurando suas propriedades básicas, tipo, fonte e permissões` }
   iconBackButton={ `ArrowLeft` }
   showBackButton={ true }
   urlBackButton={ `/layers` }

@@ -8,33 +8,37 @@
 
 import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
-import { IGRPOptionsProps } from "@igrp/igrp-framework-react-design-system";
+import { IGRPFormHandle } from "@igrp/igrp-framework-react-design-system";
+import { z } from "@igrp/igrp-framework-react-design-system"
 import { 
-  IGRPCard,
+  IGRPForm,
+	IGRPCard,
 	IGRPCardHeader,
-	IGRPHeadline,
 	IGRPCardContent,
 	IGRPInputText,
-	IGRPTextarea,
-	IGRPCombobox,
+	IGRPIcon,
 	IGRPSwitch,
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 
 export default function Widgets({  } : {  }) {
 
-  
-  const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
-  const [selectcombobox2Options, setSelectcombobox2Options] = useState<IGRPOptionsProps[]>([]);
+  const formform1Ref = useRef<IGRPFormHandle<anyZodType> | null>(null);
+  const [contentFormform1, setContentFormform1] = useState<z.infer<anyZodType>>(null);
   
 const { igrpToast } = useIGRPToast()
 
 
   return (
 <div className={ cn('component',)}    >
-	<     >
-	<div className={ cn()}    >
-	<IGRPCard
+	<IGRPForm
+  validationMode={ `onBlur` }
+formRef={ formform1Ref }
+  onSubmit={ (e) => {} }
+  defaultValues={ contentFormform1 }
+>
+  <>
+  <IGRPCard
   name={ `card1` }
   
   className={ cn() }
@@ -44,20 +48,6 @@ const { igrpToast } = useIGRPToast()
   <IGRPCardHeader
   
 >
-  <IGRPHeadline
-  name={ `headline1` }
-  title={ `Informação Básica` }
-description={ undefined }
-variant={ `h4` }
-roleColor={ `solid` }
-color={ `primary` }
-showIcon={ false }
-
-  className={ cn('','pt-6',) }
-  
-  
->
-</IGRPHeadline>
 </IGRPCardHeader>
   <IGRPCardContent
   className={ cn('','space-x-3','space-y-3','grid grid grid-cols-3 grid-rows-1 gap-3 justify-items-stretch items-start',) }
@@ -102,57 +92,16 @@ placeholder={ `Número da página` }
   
 >
 </IGRPInputText>
-  <IGRPTextarea
-  name={ `inputTextarea1` }
-  
-label={ `ToolTip` }
-rows={ 3 }
-required={ false }
+  <IGRPIcon
+  name={ `icon1` }
+  iconName={ `Heart` }
+size={ 24 }
 
-
-helperText={ undefined }
-placeholder={ `Descrição do widget` }
   className={ cn('',) }
-  onChange={ () => {} }
+  
   
 >
-</IGRPTextarea>
-  <IGRPCombobox
-  name={ `combobox1` }
-  label={ `Posição` }
-variant={ `single` }
-placeholder={ `Selecione uma posição...` }
-required={ true }
-selectLabel={ `No option found` }
-showSearch={ true }
-showIcon={ false }
-iconName={ `CornerDownRight` }
-
-
-
-  className={ cn('',) }
-  onChange={ () => {} }
-  options={ selectcombobox1Options }
->
-</IGRPCombobox>
-  <IGRPCombobox
-  name={ `combobox2` }
-  label={ `ícone` }
-variant={ `single` }
-placeholder={ `Selecione um ícone...` }
-required={ true }
-selectLabel={ `No option found` }
-showSearch={ true }
-showIcon={ false }
-iconName={ `CornerDownRight` }
-
-
-
-  className={ cn('',) }
-  onChange={ () => {} }
-  options={ selectcombobox2Options }
->
-</IGRPCombobox>
+</IGRPIcon>
   <IGRPSwitch
   name={ `switch1` }
   label={ `Estado do Widget` }
@@ -169,6 +118,8 @@ gridSize={ `full` }
   
 >
 </IGRPCardFooter>
-</IGRPCard></div></></div>
+</IGRPCard>
+</>
+</IGRPForm></div>
   );
 }

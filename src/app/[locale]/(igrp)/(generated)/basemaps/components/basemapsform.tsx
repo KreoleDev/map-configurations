@@ -8,10 +8,12 @@
 
 import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
+import { IGRPFormHandle } from "@igrp/igrp-framework-react-design-system";
+import { z } from "@igrp/igrp-framework-react-design-system"
 import { 
-  IGRPCard,
+  IGRPForm,
+	IGRPCard,
 	IGRPCardHeader,
-	IGRPHeadline,
 	IGRPCardContent,
 	IGRPInputText,
 	IGRPSwitch,
@@ -20,16 +22,22 @@ import {
 
 export default function Basemapsform({  } : {  }) {
 
-  
-  
+  const formform1Ref = useRef<IGRPFormHandle<anyZodType> | null>(null);
+  const [contentFormform1, setContentFormform1] = useState<z.infer<anyZodType>>(null);
   
 const { igrpToast } = useIGRPToast()
 
 
   return (
 <div className={ cn('component',)}    >
-	<     >
-	<IGRPCard
+	<IGRPForm
+  validationMode={ `onBlur` }
+formRef={ formform1Ref }
+  onSubmit={ (e) => {} }
+  defaultValues={ contentFormform1 }
+>
+  <>
+  <IGRPCard
   name={ `card1` }
   
   className={ cn('','block',) }
@@ -40,20 +48,6 @@ const { igrpToast } = useIGRPToast()
   className={ cn() }
   
 >
-  <IGRPHeadline
-  name={ `headline1` }
-  title={ `Informações Básicas` }
-description={ undefined }
-variant={ `h4` }
-roleColor={ `solid` }
-color={ `primary` }
-showIcon={ false }
-
-  className={ cn('','block','pt-6',) }
-  
-  
->
-</IGRPHeadline>
 </IGRPCardHeader>
   <IGRPCardContent
   className={ cn('','space-x-3','space-y-3','grid grid grid-cols-3 grid-rows-1 gap-3 justify-items-stretch items-start','',) }
@@ -128,6 +122,8 @@ gridSize={ `full` }
   
 >
 </IGRPCardFooter>
-</IGRPCard></></div>
+</IGRPCard>
+</>
+</IGRPForm></div>
   );
 }
