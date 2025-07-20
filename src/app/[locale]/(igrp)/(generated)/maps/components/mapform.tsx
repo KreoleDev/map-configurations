@@ -22,6 +22,7 @@ import {
 	IGRPText,
 	IGRPFormList 
 } from "@igrp/igrp-framework-react-design-system";
+import {createOrUpdateMap} from '@/app/[locale]/(myapp)/functions/maps'
 import {useMapConfiguration} from '@/app/[locale]/(myapp)/hooks/maps'
 
 export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
@@ -64,6 +65,26 @@ const initForm1: z.infer<Form1ZodType> = {
   
 const { igrpToast } = useIGRPToast()
 
+async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
+
+  try {
+      await createOrUpdateMap(values);
+      igrpToast({
+        title: 'Sucesso',
+        description: values.uuid ? 'Mapa atualizado com sucesso' : 'Mapa gravado com sucesso',
+        type: 'success',
+      });
+    } catch (error: any) {
+      igrpToast({
+        title: 'Erro',
+        description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
+        type: 'error',
+      });
+      console.log(error);
+    }
+
+}
+
 const {isLoading,basemapsOptions, widgetsOptions, layersOptions, visibilityOptions}= useMapConfiguration();
 useEffect(() => {
   if(isLoading)return
@@ -93,7 +114,7 @@ useEffect(() => {
   validationMode={ `onBlur` }
 formRef={ formform1Ref }
   className={ cn() }
-  onSubmit={ (e) => {} }
+  onSubmit={ handleSubmit }
   defaultValues={ form1Data }
 >
   <>

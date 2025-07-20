@@ -20,6 +20,7 @@ import {
 	IGRPSwitch,
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
+import {createOrUpdateWidget} from '@/app/[locale]/(myapp)/functions/widgets'
 
 export default function Widgets({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
@@ -44,6 +45,26 @@ const initForm1: z.infer<Form1ZodType> = {
   
 const { igrpToast } = useIGRPToast()
 
+async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
+
+  try {
+      await createOrUpdateWidget(values);
+      igrpToast({
+        title: 'Sucesso',
+        description: values.uuid ? 'Widget atualizado com sucesso' : 'Widget gravado com sucesso',
+        type: 'success',
+      });
+    } catch (error: any) {
+      igrpToast({
+        title: 'Erro',
+        description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
+        type: 'error',
+      });
+      console.log(error);
+    }
+
+}
+
 useEffect(() => {
   if (initialData)
     setForm1Data(initialData)
@@ -64,7 +85,7 @@ useEffect(() => {
   validationMode={ `onBlur` }
 formRef={ formform1Ref }
   className={ cn() }
-  onSubmit={ (e) => {} }
+  onSubmit={ handleSubmit }
   defaultValues={ form1Data }
 >
   <>

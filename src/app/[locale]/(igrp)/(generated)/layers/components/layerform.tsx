@@ -21,6 +21,7 @@ import {
 	IGRPSwitch,
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
+import {createOrUpdateLayer} from '@/app/[locale]/(myapp)/functions/layers'
 import {useLayersConfiguration} from '@/app/[locale]/(myapp)/functions/layers'
 
 export default function Layerform({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
@@ -54,6 +55,26 @@ const initForm1: z.infer<Form1ZodType> = {
   
 const { igrpToast } = useIGRPToast()
 
+async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
+
+  try {
+      await createOrUpdateLayer(values);
+      igrpToast({
+        title: 'Sucesso',
+        description: values.uuid ? 'Layer atualizado com sucesso' : 'Layer gravado com sucesso',
+        type: 'success',
+      });
+    } catch (error: any) {
+      igrpToast({
+        title: 'Erro',
+        description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
+        type: 'error',
+      });
+      console.log(error);
+    }
+
+}
+
 const { geometryTypeOptions, layersTypeOptions } = useLayersConfiguration();
 useEffect(() => {
   setSelectcombobox1Options(layersTypeOptions || [])
@@ -82,7 +103,7 @@ useEffect(() => {
   validationMode={ `onBlur` }
 formRef={ formform1Ref }
   className={ cn() }
-  onSubmit={ (e) => {} }
+  onSubmit={ handleSubmit }
   defaultValues={ form1Data }
 >
   <>
