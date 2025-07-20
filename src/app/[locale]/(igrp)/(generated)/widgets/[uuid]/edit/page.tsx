@@ -13,6 +13,8 @@ import {
   IGRPPageHeader,
 	IGRPButton 
 } from "@igrp/igrp-framework-react-design-system";
+import {useWidgets} from '@/app/[locale]/(myapp)/hooks/widgets'
+import {useDetailWidget} from '@/app/[locale]/(myapp)/hooks/widgets'
 
 
 export default function PageEditwidgetsComponent({ params } : { params: Promise<{ uuid: string }> } ) {
@@ -23,6 +25,8 @@ export default function PageEditwidgetsComponent({ params } : { params: Promise<
   
   
 const { igrpToast } = useIGRPToast()
+
+const {data, isLoading} = useDetailWidget(uuid);
 
 
   return (
@@ -55,6 +59,6 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 
-<Widgets    ></Widgets></div></div>
+<Widgets  initialData={ data }   ></Widgets></div></div>
   );
 }

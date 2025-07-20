@@ -20,7 +20,7 @@ import {
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 
-export default function Basemapsform({  } : {  }) {
+export default function Basemapsform({ initialData } : { initialData?: any }) {
 
   const formform1Ref = useRef<IGRPFormHandle<anyZodType> | null>(null);
   const [contentFormform1, setContentFormform1] = useState<z.infer<anyZodType>>(null);

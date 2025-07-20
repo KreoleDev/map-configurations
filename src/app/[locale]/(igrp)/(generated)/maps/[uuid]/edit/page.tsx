@@ -13,6 +13,7 @@ import {
   IGRPPageHeader,
 	IGRPButton 
 } from "@igrp/igrp-framework-react-design-system";
+import {useDetailMap} from '@/app/[locale]/(myapp)/hooks/maps'
 
 
 export default function PageEditComponent({ params } : { params: Promise<{ uuid: string }> } ) {
@@ -23,6 +24,8 @@ export default function PageEditComponent({ params } : { params: Promise<{ uuid:
   
   
 const { igrpToast } = useIGRPToast()
+
+const {data, isLoading} = useDetailMap(uuid);
 
 
   return (
@@ -55,6 +58,6 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 
-<MapForm    ></MapForm></div></div>
+<MapForm  initialData={ data }   ></MapForm></div></div>
   );
 }

@@ -20,4 +20,22 @@ function useLayersConfiguration() {
   };
 }
 
-export { getLayers, deleteLayer, useLayersConfiguration };
+async function createOrUpdateLayer(layer: any) {
+  if (layer.id) {
+    return await fetch(`/api/layer/${layer.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(layer),
+    });
+  } else {
+    return await fetch('/api/layer', {
+      method: 'POST',
+      body: JSON.stringify(layer),
+    });
+  }
+}
+
+async function getLayer(id: string) {
+  return await fetch(`/api/layer/${id}`).then((res) => res.json());
+}
+
+export { getLayers, deleteLayer, useLayersConfiguration, createOrUpdateLayer, getLayer };

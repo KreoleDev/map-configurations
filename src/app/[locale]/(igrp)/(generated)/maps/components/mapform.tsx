@@ -24,7 +24,7 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {useMapConfiguration} from '@/app/[locale]/(myapp)/hooks/maps'
 
-export default function Mapform({  } : {  }) {
+export default function Mapform({ initialData } : { initialData?: any }) {
 
   
   const form1 = z.object({
@@ -131,7 +131,6 @@ placeholder={ `Descrição do mapa` }
   label={ `Basemap` }
 variant={ `single` }
 placeholder={ `Seletione uma opção` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -259,7 +258,6 @@ renderItem={ (_: any, index: number) => (
   label={ `Layers` }
 variant={ `single` }
 placeholder={ `Select an option...` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -276,7 +274,6 @@ iconName={ `CornerDownRight` }
   label={ `Visivel` }
 variant={ `single` }
 placeholder={ `Select an option...` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }

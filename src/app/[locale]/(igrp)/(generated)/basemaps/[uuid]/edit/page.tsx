@@ -13,6 +13,7 @@ import {
   IGRPPageHeader,
 	IGRPButton 
 } from "@igrp/igrp-framework-react-design-system";
+import {useDetailBasemap} from '@/app/[locale]/(myapp)/hooks/basemaps'
 
 
 export default function PageEditbasemapsComponent({ params } : { params: Promise<{ uuid: string }> } ) {
@@ -23,6 +24,8 @@ export default function PageEditbasemapsComponent({ params } : { params: Promise
   
   
 const { igrpToast } = useIGRPToast()
+
+const {data, isLoading} = useDetailBasemap(uuid);
 
 
   return (
@@ -55,6 +58,6 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 
-<BasemapsForm    ></BasemapsForm></div></div>
+<BasemapsForm  initialData={ data }   ></BasemapsForm></div></div>
   );
 }

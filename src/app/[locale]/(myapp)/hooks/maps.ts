@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMaps } from '@/app/[locale]/(myapp)/functions/maps';
+import { getMap, getMaps } from '@/app/[locale]/(myapp)/functions/maps';
 import { convertToNameValue } from '@/app/[locale]/(myapp)/functions/utils';
 import { useLayers } from './layers';
 import { useBasemaps } from './basemaps';
@@ -10,6 +10,13 @@ export function useMaps() {
   return useQuery({
     queryKey: ['maps'],
     queryFn: () => getMaps(),
+  });
+}
+
+export function useDetailMap(uuid: string) {
+  return useQuery({
+    queryKey: ['map', uuid],
+    queryFn: () => getMap(uuid),
   });
 }
 

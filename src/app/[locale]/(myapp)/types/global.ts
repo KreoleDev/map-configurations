@@ -1,4 +1,4 @@
-interface Layer {
+export interface Layer {
   id: string;
   name: string;
   code: string;
@@ -10,7 +10,7 @@ interface Layer {
   status: string;
 }
 
-interface Basemap {
+export interface Basemap {
   id: string;
   name: string;
   code: string;
@@ -18,7 +18,7 @@ interface Basemap {
   url: string;
 }
 
-interface Widget {
+export interface Widget {
   id: string;
   name: string;
   code: string;

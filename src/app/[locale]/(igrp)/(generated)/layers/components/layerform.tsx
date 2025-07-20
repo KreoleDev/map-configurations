@@ -23,7 +23,7 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {useLayersConfiguration} from '@/app/[locale]/(myapp)/functions/layers'
 
-export default function Layerform({  } : {  }) {
+export default function Layerform({ initialData } : { initialData?: any }) {
 
   
   const form1 = z.object({

@@ -13,6 +13,7 @@ import {
   IGRPPageHeader,
 	IGRPButton 
 } from "@igrp/igrp-framework-react-design-system";
+import {useDetailLayer} from '@/app/[locale]/(myapp)/hooks/layers'
 
 
 export default function PageEditlayersComponent({ params } : { params: Promise<{ uuid: string }> } ) {
@@ -23,6 +24,8 @@ export default function PageEditlayersComponent({ params } : { params: Promise<{
   
   
 const { igrpToast } = useIGRPToast()
+
+const {data, isLoading} = useDetailLayer(uuid);
 
 
   return (
@@ -55,6 +58,6 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 </div>
-<LayerForm    ></LayerForm></div>
+<LayerForm  initialData={ data }   ></LayerForm></div>
   );
 }

@@ -21,7 +21,7 @@ import {
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 
-export default function Widgets({  } : {  }) {
+export default function Widgets({ initialData } : { initialData?: any }) {
 
   const formform1Ref = useRef<IGRPFormHandle<anyZodType> | null>(null);
   const [contentFormform1, setContentFormform1] = useState<z.infer<anyZodType>>(null);
