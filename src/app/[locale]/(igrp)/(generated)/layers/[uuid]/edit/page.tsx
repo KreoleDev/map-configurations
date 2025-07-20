@@ -23,6 +23,8 @@ export default function PageEditlayersComponent({ params } : { params: Promise<{
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 const {data, isLoading} = useDetailLayer(uuid);
@@ -50,7 +52,7 @@ showIcon={ true }
 iconName={ `Pencil` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Editar Camada
@@ -58,6 +60,6 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 </div>
-<LayerForm  initialData={ data }   ></LayerForm></div>
+<LayerForm  initialData={ data } isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></LayerForm></div>
   );
 }

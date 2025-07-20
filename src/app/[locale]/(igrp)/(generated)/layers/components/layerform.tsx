@@ -23,7 +23,7 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {useLayersConfiguration} from '@/app/[locale]/(myapp)/functions/layers'
 
-export default function Layerform({ initialData } : { initialData?: any }) {
+export default function Layerform({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
   
   const form1 = z.object({
@@ -65,6 +65,13 @@ useEffect(() => {
   if (initialData)
     setForm1Data(initialData)
 }, [initialData])
+
+useEffect(() => {
+  if (isSubmitting) {
+    formform1Ref.current?.submit();
+    onAfterSubmit?.();
+  }
+}, [isSubmitting, onAfterSubmit]);
 
 
 

@@ -21,6 +21,8 @@ export default function PageNewwidgetsComponent() {
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 
@@ -46,7 +48,7 @@ showIcon={ true }
 iconName={ `Save` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Salvar Widget
@@ -54,6 +56,6 @@ iconName={ `Save` }
 </div>
 </IGRPPageHeader>
 
-<Widgets    ></Widgets></div></div>
+<Widgets  isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></Widgets></div></div>
   );
 }

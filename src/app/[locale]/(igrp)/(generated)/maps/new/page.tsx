@@ -21,6 +21,8 @@ export default function PageNewComponent() {
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 
@@ -47,7 +49,7 @@ showIcon={ true }
 iconName={ `Save` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Salvar Mapa
@@ -55,6 +57,6 @@ iconName={ `Save` }
 </div>
 </IGRPPageHeader>
 
-<MapForm    ></MapForm></div></div>
+<MapForm  isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></MapForm></div></div>
   );
 }

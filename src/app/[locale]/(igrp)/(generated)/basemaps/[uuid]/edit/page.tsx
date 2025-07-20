@@ -23,6 +23,8 @@ export default function PageEditbasemapsComponent({ params } : { params: Promise
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 const {data, isLoading} = useDetailBasemap(uuid);
@@ -50,7 +52,7 @@ showIcon={ true }
 iconName={ `Pencil` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Editar Basemap
@@ -58,6 +60,6 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 
-<BasemapsForm  initialData={ data }   ></BasemapsForm></div></div>
+<BasemapsForm  initialData={ data } isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></BasemapsForm></div></div>
   );
 }

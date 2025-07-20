@@ -24,6 +24,8 @@ export default function PageEditwidgetsComponent({ params } : { params: Promise<
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 const {data, isLoading} = useDetailWidget(uuid);
@@ -51,7 +53,7 @@ showIcon={ true }
 iconName={ `Pencil` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Editar Widget
@@ -59,6 +61,7 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 
-<Widgets  initialData={ data }   ></Widgets></div></div>
+<Widgets  initialData={ data } isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting)
+ } ></Widgets></div></div>
   );
 }

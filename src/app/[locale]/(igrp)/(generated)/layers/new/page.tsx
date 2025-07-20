@@ -21,6 +21,8 @@ export default function PageNewlayerComponent() {
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 
@@ -46,7 +48,7 @@ showIcon={ true }
 iconName={ `Save` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Salvar Camada
@@ -54,6 +56,6 @@ iconName={ `Save` }
 </div>
 </IGRPPageHeader>
 
-<LayerForm    ></LayerForm></div></div>
+<LayerForm  isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></LayerForm></div></div>
   );
 }

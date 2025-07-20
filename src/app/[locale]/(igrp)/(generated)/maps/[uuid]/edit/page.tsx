@@ -23,6 +23,8 @@ export default function PageEditComponent({ params } : { params: Promise<{ uuid:
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 const {data, isLoading} = useDetailMap(uuid);
@@ -50,7 +52,7 @@ showIcon={ true }
 iconName={ `Pencil` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Editar Mapa
@@ -58,6 +60,6 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 
-<MapForm  initialData={ data }   ></MapForm></div></div>
+<MapForm  initialData={ data } isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></MapForm></div></div>
   );
 }

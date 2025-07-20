@@ -21,7 +21,7 @@ import {
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 
-export default function Widgets({ initialData } : { initialData?: any }) {
+export default function Widgets({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
   
   const form1 = z.object({
@@ -49,6 +49,12 @@ useEffect(() => {
     setForm1Data(initialData)
 }, [initialData])
 
+useEffect(() => {
+  if (isSubmitting) {
+    formform1Ref.current?.submit();
+    onAfterSubmit?.();
+  }
+}, [isSubmitting, onAfterSubmit]);
 
 
   return (

@@ -21,6 +21,8 @@ export default function PageNewbasemapsComponent() {
   
   
   
+const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
 const { igrpToast } = useIGRPToast()
 
 
@@ -46,7 +48,7 @@ showIcon={ true }
 iconName={ `Save` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ ()=>setIsSubmitting(!isSubmitting) }
   
 >
   Salvar Basemap
@@ -54,6 +56,6 @@ iconName={ `Save` }
 </div>
 </IGRPPageHeader>
 
-<BasemapsForm    ></BasemapsForm></div></div>
+<BasemapsForm  isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></BasemapsForm></div></div>
   );
 }
