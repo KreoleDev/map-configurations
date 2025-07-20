@@ -2,15 +2,15 @@ export async function getWidgets() {
   return await fetch('/api/widget').then((res) => res.json());
 }
 
-export async function deleteWidget(id: string) {
-  return await fetch(`/api/widget/${id}`, {
+export async function deleteWidget(uuid: string) {
+  return await fetch(`/api/widget/${uuid}`, {
     method: 'DELETE',
   });
 }
 
 export async function createOrUpdateWidget(widget: any) {
-  if (widget.id) {
-    return await fetch(`/api/widget/${widget.id}`, {
+  if (widget.uuid) {
+    return await fetch(`/api/widget/${widget.uuid}`, {
       method: 'PUT',
       body: JSON.stringify(widget),
     });
@@ -22,6 +22,6 @@ export async function createOrUpdateWidget(widget: any) {
   }
 }
 
-export async function getWidget(id: string) {
-  return await fetch(`/api/widget/${id}`).then((res) => res.json());
+export async function getWidget(uuid: string) {
+  return await fetch(`/api/widget?uuid=${uuid}`).then((res) => res.json());
 }

@@ -8,9 +8,9 @@ export function useBasemaps() {
   });
 }
 
-export function useDetailBasemap(id: string) {
+export function useDetailBasemap(uuid: string) {
   return useQuery({
-    queryKey: ['basemap', id],
-    queryFn: () => getBasemap(id),
+    queryKey: ['basemap', uuid],
+    queryFn: () => getBasemap(uuid),
   });
 }

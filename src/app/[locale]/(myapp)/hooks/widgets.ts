@@ -8,9 +8,9 @@ export function useWidgets() {
   });
 }
 
-export function useDetailWidget(id: string) {
+export function useDetailWidget(uuid: string) {
   return useQuery({
-    queryKey: ['widget', id],
-    queryFn: () => getWidget(id),
+    queryKey: ['widget', uuid],
+    queryFn: () => getWidget(uuid),
   });
 }

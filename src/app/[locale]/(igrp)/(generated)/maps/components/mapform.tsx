@@ -28,7 +28,7 @@ export default function Mapform({ initialData } : { initialData?: any }) {
 
   
   const form1 = z.object({
-    inputText1: z.string().optional(),
+    name: z.string().optional(),
     inputTextarea1: z.string().optional(),
     combobox1: z.string().optional(),
     combobox2: z.string().optional(),
@@ -41,7 +41,7 @@ export default function Mapform({ initialData } : { initialData?: any }) {
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    inputText1: ``,
+    name: ``,
     inputTextarea1: ``,
     combobox1: ``,
     combobox2: ``,
@@ -73,6 +73,12 @@ useEffect(() => {
 
 },[isLoading])
 
+useEffect(() => {
+  if (initialData)
+    setForm1Data(initialData)
+}, [initialData])
+
+
 
   return (
 <div className={ cn('component',)}    >
@@ -100,7 +106,7 @@ formRef={ formform1Ref }
 content: (<>
             <div className={ cn('grid','grid-cols-1 ',' gap-4',)}    >
 	<IGRPInputText
-  name={ `inputText1` }
+  name={ `name` }
   label={ `Nome` }
 showIcon={ false }
 required={ true }

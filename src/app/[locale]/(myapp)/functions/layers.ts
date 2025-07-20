@@ -4,8 +4,8 @@ async function getLayers() {
   return await fetch('/api/layer').then((res) => res.json());
 }
 
-async function deleteLayer(id: string) {
-  return await fetch(`/api/layer/${id}`, {
+async function deleteLayer(uuid: string) {
+  return await fetch(`/api/layer/${uuid}`, {
     method: 'DELETE',
   });
 }
@@ -21,8 +21,8 @@ function useLayersConfiguration() {
 }
 
 async function createOrUpdateLayer(layer: any) {
-  if (layer.id) {
-    return await fetch(`/api/layer/${layer.id}`, {
+  if (layer.uuid) {
+    return await fetch(`/api/layer/${layer.uuid}`, {
       method: 'PUT',
       body: JSON.stringify(layer),
     });
@@ -34,8 +34,8 @@ async function createOrUpdateLayer(layer: any) {
   }
 }
 
-async function getLayer(id: string) {
-  return await fetch(`/api/layer/${id}`).then((res) => res.json());
+async function getLayer(uuid: string) {
+  return await fetch(`/api/layer?uuid=${uuid}`).then((res) => res.json());
 }
 
 export { getLayers, deleteLayer, useLayersConfiguration, createOrUpdateLayer, getLayer };

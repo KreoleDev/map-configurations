@@ -8,9 +8,9 @@ export function useLayers() {
   });
 }
 
-export function useDetailLayer(id: string) {
+export function useDetailLayer(uuid: string) {
   return useQuery({
-    queryKey: ['layer', id],
-    queryFn: () => getLayer(id),
+    queryKey: ['layer', uuid],
+    queryFn: () => getLayer(uuid),
   });
 }

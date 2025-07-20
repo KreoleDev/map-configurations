@@ -1,19 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 let fakeData = [
-  { id: 1, label: 'Widget 1', type: 'wms', url: 'https://wms.example.com', status: 'active' },
-  { id: 2, label: 'Widget 2', type: 'wfs', url: 'https://wfs.example.com', status: 'active' },
+  { uuid: '1', name: 'Widget 1', type: 'wms', url: 'https://wms.example.com', status: 'active' },
+  { uuid: '2', name: 'Widget 2', type: 'wfs', url: 'https://wfs.example.com', status: 'active' },
 ];
 
 export async function GET(request: NextRequest) {
-  const widgets = fakeData;
-  return NextResponse.json(widgets);
+  const uuid = request.nextUrl.searchParams.get('uuid');
+  if (uuid) {
+    const widget = fakeData.find((widget) => widget.uuid === uuid);
+    console.log(widget, uuid);
+    if (!widget) {
+      return NextResponse.json({ error: 'Widget not found' }, { status: 404 });
+    }
+    return NextResponse.json(widget);
+  }
+  return NextResponse.json(fakeData);
 }
 
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
-  const widget = fakeData.find((widget) => widget.id === Number(id));
+  const uuid = searchParams.get('uuid');
+  const widget = fakeData.find((widget) => widget.uuid === uuid);
   if (!widget) {
     return NextResponse.json({ error: 'Widget not found' }, { status: 404 });
   }

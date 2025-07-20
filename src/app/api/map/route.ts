@@ -6,8 +6,15 @@ let fakeData = [
 ];
 
 export async function GET(request: NextRequest) {
-  const basemaps = fakeData;
-  return NextResponse.json(basemaps);
+  const uuid = request.nextUrl.searchParams.get('uuid');  
+  if (uuid) {
+    const map = fakeData.find((map) => map.uuid === uuid);
+    if (!map) {
+      return NextResponse.json({ error: 'Map not found' }, { status: 404 });
+    }
+    return NextResponse.json(map);
+  }
+  return NextResponse.json(fakeData);
 }
 
 export async function DELETE(request: NextRequest) {

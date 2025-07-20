@@ -30,7 +30,7 @@ export default function PageWidgetsComponent() {
 
   
   type Table1 = {
-    label: string;
+    name: string;
     uuid: string;
     tableTextCell3: string;
     tableTextCell4: string;
@@ -68,6 +68,8 @@ useEffect(() => {
   setContentTabletable1(data || [])
 
 },[data, isLoading])
+
+
 
 
   return (
@@ -122,10 +124,10 @@ placeholder={ `Search...` }
   columns={
     [
         {
-          header: 'Label'
-,accessorKey: 'label',
+          header: 'Nome'
+,accessorKey: 'name',
           cell: ({ row }) => {
-          return row.getValue("label")
+          return row.getValue("name")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },

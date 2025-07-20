@@ -27,7 +27,7 @@ export default function Layerform({ initialData } : { initialData?: any }) {
 
   
   const form1 = z.object({
-    inputText1: z.string().optional(),
+    name: z.string().optional(),
     inputText4: z.string().optional(),
     combobox1: z.string().optional(),
     inputText3: z.string().optional(),
@@ -38,7 +38,7 @@ export default function Layerform({ initialData } : { initialData?: any }) {
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    inputText1: ``,
+    name: ``,
     inputText4: ``,
     combobox1: ``,
     inputText3: ``,
@@ -60,6 +60,12 @@ useEffect(() => {
   setSelectgeomTypeOptions(geometryTypeOptions || [])
 
 }, [])
+
+useEffect(() => {
+  if (initialData)
+    setForm1Data(initialData)
+}, [initialData])
+
 
 
   return (
@@ -90,7 +96,7 @@ formRef={ formform1Ref }
   
 >
   <IGRPInputText
-  name={ `inputText1` }
+  name={ `name` }
   label={ `Nome` }
 showIcon={ false }
 required={ true }

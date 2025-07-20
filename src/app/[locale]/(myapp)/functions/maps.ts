@@ -23,5 +23,5 @@ export async function createOrUpdateMap(map: any) {
 }
 
 export async function getMap(uuid: string) {
-  return await fetch(`/api/map/${uuid}`).then((res) => res.json());
+  return await fetch(`/api/map?uuid=${uuid}`).then((res) => res.json());
 }

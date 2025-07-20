@@ -23,19 +23,43 @@ import {
 
 export default function Widgets({ initialData } : { initialData?: any }) {
 
-  const formform1Ref = useRef<IGRPFormHandle<anyZodType> | null>(null);
-  const [contentFormform1, setContentFormform1] = useState<z.infer<anyZodType>>(null);
+  
+  const form1 = z.object({
+    name: z.string().optional(),
+    inputText2: z.string().optional(),
+    inputText3: z.string().optional()
+})
+
+type Form1ZodType = typeof form1;
+
+const initForm1: z.infer<Form1ZodType> = {
+    name: ``,
+    inputText2: ``,
+    inputText3: ``
+}
+
+
+  const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
+  const [form1Data, setForm1Data] = useState<any>(initForm1);
   
 const { igrpToast } = useIGRPToast()
+
+useEffect(() => {
+  if (initialData)
+    setForm1Data(initialData)
+}, [initialData])
+
 
 
   return (
 <div className={ cn('component',)}    >
 	<IGRPForm
+  schema={ form1 }
   validationMode={ `onBlur` }
 formRef={ formform1Ref }
+  className={ cn() }
   onSubmit={ (e) => {} }
-  defaultValues={ contentFormform1 }
+  defaultValues={ form1Data }
 >
   <>
   <IGRPCard
@@ -54,7 +78,7 @@ formRef={ formform1Ref }
   
 >
   <IGRPInputText
-  name={ `inputText1` }
+  name={ `name` }
   label={ `Nome` }
 showIcon={ false }
 required={ true }

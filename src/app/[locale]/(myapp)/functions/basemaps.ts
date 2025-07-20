@@ -2,15 +2,15 @@ export async function getBasemaps() {
   return await fetch('/api/basemap').then((res) => res.json());
 }
 
-export async function deleteBasemap(id: string) {
-  return await fetch(`/api/basemap/${id}`, {
+export async function deleteBasemap(uuid: string) {
+  return await fetch(`/api/basemap/${uuid}`, {
     method: 'DELETE',
   });
 }
 
 export async function createOrUpdateBasemap(basemap: any) {
-  if (basemap.id) {
-    return await fetch(`/api/basemap/${basemap.id}`, {
+  if (basemap.uuid) {
+    return await fetch(`/api/basemap/${basemap.uuid}`, {
       method: 'PUT',
       body: JSON.stringify(basemap),
     });
@@ -22,6 +22,6 @@ export async function createOrUpdateBasemap(basemap: any) {
   }
 }
 
-export async function getBasemap(id: string) {
-  return await fetch(`/api/basemap/${id}`).then((res) => res.json());
+export async function getBasemap(uuid: string) {
+  return await fetch(`/api/basemap?uuid=${uuid}`).then((res) => res.json());
 }
