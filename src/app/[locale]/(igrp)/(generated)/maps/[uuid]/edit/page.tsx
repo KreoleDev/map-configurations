@@ -9,6 +9,7 @@
 import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
 import MapForm from '@/app/[locale]/(igrp)/(generated)/maps/components/mapform'
+import Group from '@/app/[locale]/(igrp)/(generated)/maps/components/group'
 import { 
   IGRPPageHeader,
 	IGRPButton 
@@ -24,6 +25,8 @@ export default function PageEditComponent({ params } : { params: Promise<{ uuid:
   
   
 const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+const [openGroup, setOpenGroup] = useState<boolean>(false);
 
 const { igrpToast } = useIGRPToast()
 
@@ -44,6 +47,21 @@ const {data, isLoading} = useDetailMap(uuid);
 >
   <div className="flex items-center gap-2">
     <IGRPButton
+  name={ `button2` }
+  
+variant={ `secondary` }
+size={ `default` }
+showIcon={ false }
+iconName={ `Layers2` }
+
+  className={ cn() }
+  onClick={ () => {setOpenGroup(!openGroup)
+} }
+  
+>
+  Grupo
+</IGRPButton>
+    <IGRPButton
   name={ `button1` }
   
 variant={ `default` }
@@ -60,6 +78,8 @@ iconName={ `Pencil` }
 </div>
 </IGRPPageHeader>
 
-<MapForm  initialData={ data } isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></MapForm></div></div>
+<MapForm  initialData={ data } isSubmitting={ isSubmitting }  onAfterSubmit={ ()=>setIsSubmitting(!isSubmitting) } ></MapForm></div>
+<Group  open={ openGroup }  setOpen={ setOpenGroup
+ } ></Group></div>
   );
 }

@@ -25,3 +25,10 @@ export async function createOrUpdateMap(map: any) {
 export async function getMap(uuid: string) {
   return await fetch(`/api/map?uuid=${uuid}`).then((res) => res.json());
 }
+
+export async function createOrUpdateMapGroups(groups: any) {
+  return await fetch('/api/map/group', {
+    method: 'POST',
+    body: JSON.stringify(groups),
+  });
+}

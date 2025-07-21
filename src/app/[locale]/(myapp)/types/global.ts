@@ -22,3 +22,33 @@ export interface Widget {
   code: string;
   link: string;
 }
+
+export interface Map {
+  name: string;
+  framingId: number;
+  fullScreen: boolean;
+  scale: boolean;
+  expand: boolean;
+  locate: boolean;
+  layersPanel: boolean;
+  widgetsPanel: boolean;
+  layers: {
+    layerId: string;
+    groupId: string;
+    visible: boolean;
+    order: number;
+  }[];
+  widgets: {
+    widgetId: string;
+    order: number;
+  }[];
+  basemaps: {
+    basemapId: string;
+    defaultBasemap: number;
+  }[];
+}
+
+export interface GroupMap {
+  name: string;
+  uuid: string;
+}
