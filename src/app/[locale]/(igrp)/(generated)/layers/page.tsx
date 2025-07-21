@@ -129,18 +129,18 @@ placeholder={ `Search...` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
-          header: 'Tipo Gemetria'
-,accessorKey: 'geomType',
-          cell: ({ row }) => {
-          return row.getValue("geomType")
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
           header: 'Tipo'
 ,accessorKey: 'type',
           cell: ({ row }) => {
           return row.getValue("type")
+          },
+          filterFn: IGRPDataTableFacetedFilterFn
+        },
+        {
+          header: 'Tipo Geomêtria'
+,accessorKey: 'geomType',
+          cell: ({ row }) => {
+          return row.getValue("geomType")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },

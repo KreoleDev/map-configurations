@@ -29,28 +29,26 @@ export default function Layerform({ initialData, isSubmitting, onAfterSubmit } :
   
   const form1 = z.object({
     name: z.string().optional(),
-    inputText4: z.string().optional(),
-    combobox1: z.string().optional(),
-    inputText3: z.string().optional(),
+    type: z.string().optional(),
+    nameType: z.string().optional(),
     geomType: z.string().optional(),
-    inputText2: z.string().optional()
+    url: z.string().optional()
 })
 
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
     name: ``,
-    inputText4: ``,
-    combobox1: ``,
-    inputText3: ``,
+    type: ``,
+    nameType: ``,
     geomType: ``,
-    inputText2: ``
+    url: ``
 }
 
 
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
-  const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
+  const [selecttypeOptions, setSelecttypeOptions] = useState<IGRPOptionsProps[]>([]);
   const [selectgeomTypeOptions, setSelectgeomTypeOptions] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
@@ -77,7 +75,7 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
 const { geometryTypeOptions, layersTypeOptions } = useLayersConfiguration();
 useEffect(() => {
-  setSelectcombobox1Options(layersTypeOptions || [])
+  setSelecttypeOptions(layersTypeOptions || [])
   setSelectgeomTypeOptions(geometryTypeOptions || [])
 
 }, [])
@@ -130,30 +128,18 @@ showIcon={ false }
 required={ true }
 
 
-placeholder={ `Nome da camada` }
+placeholder={ `Nome do layer` }
   className={ cn('',) }
-  onChange={ () => {} }
   
->
-</IGRPInputText>
-  <IGRPInputText
-  name={ `inputText4` }
-  label={ `Código` }
-showIcon={ false }
-required={ false }
-
-
-placeholder={ `Código da camada` }
-  className={ cn('',) }
-  onChange={ () => {} }
   
 >
 </IGRPInputText>
   <IGRPCombobox
-  name={ `combobox1` }
+  name={ `type` }
   label={ `Tipo` }
 variant={ `single` }
 placeholder={ `Selecione um tipo` }
+required={ true }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -162,28 +148,16 @@ iconName={ `CornerDownRight` }
 
 
   className={ cn('',) }
-  onChange={ () => {} }
-  options={ selectcombobox1Options }
+  
+  options={ selecttypeOptions }
 >
 </IGRPCombobox>
-  <IGRPInputText
-  name={ `inputText3` }
-  label={ `Nome do tipo` }
-showIcon={ false }
-required={ false }
-
-
-placeholder={ `Nome do tipo...` }
-  className={ cn('',) }
-  onChange={ () => {} }
-  
->
-</IGRPInputText>
   <IGRPCombobox
   name={ `geomType` }
   label={ `Tipo de Geometria` }
 variant={ `single` }
 placeholder={ `Selecione um tipo de geometria...` }
+required={ true }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -192,42 +166,53 @@ iconName={ `CornerDownRight` }
 
 
   className={ cn('',) }
-  onChange={ () => {} }
+  
   options={ selectgeomTypeOptions }
 >
 </IGRPCombobox>
   <IGRPInputText
-  name={ `inputText2` }
+  name={ `url` }
   label={ `URL` }
 showIcon={ false }
-required={ false }
+required={ true }
 
 
-placeholder={ `URL da camda` }
+placeholder={ `URL do layer` }
   className={ cn('',) }
-  onChange={ () => {} }
+  
+  
+>
+</IGRPInputText>
+  <IGRPInputText
+  name={ `nameType` }
+  label={ `Nome do Serviço` }
+showIcon={ false }
+required={ true }
+
+
+placeholder={ `Nome do serviço...` }
+  className={ cn('',) }
+  
   
 >
 </IGRPInputText>
   <IGRPSwitch
-  name={ `switch1` }
-  label={ `Estado da Camda` }
+  name={ `switch2` }
+  label={ `Layer Editável` }
 gridSize={ `full` }
 
   className={ cn('',) }
   
-
   
 >
 </IGRPSwitch>
   <IGRPSwitch
-  name={ `switch2` }
-  label={ `Camada Editável` }
+  name={ `switch1` }
+  label={ `Estado` }
 gridSize={ `full` }
 
   className={ cn('',) }
   
-
   
 >
 </IGRPSwitch>

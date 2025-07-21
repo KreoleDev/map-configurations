@@ -1,27 +1,24 @@
 export interface Layer {
-  id: string;
+  uuid: string;
   name: string;
-  code: string;
   type: string;
   url: string;
-  nameType: boolean;
+  nameType: string;
+  editable: boolean;
   geometryType: string;
-  visibility: string;
   status: string;
 }
 
 export interface Basemap {
-  id: string;
+  uuid: string;
   name: string;
   code: string;
-  type: string;
-  url: string;
+  link: string;
 }
 
 export interface Widget {
-  id: string;
+  uuid: string;
   name: string;
   code: string;
-  type: string;
-  url: string;
+  link: string;
 }

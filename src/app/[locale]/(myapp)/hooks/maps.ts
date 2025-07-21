@@ -21,26 +21,38 @@ export function useDetailMap(uuid: string) {
 }
 
 export function useMapConfiguration() {
-  const layers = useLayers();
-  const basemaps = useBasemaps();
-  const widgets = useWidgets();
+  try {
+    const layers = useLayers();
+    const basemaps = useBasemaps();
+    const widgets = useWidgets();
 
-  const visibilityOptions = getVisibility();
+    const visibilityOptions = getVisibility();
 
-  // Extract and convert basemaps, layers, widgets
-  const basemapsOptions = convertToNameValue(basemaps.data || []);
-  const layersOptions = convertToNameValue(layers.data || []);
-  const widgetsOptions = convertToNameValue(widgets.data || []);
+    // Extract and convert basemaps, layers, widgets
+    const basemapsOptions = convertToNameValue(basemaps.data || []);
+    const layersOptions = convertToNameValue(layers.data || []);
+    const widgetsOptions = convertToNameValue(widgets.data || []);
 
-  const isLoading = layers.isLoading || basemaps.isLoading || widgets.isLoading;
-  const isError = layers.isError || basemaps.isError || widgets.isError;
+    const isLoading = layers.isLoading || basemaps.isLoading || widgets.isLoading;
+    const isError = layers.isError || basemaps.isError || widgets.isError;
 
-  return {
-    isLoading,
-    isError,
-    basemapsOptions,
-    layersOptions,
-    widgetsOptions,
-    visibilityOptions,
-  };
+    return {
+      isLoading,
+      isError,
+      basemapsOptions,
+      layersOptions,
+      widgetsOptions,
+      visibilityOptions,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      isLoading: false,
+      isError: true,
+      basemapsOptions: [],
+      layersOptions: [],
+      widgetsOptions: [],
+      visibilityOptions: [],
+    };
+  }
 }

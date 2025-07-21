@@ -27,16 +27,18 @@ export default function Widgets({ initialData, isSubmitting, onAfterSubmit } : {
   
   const form1 = z.object({
     name: z.string().optional(),
-    inputText2: z.string().optional(),
-    inputText3: z.string().optional()
+    tooltip: z.string().optional(),
+    code: z.string().optional(),
+    page: z.string().optional()
 })
 
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
     name: ``,
-    inputText2: ``,
-    inputText3: ``
+    tooltip: ``,
+    code: ``,
+    page: ``
 }
 
 
@@ -113,25 +115,37 @@ required={ true }
 
 placeholder={ `Nome do widget` }
   className={ cn('',) }
-  onChange={ () => {} }
+  
   
 >
 </IGRPInputText>
   <IGRPInputText
-  name={ `inputText2` }
-  label={ `Código` }
+  name={ `tooltip` }
+  label={ `Tooltip` }
 showIcon={ false }
 required={ false }
 
 
-placeholder={ `Código do widget` }
   className={ cn('',) }
-  onChange={ () => {} }
+  
   
 >
 </IGRPInputText>
   <IGRPInputText
-  name={ `inputText3` }
+  name={ `code` }
+  label={ `Código` }
+showIcon={ false }
+required={ true }
+
+
+placeholder={ `Código do widget` }
+  className={ cn('',) }
+  
+  
+>
+</IGRPInputText>
+  <IGRPInputText
+  name={ `page` }
   label={ `Pagina` }
 showIcon={ false }
 required={ true }
@@ -139,7 +153,7 @@ required={ true }
 
 placeholder={ `Número da página` }
   className={ cn('',) }
-  onChange={ () => {} }
+  
   
 >
 </IGRPInputText>

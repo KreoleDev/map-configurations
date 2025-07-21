@@ -31,6 +31,7 @@ export default function PageBasemapsComponent() {
   
   type Table1 = {
     name: string;
+    link: string;
     status: string;
     uuid: string;
 }
@@ -123,6 +124,14 @@ placeholder={ `Search...` }
 ,accessorKey: 'name',
           cell: ({ row }) => {
           return row.getValue("name")
+          },
+          filterFn: IGRPDataTableFacetedFilterFn
+        },
+        {
+          header: 'Link'
+,accessorKey: 'link',
+          cell: ({ row }) => {
+          return row.getValue("link")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
