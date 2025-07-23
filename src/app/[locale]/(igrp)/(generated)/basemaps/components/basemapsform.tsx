@@ -20,21 +20,20 @@ import {
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 import {createOrUpdateBasemap} from '@/app/[locale]/(myapp)/functions/basemaps'
+import { useRouter } from "next/navigation"
 
 export default function Basemapsform({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
   
   const form1 = z.object({
-    name: z.string().optional(),
-    code: z.string().optional(),
-    link: z.string().optional()
+    name: z.string(),
+    link: z.string()
 })
 
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
     name: ``,
-    code: ``,
     link: ``
 }
 
@@ -46,8 +45,9 @@ const { igrpToast } = useIGRPToast()
 
 async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
-  try {
-  await createOrUpdateBasemap(values);
+  const data = { ...initialData, ...values };
+try {
+  await createOrUpdateBasemap(data);
   igrpToast({
     title: 'Sucesso',
     description: values.uuid
@@ -55,8 +55,8 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
       : 'Basemap gravado com sucesso',
     type: 'success',
   });
-  //router.push('/basemaps');
-} catch (error:any) {
+  router.push('/basemaps');
+} catch (error: any) {
   igrpToast({
     title: 'Erro',
     description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
@@ -67,6 +67,7 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
 }
 
+const router = useRouter()
 useEffect(() => {
   if (initialData)
     setForm1Data(initialData)
@@ -127,7 +128,7 @@ showIcon={ false }
 required={ true }
 
 
-placeholder={ `Lind do basemap` }
+placeholder={ `Link do basemap` }
   className={ cn('',) }
   
   

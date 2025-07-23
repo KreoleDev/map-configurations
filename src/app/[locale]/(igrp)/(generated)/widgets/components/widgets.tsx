@@ -10,12 +10,14 @@ import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
 import { IGRPFormHandle } from "@igrp/igrp-framework-react-design-system";
 import { z } from "@igrp/igrp-framework-react-design-system"
+import { IGRPOptionsProps } from "@igrp/igrp-framework-react-design-system";
 import { 
   IGRPForm,
 	IGRPCard,
 	IGRPCardHeader,
 	IGRPCardContent,
 	IGRPInputText,
+	IGRPCombobox,
 	IGRPIcon,
 	IGRPSwitch,
 	IGRPCardFooter 
@@ -26,44 +28,48 @@ export default function Widgets({ initialData, isSubmitting, onAfterSubmit } : {
 
   
   const form1 = z.object({
-    name: z.string().optional(),
+    label: z.string().optional(),
     tooltip: z.string().optional(),
     code: z.string().optional(),
-    page: z.string().optional()
+    page: z.number().optional(),
+    position: z.string().optional()
 })
 
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    name: ``,
+    label: ``,
     tooltip: ``,
     code: ``,
-    page: ``
+    page: undefined,
+    position: `maptools`
 }
 
 
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
+  const [selectpositionOptions, setSelectpositionOptions] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
 
 async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
   try {
-      await createOrUpdateWidget(values);
-      igrpToast({
-        title: 'Sucesso',
-        description: values.uuid ? 'Widget atualizado com sucesso' : 'Widget gravado com sucesso',
-        type: 'success',
-      });
-    } catch (error: any) {
-      igrpToast({
-        title: 'Erro',
-        description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
-        type: 'error',
-      });
-      console.log(error);
-    }
+  const data = {...initialData, ...values}
+    await createOrUpdateWidget(data);
+  igrpToast({
+    title: 'Sucesso',
+    description: data.uuid ? 'Widget atualizado com sucesso' : 'Widget gravado com sucesso',
+    type: 'success',
+  });
+} catch (error: any) {
+  igrpToast({
+    title: 'Erro',
+    description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
+    type: 'error',
+  });
+  console.log(error);
+}
 
 }
 
@@ -107,8 +113,8 @@ formRef={ formform1Ref }
   
 >
   <IGRPInputText
-  name={ `name` }
-  label={ `Nome` }
+  name={ `label` }
+  label={ `Label` }
 showIcon={ false }
 required={ true }
 
@@ -123,7 +129,7 @@ placeholder={ `Nome do widget` }
   name={ `tooltip` }
   label={ `Tooltip` }
 showIcon={ false }
-required={ false }
+required={ true }
 
 
   className={ cn('',) }
@@ -148,7 +154,7 @@ placeholder={ `Código do widget` }
   name={ `page` }
   label={ `Pagina` }
 showIcon={ false }
-required={ true }
+required={ false }
 
 
 placeholder={ `Número da página` }
@@ -157,6 +163,24 @@ placeholder={ `Número da página` }
   
 >
 </IGRPInputText>
+  <IGRPCombobox
+  name={ `position` }
+  label={ `Posiçāo` }
+variant={ `single` }
+placeholder={ `Select an option...` }
+required={ undefined }
+selectLabel={ `No option found` }
+showSearch={ true }
+showIcon={ false }
+iconName={ `CornerDownRight` }
+
+
+
+  className={ cn('',) }
+  onChange={ () => {} }
+  options={ selectpositionOptions }
+>
+</IGRPCombobox>
   <IGRPIcon
   name={ `icon1` }
   iconName={ `Heart` }

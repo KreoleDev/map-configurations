@@ -44,9 +44,11 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const basemap = await callGateway<Basemap>(`${ROUTE_BASE_URL}`, {
+    const uuid = request.nextUrl.searchParams.get('uuid');
+    const body = await request.json();
+    const basemap = await callGateway<Basemap>(`${ROUTE_BASE_URL}?widgetId=${uuid}`, {
       method: 'PUT',
-      body: request.body,
+      body: JSON.stringify(body),
     });
     return NextResponse.json(basemap);
   } catch (error) {
@@ -56,14 +58,14 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const uuid = searchParams.get('uuid');
+    const uuid = request.nextUrl.searchParams.get('uuid');
+
+    console.log('uuid', uuid);
 
     if (!uuid) {
       return NextResponse.json({ error: 'UUID is required' }, { status: 400 });
     }
-
-    await callGateway(`${ROUTE_BASE_URL}/${uuid}`, { method: 'DELETE' });
+    await callGateway(`${ROUTE_BASE_URL}?widgetId=${uuid}`, { method: 'DELETE' });
     return NextResponse.json({ message: 'Basemap deleted successfully' });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete basemap' }, { status: 500 });

@@ -1,7 +1,5 @@
 'use server';
 
-import { serverSession } from '@/actions/(igrp)/auth';
-import { redirect } from 'next/navigation';
 
 interface ExtendedRequestInit extends RequestInit {
   isTextResponse?: boolean;

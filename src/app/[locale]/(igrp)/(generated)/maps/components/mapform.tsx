@@ -33,8 +33,8 @@ export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : {
   
   const form1 = z.object({
     name: z.string().optional(),
-    inputText1: z.string().optional(),
-    inputTextarea1: z.string().optional(),
+    codigo: z.string().optional(),
+    description: z.string().optional(),
     combobox1: z.string().optional(),
     combobox2: z.string().optional(),
     inputText4: z.string().optional(),
@@ -48,8 +48,8 @@ type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
     name: ``,
-    inputText1: ``,
-    inputTextarea1: ``,
+    codigo: ``,
+    description: ``,
     combobox1: ``,
     combobox2: ``,
     inputText4: ``,
@@ -156,7 +156,7 @@ placeholder={ `Nome do mapa` }
 >
 </IGRPInputText>
 <IGRPInputText
-  name={ `inputText1` }
+  name={ `codigo` }
   label={ `Codigo` }
 showIcon={ false }
 required={ true }
@@ -169,7 +169,7 @@ placeholder={ `Codigo do mapa` }
 >
 </IGRPInputText>
 <IGRPTextarea
-  name={ `inputTextarea1` }
+  name={ `description` }
   
 label={ `Descrição` }
 rows={ 3 }
@@ -187,7 +187,6 @@ placeholder={ `Descrição do mapa` }
   label={ `Basemap Inicial` }
 variant={ `single` }
 placeholder={ `Selecione uma opção` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }

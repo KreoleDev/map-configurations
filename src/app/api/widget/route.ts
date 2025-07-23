@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const uuid = searchParams.get('uuid');
-  const widget = await callGateway<Widget>(`${ROUTE_BASE_URL}/${uuid}`, {
+  const widget = await callGateway<Widget>(`${ROUTE_BASE_URL}?widgetId=${uuid}`, {
     method: 'DELETE',
   });
   if (!widget) {
@@ -47,8 +47,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const uuid = request.nextUrl.searchParams.get('uuid');
   const body = await request.json();
-  const widget = await callGateway<Widget>(`${ROUTE_BASE_URL}`, {
+  const widget = await callGateway<Widget>(`${ROUTE_BASE_URL}?widgetId=${uuid}`, {
     method: 'PUT',
     body: JSON.stringify(body),
   });

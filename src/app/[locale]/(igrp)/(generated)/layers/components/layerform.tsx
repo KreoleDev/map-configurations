@@ -30,9 +30,9 @@ export default function Layerform({ initialData, isSubmitting, onAfterSubmit } :
   const form1 = z.object({
     name: z.string().optional(),
     type: z.string().optional(),
-    nameType: z.string().optional(),
     geomType: z.string().optional(),
-    url: z.string().optional()
+    url: z.string().optional(),
+    nameType: z.string().optional()
 })
 
 type Form1ZodType = typeof form1;
@@ -40,9 +40,9 @@ type Form1ZodType = typeof form1;
 const initForm1: z.infer<Form1ZodType> = {
     name: ``,
     type: ``,
-    nameType: ``,
     geomType: ``,
-    url: ``
+    url: ``,
+    nameType: ``
 }
 
 

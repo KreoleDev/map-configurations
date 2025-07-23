@@ -30,11 +30,11 @@ export default function PageWidgetsComponent() {
 
   
   type Table1 = {
-    name: string;
+    label: string;
     uuid: string;
-    tableTextCell3: string;
-    tableTextCell4: string;
-    tableTextCell5: string;
+    tooltip: string;
+    position: string;
+    page: string;
     status: string;
 }
 
@@ -124,34 +124,34 @@ placeholder={ `Search...` }
   columns={
     [
         {
-          header: 'Nome'
-,accessorKey: 'name',
+          header: 'Label'
+,accessorKey: 'label',
           cell: ({ row }) => {
-          return row.getValue("name")
+          return row.getValue("label")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
           header: 'ToolTip'
-,accessorKey: 'tableTextCell3',
+,accessorKey: 'tooltip',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell3")
+          return row.getValue("tooltip")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
           header: 'Posição'
-,accessorKey: 'tableTextCell4',
+,accessorKey: 'position',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell4")
+          return row.getValue("position")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
           header: 'Página'
-,accessorKey: 'tableTextCell5',
+,accessorKey: 'page',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell5")
+          return row.getValue("page")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },

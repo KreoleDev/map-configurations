@@ -24,6 +24,7 @@ export interface Widget {
 }
 
 export interface Map {
+  uuid: string;
   name: string;
   framingId: number;
   fullScreen: boolean;

@@ -32,8 +32,8 @@ export default function PageLayersComponent() {
   type Table1 = {
     uuid: string;
     name: string;
-    geomType: string;
     type: string;
+    geomType: string;
     url: string;
     status: string;
 }
@@ -45,7 +45,8 @@ const { igrpToast } = useIGRPToast()
 
 async function handleDelete (row: any): Promise<void  | undefined> {
 
-  try {
+  console.log(row)
+try {
   await deleteLayer(row.uuid);
   igrpToast({
     type: 'success',

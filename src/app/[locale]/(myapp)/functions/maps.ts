@@ -1,34 +1,39 @@
-export async function getMaps() {
-  return await fetch('/api/map').then((res) => res.json());
+import { apiClient } from '@/app/[locale]/(myapp)/lib/api-client';
+import { Map } from '@/app/[locale]/(myapp)/types/global';
+
+export async function getMaps(): Promise<Map[]> {
+  const response = await apiClient.get<Map[]>('/api/map');
+  return response.data ?? [];
 }
 
-export async function deleteMap(uuid: string) {
-  return await fetch(`/api/map/${uuid}`, {
-    method: 'DELETE',
-  });
-}
-
-export async function createOrUpdateMap(map: any) {
-  if (map.uuid) {
-    return await fetch(`/api/map/${map.uuid}`, {
-      method: 'PUT',
-      body: JSON.stringify(map),
-    });
-  } else {
-    return await fetch('/api/map', {
-      method: 'POST',
-      body: JSON.stringify(map),
-    });
+export async function deleteMap(uuid: string): Promise<void> {
+  const response = await apiClient.delete(`/api/map?uuid=${uuid}`);
+  if (response.error) {
+    throw new Error(response.error);
   }
 }
 
-export async function getMap(uuid: string) {
-  return await fetch(`/api/map?uuid=${uuid}`).then((res) => res.json());
+export async function createOrUpdateMap(map: any): Promise<Map> {
+  if (map.uuid) {
+    const response = await apiClient.put<Map>(`/api/map?uuid=${map.uuid}`, map);
+    if (!response.data) throw new Error('Failed to update map');
+    return response.data;
+  } else {
+    const response = await apiClient.post<Map>('/api/map', map);
+    console.log('response', response);
+    if (!response.data) throw new Error('Failed to create map');
+    return response.data;
+  }
 }
 
-export async function createOrUpdateMapGroups(groups: any) {
-  return await fetch('/api/map/group', {
-    method: 'POST',
-    body: JSON.stringify(groups),
-  });
+export async function getMap(uuid: string): Promise<Map> {
+  const response = await apiClient.get<Map>(`/api/map?uuid=${uuid}`);
+  if (!response.data) throw new Error('Map not found');
+  return response.data;
+}
+
+export async function createOrUpdateMapGroups(groups: any): Promise<any> {
+  const response = await apiClient.post<any>('/api/map/group', groups);
+  if (!response.data) throw new Error('Failed to create or update map groups');
+  return response.data;
 }

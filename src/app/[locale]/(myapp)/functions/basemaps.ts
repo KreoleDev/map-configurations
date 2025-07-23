@@ -1,27 +1,34 @@
-export async function getBasemaps() {
-  return await fetch('/api/basemap').then((res) => res.json());
+import { apiClient } from '@/app/[locale]/(myapp)/lib/api-client';
+import { Basemap } from '@/app/[locale]/(myapp)/types/global';
+
+export async function getBasemaps(): Promise<Basemap[]> {
+  const response = await apiClient.get<Basemap[]>('/api/basemap');
+  return response.data ?? [];
 }
 
-export async function deleteBasemap(uuid: string) {
-  return await fetch(`/api/basemap/${uuid}`, {
-    method: 'DELETE',
-  });
-}
-
-export async function createOrUpdateBasemap(basemap: any) {
-  if (basemap.uuid) {
-    return await fetch(`/api/basemap/${basemap.uuid}`, {
-      method: 'PUT',
-      body: JSON.stringify(basemap),
-    });
-  } else {
-    return await fetch('/api/basemap', {
-      method: 'POST',
-      body: JSON.stringify(basemap),
-    });
+export async function deleteBasemap(uuid: string): Promise<void> {
+  const response = await apiClient.delete(`/api/basemap?uuid=${uuid}`);
+  if (response.error) {
+    throw new Error(response.error);
   }
 }
 
-export async function getBasemap(uuid: string) {
-  return await fetch(`/api/basemap?uuid=${uuid}`).then((res) => res.json());
+export async function createOrUpdateBasemap(basemap: Partial<Basemap>): Promise<Basemap> {
+  console.log('basemap', basemap);
+  if (basemap.uuid) {
+    const response = await apiClient.put<Basemap>(`/api/basemap?uuid=${basemap.uuid}`, basemap);
+    if (!response.data) throw new Error('Failed to update basemap');
+    return response.data;
+  } else {
+    const response = await apiClient.post<Basemap>('/api/basemap', basemap);
+    console.log('response', response);
+    if (!response.data) throw new Error('Failed to create basemap');
+    return response.data;
+  }
+}
+
+export async function getBasemap(uuid: string): Promise<Basemap> {
+  const response = await apiClient.get<Basemap>(`/api/basemap?uuid=${uuid}`);
+  if (!response.data) throw new Error('Basemap not found');
+  return response.data;
 }

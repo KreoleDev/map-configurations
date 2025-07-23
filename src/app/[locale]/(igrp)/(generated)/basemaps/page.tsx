@@ -23,6 +23,7 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {deleteBasemap} from '@/app/[locale]/(myapp)/functions/basemaps'
 import {useBasemaps} from '@/app/[locale]/(myapp)/hooks/basemaps'
+import { useRouter } from "next/navigation"
 
 
 export default function PageBasemapsComponent() {
@@ -32,7 +33,7 @@ export default function PageBasemapsComponent() {
   type Table1 = {
     name: string;
     link: string;
-    status: string;
+    status: boolean;
     uuid: string;
 }
 
@@ -45,11 +46,13 @@ async function handleDelete (row: any): Promise<void  | undefined> {
 
   
 try {
-  await deleteBasemap();
+  await deleteBasemap(row.uuid);
   igrpToast({
     type: 'success',
     title: 'Basemap deleted successfully',
   });
+
+router.push('/basemaps')
 } catch (error) {
   igrpToast({
     type: 'error',
@@ -58,6 +61,8 @@ try {
 }
 
 }
+
+    const router = useRouter()
 
 const {data, isLoading} = useBasemaps();
 
