@@ -8,7 +8,6 @@ const BASEPATH_API_GATEWAY = process.env.BASEPATH_API_GATEWAY || '';
 const GATEWAY_BASE_URL = `${API_GATEWAY}${BASEPATH_API_GATEWAY}`;
 const ROUTE_BASE_URL = `${GATEWAY_BASE_URL}/layer`;
 
-
 export async function GET(request: NextRequest) {
   const uuid = request.nextUrl.searchParams.get('uuid');
   if (uuid) {
@@ -29,7 +28,7 @@ export async function GET(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const uuid = searchParams.get('uuid');
-  const layer = await callGateway<Layer>(`${ROUTE_BASE_URL}/${uuid}`, {
+  const layer = await callGateway<Layer>(`${ROUTE_BASE_URL}?layerId=${uuid}`, {
     method: 'DELETE',
   });
   if (!layer) {
@@ -48,8 +47,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const uuid = request.nextUrl.searchParams.get('uuid');
   const body = await request.json();
-  const layer = await callGateway<Layer>(`${ROUTE_BASE_URL}`, {
+  const layer = await callGateway<Layer>(`${ROUTE_BASE_URL}?layerId=${uuid}`, {
     method: 'PUT',
     body: JSON.stringify(body),
   });

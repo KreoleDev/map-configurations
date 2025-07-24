@@ -36,6 +36,8 @@ export function useMapConfiguration() {
     const isLoading = layers.isLoading || basemaps.isLoading || widgets.isLoading;
     const isError = layers.isError || basemaps.isError || widgets.isError;
 
+    console.log(layersOptions)
+
     return {
       isLoading,
       isError,

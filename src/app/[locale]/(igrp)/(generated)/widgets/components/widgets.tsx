@@ -23,6 +23,7 @@ import {
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 import {createOrUpdateWidget} from '@/app/[locale]/(myapp)/functions/widgets'
+import { useRouter } from "next/navigation"
 
 export default function Widgets({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
@@ -62,6 +63,7 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
     description: data.uuid ? 'Widget atualizado com sucesso' : 'Widget gravado com sucesso',
     type: 'success',
   });
+   router.push('/widgets');
 } catch (error: any) {
   igrpToast({
     title: 'Erro',
@@ -73,6 +75,7 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
 }
 
+const router = useRouter()
 useEffect(() => {
   if (initialData)
     setForm1Data(initialData)
@@ -168,7 +171,6 @@ placeholder={ `Número da página` }
   label={ `Posiçāo` }
 variant={ `single` }
 placeholder={ `Select an option...` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }

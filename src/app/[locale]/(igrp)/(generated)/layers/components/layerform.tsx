@@ -23,6 +23,7 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {createOrUpdateLayer} from '@/app/[locale]/(myapp)/functions/layers'
 import {useLayersConfiguration} from '@/app/[locale]/(myapp)/functions/layers'
+import { useRouter } from "next/navigation"
 
 export default function Layerform({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
@@ -56,23 +57,28 @@ const { igrpToast } = useIGRPToast()
 async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
   try {
-      await createOrUpdateLayer(values);
-      igrpToast({
-        title: 'Sucesso',
-        description: values.uuid ? 'Layer atualizado com sucesso' : 'Layer gravado com sucesso',
-        type: 'success',
-      });
-    } catch (error: any) {
-      igrpToast({
-        title: 'Erro',
-        description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
-        type: 'error',
-      });
-      console.log(error);
-    }
+  const data = { ...initialData, ...values, status: 'A' }
+
+  await createOrUpdateLayer(data);
+  igrpToast({
+    title: 'Sucesso',
+    description: data.uuid ? 'Layer atualizado com sucesso' : 'Layer gravado com sucesso',
+    type: 'success',
+  });
+  router.push('/layers');
+} catch (error: any) {
+  igrpToast({
+    title: 'Erro',
+    description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
+    type: 'error',
+  });
+  console.log(error);
+}
 
 }
 
+
+const router = useRouter()
 const { geometryTypeOptions, layersTypeOptions } = useLayersConfiguration();
 useEffect(() => {
   setSelecttypeOptions(layersTypeOptions || [])

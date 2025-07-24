@@ -40,7 +40,7 @@ export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : {
     inputText4: z.string().optional(),
     inputText2: z.string().optional(),
     inputText3: z.string().optional(),
-    layers: z.array(z.object({ layerId: z.string().optional(), visible: z.string().optional(), groupId: z.string().optional(), order: z.string().optional() })).optional(),
+    layers: z.array(z.object({ layerId: z.string().optional(), visible: z.string().optional(), groupId: z.string().optional(), order: z.number().optional() })).optional(),
     widgets: z.array(z.object({ widgetId: z.string().optional(), order: z.string().optional(), inputHidden1: z.string().optional() })).optional()
 })
 
@@ -55,7 +55,7 @@ const initForm1: z.infer<Form1ZodType> = {
     inputText4: ``,
     inputText2: ``,
     inputText3: ``,
-    layers: [{ layerId: ``, visible: ``, groupId: ``, order: `` }],
+    layers: [{ layerId: ``, visible: ``, groupId: ``, order: undefined }],
     widgets: [{ widgetId: ``, order: ``, inputHidden1: `` }]
 }
 
@@ -66,11 +66,11 @@ const initForm1: z.infer<Form1ZodType> = {
   const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
   const [selectcombobox2Options, setSelectcombobox2Options] = useState<IGRPOptionsProps[]>([]);
   const [formListlayersDefault, setFormListlayersDefault] = useState<any>({});
-  const [selectcombobox4Options, setSelectcombobox4Options] = useState<IGRPOptionsProps[]>([]);
-  const [selectcombobox3Options, setSelectcombobox3Options] = useState<IGRPOptionsProps[]>([]);
-  const [selectcombobox5Options, setSelectcombobox5Options] = useState<IGRPOptionsProps[]>([]);
+  const [selectlayerIdOptions, setSelectlayerIdOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectvisibelOptions, setSelectvisibelOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectgroupIdOptions, setSelectgroupIdOptions] = useState<IGRPOptionsProps[]>([]);
   const [formListwidgetsDefault, setFormListwidgetsDefault] = useState<any>({});
-  const [selectcombobox6Options, setSelectcombobox6Options] = useState<IGRPOptionsProps[]>([]);
+  const [selectwidgetIdOptions, setSelectwidgetIdOptions] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
 
@@ -97,10 +97,10 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 const {isLoading,basemapsOptions, widgetsOptions, layersOptions, visibilityOptions}= useMapConfiguration();
 useEffect(() => {
   if(isLoading)return
-  setSelectcombobox4Options(layersOptions || [])
-  setSelectcombobox3Options(visibilityOptions||[])
+  setSelectlayerIdOptions(layersOptions || [])
+  setSelectvisibelOptions(visibilityOptions||[])
   setSelectcombobox1Options(basemapsOptions||[]) 
-setSelectcombobox6Options(widgetsOptions||[])
+setSelectwidgetIdOptions(widgetsOptions||[])
 
 },[isLoading])
 
@@ -164,7 +164,7 @@ required={ true }
 
 placeholder={ `Codigo do mapa` }
   className={ cn('col-span-1',) }
-  onChange={ () => {} }
+  
   
 >
 </IGRPInputText>
@@ -178,7 +178,7 @@ required={ false }
 
 placeholder={ `Descrição do mapa` }
   className={ cn('','col-span-1',) }
-  onChange={ () => {} }
+  
   
 >
 </IGRPTextarea>
@@ -187,6 +187,7 @@ placeholder={ `Descrição do mapa` }
   label={ `Basemap Inicial` }
 variant={ `single` }
 placeholder={ `Selecione uma opção` }
+required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -195,7 +196,7 @@ iconName={ `CornerDownRight` }
 
 
   className={ cn('','col-span-1','',) }
-  onChange={ () => {} }
+  
   options={ selectcombobox1Options }
 >
 </IGRPCombobox>
@@ -311,7 +312,7 @@ renderItem={ (_: any, index: number) => (
       <>
         <div className={ cn('grid','grid-cols-1 ','md:grid-cols-2 ','lg:grid-cols-4 ',' gap-4',)}    >
 	<IGRPCombobox
-  name={ `layers.${index}.combobox4` }
+  name={ `layers.${index}.layerId` }
   label={ `Layer` }
 variant={ `single` }
 placeholder={ `Select an option...` }
@@ -323,12 +324,12 @@ iconName={ `CornerDownRight` }
 
 
 
-  onChange={ () => {} }
-  options={ selectcombobox4Options }
+  
+  options={ selectlayerIdOptions }
 >
 </IGRPCombobox>
 <IGRPCombobox
-  name={ `layers.${index}.combobox3` }
+  name={ `layers.${index}.visibel` }
   label={ `Visivel` }
 variant={ `single` }
 placeholder={ `Select an option...` }
@@ -340,15 +341,16 @@ iconName={ `CornerDownRight` }
 
 
 
-  onChange={ () => {} }
-  options={ selectcombobox3Options }
+  
+  options={ selectvisibelOptions }
 >
 </IGRPCombobox>
 <IGRPCombobox
-  name={ `layers.${index}.combobox5` }
+  name={ `layers.${index}.groupId` }
   label={ `Grupo` }
 variant={ `single` }
 placeholder={ `Select an option...` }
+required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -356,12 +358,12 @@ iconName={ `CornerDownRight` }
 
 
 
-  onChange={ () => {} }
-  options={ selectcombobox5Options }
+  
+  options={ selectgroupIdOptions }
 >
 </IGRPCombobox>
 <IGRPInputNumber
-  name={ `layers.${index}.inputNumber2` }
+  name={ `layers.${index}.order` }
   label={ `Order` }
 
 max={ 9999999 }
@@ -369,7 +371,7 @@ step={ 1 }
 required={ false }
 
 
-  onChange={ () => {} }
+  
   
 >
 </IGRPInputNumber></div>
@@ -405,7 +407,7 @@ renderItem={ (_: any, index: number) => (
       <>
         <div className={ cn('grid','grid-cols-1 ','md:grid-cols-2 ','lg:grid-cols-4 ',' gap-4',)}    >
 	<IGRPCombobox
-  name={ `widgets.${index}.combobox6` }
+  name={ `widgets.${index}.widgetId` }
   label={ `Widget` }
 variant={ `single` }
 placeholder={ `Select an option...` }
@@ -418,11 +420,11 @@ iconName={ `CornerDownRight` }
 
 
   onChange={ () => {} }
-  options={ selectcombobox6Options }
+  options={ selectwidgetIdOptions }
 >
 </IGRPCombobox>
 <IGRPInputNumber
-  name={ `widgets.${index}.inputNumber1` }
+  name={ `widgets.${index}.order` }
   label={ `Order` }
 
 max={ 9999999 }

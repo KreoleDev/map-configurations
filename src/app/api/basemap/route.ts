@@ -46,7 +46,7 @@ export async function PUT(request: NextRequest) {
   try {
     const uuid = request.nextUrl.searchParams.get('uuid');
     const body = await request.json();
-    const basemap = await callGateway<Basemap>(`${ROUTE_BASE_URL}?widgetId=${uuid}`, {
+    const basemap = await callGateway<Basemap>(`${ROUTE_BASE_URL}?basemapId=${uuid}`, {
       method: 'PUT',
       body: JSON.stringify(body),
     });
@@ -65,7 +65,7 @@ export async function DELETE(request: NextRequest) {
     if (!uuid) {
       return NextResponse.json({ error: 'UUID is required' }, { status: 400 });
     }
-    await callGateway(`${ROUTE_BASE_URL}?widgetId=${uuid}`, { method: 'DELETE' });
+    await callGateway(`${ROUTE_BASE_URL}?basemapId=${uuid}`, { method: 'DELETE' });
     return NextResponse.json({ message: 'Basemap deleted successfully' });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete basemap' }, { status: 500 });

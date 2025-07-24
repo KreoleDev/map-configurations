@@ -14,14 +14,12 @@ export async function deleteBasemap(uuid: string): Promise<void> {
 }
 
 export async function createOrUpdateBasemap(basemap: Partial<Basemap>): Promise<Basemap> {
-  console.log('basemap', basemap);
   if (basemap.uuid) {
     const response = await apiClient.put<Basemap>(`/api/basemap?uuid=${basemap.uuid}`, basemap);
     if (!response.data) throw new Error('Failed to update basemap');
     return response.data;
   } else {
     const response = await apiClient.post<Basemap>('/api/basemap', basemap);
-    console.log('response', response);
     if (!response.data) throw new Error('Failed to create basemap');
     return response.data;
   }

@@ -3,8 +3,8 @@ export const convertToNameValue = (items: any[], nameKey = 'name', valueKey = 'i
   return (
     (items !== undefined &&
       items?.map((item) => ({
-        label: item[nameKey] || item.title || item.label,
-        value: item[valueKey] || item.value || item.key,
+        label: item[nameKey] || item.title || item.label || item.name,
+        value: item[valueKey] || item.uuid || item.key,
       }))) ||
     []
   );

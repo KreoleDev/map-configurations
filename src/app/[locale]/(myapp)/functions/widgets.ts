@@ -14,14 +14,12 @@ export async function deleteWidget(uuid: string): Promise<void> {
 }
 
 export async function createOrUpdateWidget(widget: Partial<Widget>): Promise<Widget> {
-  console.log('widget', widget);
   if (widget.uuid) {
     const response = await apiClient.put<Widget>(`/api/widget?uuid=${widget.uuid}`, widget);
     if (!response.data) throw new Error('Failed to update widget');
     return response.data;
   } else {
     const response = await apiClient.post<Widget>('/api/widget', widget);
-    console.log('response', response);
     if (!response.data) throw new Error('Failed to create widget');
     return response.data;
   }
