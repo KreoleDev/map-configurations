@@ -53,3 +53,7 @@ export interface GroupMap {
   name: string;
   uuid: string;
 }
+
+export interface FormGroupMap {
+  groups: GroupMap[];
+}

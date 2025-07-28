@@ -33,7 +33,7 @@ export default function PageBasemapsComponent() {
   type Table1 = {
     name: string;
     link: string;
-    status: boolean;
+    statusDescription: string;
     uuid: string;
 }
 
@@ -142,13 +142,13 @@ placeholder={ `Search...` }
         },
         {
           header: 'Estado'
-,accessorKey: 'status',
+,accessorKey: 'statusDescription',
           cell: ({ row }) => {
           const rowData = row.original;
 
 
 return <IGRPDataTableCellBadge
-  label={ row.original.status }
+  label={ row.original.statusDescription }
   variant={ `soft` }
 badgeClassName={ `` }
 >

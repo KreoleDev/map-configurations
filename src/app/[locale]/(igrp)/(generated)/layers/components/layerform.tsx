@@ -22,16 +22,16 @@ import {
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 import {createOrUpdateLayer} from '@/app/[locale]/(myapp)/functions/layers'
-import {useLayersConfiguration} from '@/app/[locale]/(myapp)/functions/layers'
 import { useRouter } from "next/navigation"
+import {useLayersConfiguration} from '@/app/[locale]/(myapp)/hooks/layers'
 
 export default function Layerform({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
   
   const form1 = z.object({
     name: z.string().optional(),
-    type: z.string().optional(),
-    geomType: z.string().optional(),
+    layerType: z.string().optional(),
+    geometryType: z.string().optional(),
     url: z.string().optional(),
     nameType: z.string().optional()
 })
@@ -40,8 +40,8 @@ type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
     name: ``,
-    type: ``,
-    geomType: ``,
+    layerType: ``,
+    geometryType: ``,
     url: ``,
     nameType: ``
 }
@@ -49,8 +49,8 @@ const initForm1: z.infer<Form1ZodType> = {
 
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
-  const [selecttypeOptions, setSelecttypeOptions] = useState<IGRPOptionsProps[]>([]);
-  const [selectgeomTypeOptions, setSelectgeomTypeOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectlayerTypeOptions, setSelectlayerTypeOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectgeometryTypeOptions, setSelectgeometryTypeOptions] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
 
@@ -81,8 +81,8 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 const router = useRouter()
 const { geometryTypeOptions, layersTypeOptions } = useLayersConfiguration();
 useEffect(() => {
-  setSelecttypeOptions(layersTypeOptions || [])
-  setSelectgeomTypeOptions(geometryTypeOptions || [])
+  setSelectlayerTypeOptions(layersTypeOptions || [])
+  setSelectgeometryTypeOptions(geometryTypeOptions || [])
 
 }, [])
 
@@ -141,7 +141,7 @@ placeholder={ `Nome do layer` }
 >
 </IGRPInputText>
   <IGRPCombobox
-  name={ `type` }
+  name={ `layerType` }
   label={ `Tipo` }
 variant={ `single` }
 placeholder={ `Selecione um tipo` }
@@ -155,11 +155,11 @@ iconName={ `CornerDownRight` }
 
   className={ cn('',) }
   
-  options={ selecttypeOptions }
+  options={ selectlayerTypeOptions }
 >
 </IGRPCombobox>
   <IGRPCombobox
-  name={ `geomType` }
+  name={ `geometryType` }
   label={ `Tipo de Geometria` }
 variant={ `single` }
 placeholder={ `Selecione um tipo de geometria...` }
@@ -173,7 +173,7 @@ iconName={ `CornerDownRight` }
 
   className={ cn('',) }
   
-  options={ selectgeomTypeOptions }
+  options={ selectgeometryTypeOptions }
 >
 </IGRPCombobox>
   <IGRPInputText

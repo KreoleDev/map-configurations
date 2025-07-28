@@ -7,17 +7,17 @@ function getStatus() {
 
 function getLayersType() {
   return [
-    { label: 'Web Feature Service', value: 'wfs' },
-    { label: 'Web Map Service', value: 'wms' },
-    { label: 'Web Coverage Service', value: 'wcs' },
+    { label: 'Web Feature Service', value: 'WFS' },
+    { label: 'Web Map Service', value: 'WMS' },
+    { label: 'Web Coverage Service', value: 'WCS' },
   ];
 }
 
 function getGeometryType() {
   return [
-    { label: 'Point', value: 'point' },
-    { label: 'Line', value: 'line' },
-    { label: 'Polygon', value: 'polygon' },
+    { label: 'Point', value: 'POINT' },
+    { label: 'Line', value: 'LINESTRING' },
+    { label: 'Polygon', value: 'POLYGON' },
   ];
 }
 
@@ -28,4 +28,12 @@ function getVisibility() {
   ];
 }
 
-export { getStatus, getLayersType, getGeometryType, getVisibility };
+function getWidgetPosition() {
+  return [
+    { label: 'Map Tools', value: 'MAP_TOOLS' },
+    { label: 'Layer Menu', value: 'LAYER_MENU' },
+    { label: 'Sem Posição', value: 'NONE' },
+  ];
+}
+
+export { getStatus, getLayersType, getGeometryType, getVisibility, getWidgetPosition };

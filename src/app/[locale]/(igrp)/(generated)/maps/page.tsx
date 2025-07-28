@@ -34,8 +34,7 @@ export default function PageMapsComponent() {
     name: string;
     uuid: string;
     tableTextCell3: string;
-    tableTextCell5: string;
-    status: string;
+    statusDescription: string;
 }
 
   const [contentTabletable1, setContentTabletable1] = useState<Table1[]>([]);
@@ -147,13 +146,13 @@ placeholder={ `Search...` }
         },
         {
           header: 'Estado'
-,accessorKey: 'status',
+,accessorKey: 'statusDescription',
           cell: ({ row }) => {
           const rowData = row.original;
 
 
 return <IGRPDataTableCellBadge
-  label={ row.original.status }
+  label={ row.original.statusDescription }
   variant={ `soft` }
 badgeClassName={ `` }
 >
@@ -189,7 +188,7 @@ return (
       {
         component: IGRPDataTableDropdownMenuLink,
         props: {
-          labelTrigger: `Viewer`,icon: `Map`,href: `https://www.igrp.cv/`,          showIcon: true,          action: (e) => {},
+          labelTrigger: `Viewer`,icon: `Map`,href: `/maps/${row.original.uuid}/map-viewer`,          showIcon: true,          action: (e) => {},
 }
       },
 ]

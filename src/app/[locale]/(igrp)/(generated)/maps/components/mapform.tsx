@@ -11,6 +11,7 @@ import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-re
 import { IGRPFormHandle } from "@igrp/igrp-framework-react-design-system";
 import { z } from "@igrp/igrp-framework-react-design-system"
 import { IGRPOptionsProps } from "@igrp/igrp-framework-react-design-system";
+import {MapGetCoordinants} from '@/app/[locale]/(myapp)/components/MapGetCoordinants'
 import { 
   IGRPForm,
 	IGRPTabs,
@@ -33,13 +34,12 @@ export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : {
   
   const form1 = z.object({
     name: z.string().optional(),
-    codigo: z.string().optional(),
+    code: z.string().optional(),
     description: z.string().optional(),
-    combobox1: z.string().optional(),
-    combobox2: z.string().optional(),
-    inputText4: z.string().optional(),
-    inputText2: z.string().optional(),
-    inputText3: z.string().optional(),
+    framingId: z.string().optional(),
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
+    zoom: z.number().optional(),
     layers: z.array(z.object({ layerId: z.string().optional(), visible: z.string().optional(), groupId: z.string().optional(), order: z.number().optional() })).optional(),
     widgets: z.array(z.object({ widgetId: z.string().optional(), order: z.string().optional(), inputHidden1: z.string().optional() })).optional()
 })
@@ -48,13 +48,12 @@ type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
     name: ``,
-    codigo: ``,
+    code: ``,
     description: ``,
-    combobox1: ``,
-    combobox2: ``,
-    inputText4: ``,
-    inputText2: ``,
-    inputText3: ``,
+    framingId: ``,
+    latitude: undefined,
+    longitude: undefined,
+    zoom: undefined,
     layers: [{ layerId: ``, visible: ``, groupId: ``, order: undefined }],
     widgets: [{ widgetId: ``, order: ``, inputHidden1: `` }]
 }
@@ -63,8 +62,7 @@ const initForm1: z.infer<Form1ZodType> = {
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [tabstabs1Items, setTabstabs1Items] = useState<IGRPTabItem[]>([]);
-  const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
-  const [selectcombobox2Options, setSelectcombobox2Options] = useState<IGRPOptionsProps[]>([]);
+  const [selectframingIdOptions, setSelectframingIdOptions] = useState<IGRPOptionsProps[]>([]);
   const [formListlayersDefault, setFormListlayersDefault] = useState<any>({});
   const [selectlayerIdOptions, setSelectlayerIdOptions] = useState<IGRPOptionsProps[]>([]);
   const [selectvisibelOptions, setSelectvisibelOptions] = useState<IGRPOptionsProps[]>([]);
@@ -77,7 +75,7 @@ const { igrpToast } = useIGRPToast()
 async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
   try {
-      await createOrUpdateMap(values);
+      await createOrUpdateMap({uuid: initialData?.uuid, ...values});
       igrpToast({
         title: 'Sucesso',
         description: values.uuid ? 'Mapa atualizado com sucesso' : 'Mapa gravado com sucesso',
@@ -94,17 +92,30 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
 }
 
-const {isLoading,basemapsOptions, widgetsOptions, layersOptions, visibilityOptions}= useMapConfiguration();
+function handleChangeCoord (coords: any): void  | undefined {
+
+  console.log(coords)
+formform1Ref.current?.setValue('latitude', coords.lat);
+formform1Ref.current?.setValue('longitude', coords.lng);
+formform1Ref.current?.setValue('zoom', coords.zoom);
+
+}
+
+const {isLoading,basemapsOptions, widgetsOptions, layersOptions, visibilityOptions, groupsOptions}= useMapConfiguration();
+
 useEffect(() => {
   if(isLoading)return
   setSelectlayerIdOptions(layersOptions || [])
   setSelectvisibelOptions(visibilityOptions||[])
-  setSelectcombobox1Options(basemapsOptions||[]) 
-setSelectwidgetIdOptions(widgetsOptions||[])
+  setSelectframingIdOptions(basemapsOptions||[]) 
+  setSelectwidgetIdOptions(widgetsOptions||[])
+  setSelectgroupIdOptions(groupsOptions||[])
+
 
 },[isLoading])
 
 useEffect(() => {
+  console.log(initialData)
   if (initialData)
     setForm1Data(initialData)
 }, [initialData])
@@ -130,7 +141,7 @@ formRef={ formform1Ref }
   <>
   <IGRPTabs
   variant={ `default` }
-  tabContentClassName={ `border-transparent-none border rounded-lg` }
+  tabContentClassName={ `border-transparent-none border rounded-lg space-y-3` }
   showIcon={ true }
   iconPlacement={ `start` }
   tabListClassName={ cn() }
@@ -156,7 +167,7 @@ placeholder={ `Nome do mapa` }
 >
 </IGRPInputText>
 <IGRPInputText
-  name={ `codigo` }
+  name={ `code` }
   label={ `Codigo` }
 showIcon={ false }
 required={ true }
@@ -183,11 +194,11 @@ placeholder={ `Descrição do mapa` }
 >
 </IGRPTextarea>
 <IGRPCombobox
-  name={ `combobox1` }
+  name={ `framingId` }
   label={ `Basemap Inicial` }
 variant={ `single` }
 placeholder={ `Selecione uma opção` }
-required={ undefined }
+required={ true }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -197,7 +208,7 @@ iconName={ `CornerDownRight` }
 
   className={ cn('','col-span-1','',) }
   
-  options={ selectcombobox1Options }
+  options={ selectframingIdOptions }
 >
 </IGRPCombobox>
 <IGRPSwitch
@@ -218,79 +229,62 @@ gridSize={ `full` }
           label: `Equadramento do Mapa`,
           icon: `ArrowRight`,
 content: (<>
-            <IGRPCombobox
-  name={ `combobox2` }
-  label={ `Usar Enquadramento Existente` }
-variant={ `single` }
-placeholder={ `Selecione um enquadramento` }
-selectLabel={ `No option found` }
-showSearch={ true }
+            <div className={ cn('grid grid grid-cols-3 grid-rows-1 gap-2 justify-items-stretch items-start',)}    >
+	<IGRPInputText
+  name={ `latitude` }
+  label={ `Latitude` }
 showIcon={ false }
-iconName={ `CornerDownRight` }
+required={ true }
 
 
-
-  onChange={ () => {} }
-  options={ selectcombobox2Options }
+placeholder={ -23.55505 }
+  className={ cn() }
+  
+  
 >
-</IGRPCombobox>
+</IGRPInputText>
+<IGRPInputText
+  name={ `longitude` }
+  label={ `Longitude` }
+showIcon={ false }
+required={ true }
+
+
+placeholder={ -46.765 }
+  className={ cn() }
+  
+  
+>
+</IGRPInputText>
+<IGRPInputText
+  name={ `zoom` }
+  label={ `Zoom` }
+showIcon={ false }
+required={ true }
+
+
+placeholder={ 12 }
+  className={ cn() }
+  
+  
+>
+</IGRPInputText></div>
             <IGRPText
   name={ `text1` }
   
 variant={ `primary` }
 weight={ `normal` }
-size={ `default` }
+size={ `sm` }
 align={ `center` }
 spacing={ `normal` }
 maxLines={ 3 }
 
-
-  className={ cn('mt-6',) }
   
   
 >
-  ou configure manualmente
+  ou click no mapa e preenche automaticamente as coordinadas
 </IGRPText>
-            <div className={ cn('grid grid grid-cols-3 grid-rows-1 gap-2 justify-items-stretch items-start',)}    >
-	<IGRPInputText
-  name={ `inputText4` }
-  label={ `Latitude` }
-showIcon={ false }
-required={ false }
-
-
-placeholder={ -23.55505 }
-  className={ cn() }
-  onChange={ () => {} }
-  
->
-</IGRPInputText>
-<IGRPInputText
-  name={ `inputText2` }
-  label={ `Longitude` }
-showIcon={ false }
-required={ false }
-
-
-placeholder={ -46.765 }
-  className={ cn() }
-  onChange={ () => {} }
-  
->
-</IGRPInputText>
-<IGRPInputText
-  name={ `inputText3` }
-  label={ `Zoom` }
-showIcon={ false }
-required={ false }
-
-
-placeholder={ 12 }
-  className={ cn() }
-  onChange={ () => {} }
-  
->
-</IGRPInputText></div>
+            <MapGetCoordinants  onCoordinatesChange={ handleChangeCoord }   ></MapGetCoordinants>
 </>),
         },
         {

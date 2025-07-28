@@ -1,6 +1,30 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* Leaflet CSS for maps */
+@import 'leaflet/dist/leaflet.css';
+
+/* Force Leaflet to respect container height */
+.leaflet-container,
+.leaflet-container .leaflet-pane,
+.leaflet-container .leaflet-map-pane,
+.leaflet-container .leaflet-tile-pane,
+.leaflet-container .leaflet-overlay-pane,
+.leaflet-container .leaflet-shadow-pane,
+.leaflet-container .leaflet-marker-pane,
+.leaflet-container .leaflet-tooltip-pane,
+.leaflet-container .leaflet-popup-pane {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  z-index: 1;
+}
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @import './themes.css';

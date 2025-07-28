@@ -18,12 +18,13 @@ import {
 	IGRPCardContent,
 	IGRPInputText,
 	IGRPCombobox,
-	IGRPIcon,
 	IGRPSwitch,
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 import {createOrUpdateWidget} from '@/app/[locale]/(myapp)/functions/widgets'
 import { useRouter } from "next/navigation"
+import {useLayersConfiguration} from '@/app/[locale]/(myapp)/hooks/layers'
+import {useWidgetsConfiguration} from '@/app/[locale]/(myapp)/hooks/widgets'
 
 export default function Widgets({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
 
@@ -43,7 +44,7 @@ const initForm1: z.infer<Form1ZodType> = {
     tooltip: ``,
     code: ``,
     page: undefined,
-    position: `maptools`
+    position: ``
 }
 
 
@@ -76,6 +77,14 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 }
 
 const router = useRouter()
+
+const {positionOptions}= useWidgetsConfiguration()
+
+useEffect(() => {
+  setSelectpositionOptions(positionOptions||[])
+
+},[])
+
 useEffect(() => {
   if (initialData)
     setForm1Data(initialData)
@@ -171,6 +180,7 @@ placeholder={ `Número da página` }
   label={ `Posiçāo` }
 variant={ `single` }
 placeholder={ `Select an option...` }
+required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }
@@ -183,16 +193,6 @@ iconName={ `CornerDownRight` }
   options={ selectpositionOptions }
 >
 </IGRPCombobox>
-  <IGRPIcon
-  name={ `icon1` }
-  iconName={ `Heart` }
-size={ 24 }
-
-  className={ cn('',) }
-  
-  
->
-</IGRPIcon>
   <IGRPSwitch
   name={ `switch1` }
   label={ `Estado do Widget` }

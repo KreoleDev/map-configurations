@@ -31,15 +31,3 @@ export async function getLayer(uuid: string): Promise<Layer> {
   if (!response.data) throw new Error('Layer not found');
   return response.data;
 }
-
-function useLayersConfiguration() {
-  const geometryTypeOptions = getGeometryType();
-  const layersTypeOptions = getLayersType();
-
-  return {
-    geometryTypeOptions,
-    layersTypeOptions,
-  };
-}
-
-export { useLayersConfiguration };

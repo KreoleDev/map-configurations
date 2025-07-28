@@ -30,12 +30,12 @@ export default function PageWidgetsComponent() {
 
   
   type Table1 = {
-    label: string;
+    name: string;
     uuid: string;
     tooltip: string;
     position: string;
     page: string;
-    status: string;
+    statusDescription: string;
 }
 
   const [contentTabletable1, setContentTabletable1] = useState<Table1[]>([]);
@@ -124,10 +124,10 @@ placeholder={ `Search...` }
   columns={
     [
         {
-          header: 'Label'
-,accessorKey: 'label',
+          header: 'Name'
+,accessorKey: 'name',
           cell: ({ row }) => {
-          return row.getValue("label")
+          return row.getValue("name")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -157,13 +157,13 @@ placeholder={ `Search...` }
         },
         {
           header: 'Estado'
-,accessorKey: 'status',
+,accessorKey: 'statusDescription',
           cell: ({ row }) => {
           const rowData = row.original;
 
 
 return <IGRPDataTableCellBadge
-  label={ row.original.status }
+  label={ row.original.statusDescription }
   variant={ `soft` }
 badgeClassName={ `` }
 >

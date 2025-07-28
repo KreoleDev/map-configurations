@@ -5,6 +5,7 @@ import { useLayers } from './layers';
 import { useBasemaps } from './basemaps';
 import { useWidgets } from './widgets';
 import { getVisibility } from '../functions/configurations';
+import { useGroups } from './group';
 
 export function useMaps() {
   return useQuery({
@@ -25,6 +26,7 @@ export function useMapConfiguration() {
     const layers = useLayers();
     const basemaps = useBasemaps();
     const widgets = useWidgets();
+    const groups = useGroups();
 
     const visibilityOptions = getVisibility();
 
@@ -32,11 +34,10 @@ export function useMapConfiguration() {
     const basemapsOptions = convertToNameValue(basemaps.data || []);
     const layersOptions = convertToNameValue(layers.data || []);
     const widgetsOptions = convertToNameValue(widgets.data || []);
+    const groupsOptions = convertToNameValue(groups.data || []);
 
-    const isLoading = layers.isLoading || basemaps.isLoading || widgets.isLoading;
-    const isError = layers.isError || basemaps.isError || widgets.isError;
-
-    console.log(layersOptions)
+    const isLoading = layers.isLoading || basemaps.isLoading || widgets.isLoading || groups.isLoading;
+    const isError = layers.isError || basemaps.isError || widgets.isError || groups.isError;
 
     return {
       isLoading,
@@ -45,6 +46,7 @@ export function useMapConfiguration() {
       layersOptions,
       widgetsOptions,
       visibilityOptions,
+      groupsOptions,
     };
   } catch (error) {
     console.error(error);
@@ -55,6 +57,7 @@ export function useMapConfiguration() {
       layersOptions: [],
       widgetsOptions: [],
       visibilityOptions: [],
-    };
+      groupsOptions: [],
+      };
   }
 }

@@ -32,10 +32,10 @@ export default function PageLayersComponent() {
   type Table1 = {
     uuid: string;
     name: string;
-    type: string;
-    geomType: string;
+    layerTypeDescription: string;
+    geometryTypeDescription: string;
     url: string;
-    status: string;
+    statusDescription: string;
 }
 
   const [contentTabletable1, setContentTabletable1] = useState<Table1[]>([]);
@@ -131,17 +131,17 @@ placeholder={ `Search...` }
         },
         {
           header: 'Tipo'
-,accessorKey: 'type',
+,accessorKey: 'layerTypeDescription',
           cell: ({ row }) => {
-          return row.getValue("type")
+          return row.getValue("layerTypeDescription")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
           header: 'Tipo Geomêtria'
-,accessorKey: 'geomType',
+,accessorKey: 'geometryTypeDescription',
           cell: ({ row }) => {
-          return row.getValue("geomType")
+          return row.getValue("geometryTypeDescription")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -155,13 +155,13 @@ placeholder={ `Search...` }
         },
         {
           header: 'Estado'
-,accessorKey: 'status',
+,accessorKey: 'statusDescription',
           cell: ({ row }) => {
           const rowData = row.original;
 
 
 return <IGRPDataTableCellBadge
-  label={ row.original.status }
+  label={ row.original.statusDescription }
   variant={ `soft` }
 badgeClassName={ `` }
 >
