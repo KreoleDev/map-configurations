@@ -102,7 +102,7 @@ export const IGRP_DEFAULT_MENU: IGRPMenuProps[] = [
     createdDate: '2022-01-01T12:00:00.000Z',
     lastModifiedBy: 'admin',
     lastModifiedDate: '2022-01-01T12:00:00.000Z',
-  },
+  },/* 
   {
     id: 14,
     name: 'Widgets',
@@ -136,7 +136,7 @@ export const IGRP_DEFAULT_MENU: IGRPMenuProps[] = [
     createdDate: '2022-01-01T12:00:00.000Z',
     lastModifiedBy: 'admin',
     lastModifiedDate: '2022-01-01T12:00:00.000Z',
-  },
+  }, */
   {
     id: 2,
     name: 'Settings',

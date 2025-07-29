@@ -36,12 +36,12 @@ export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : {
     name: z.string().optional(),
     code: z.string().optional(),
     description: z.string().optional(),
-    framingId: z.string().optional(),
+    basemapId: z.string().optional(),
     latitude: z.number().optional(),
     longitude: z.number().optional(),
     zoom: z.number().optional(),
-    layers: z.array(z.object({ layerId: z.string().optional(), visible: z.string().optional(), groupId: z.string().optional(), order: z.number().optional() })).optional(),
-    widgets: z.array(z.object({ widgetId: z.string().optional(), order: z.string().optional(), inputHidden1: z.string().optional() })).optional()
+    layers: z.array(z.object({ layerId: z.string().optional(), visibility: z.string().optional(), groupId: z.string().optional(), order: z.number().optional() })).optional(),
+    widgets: z.array(z.object({ widgetId: z.string().optional(), order: z.number().optional(), inputHidden1: z.string().optional() })).optional()
 })
 
 type Form1ZodType = typeof form1;
@@ -50,22 +50,22 @@ const initForm1: z.infer<Form1ZodType> = {
     name: ``,
     code: ``,
     description: ``,
-    framingId: ``,
+    basemapId: ``,
     latitude: undefined,
     longitude: undefined,
     zoom: undefined,
-    layers: [{ layerId: ``, visible: ``, groupId: ``, order: undefined }],
-    widgets: [{ widgetId: ``, order: ``, inputHidden1: `` }]
+    layers: [{ layerId: ``, visibility: ``, groupId: ``, order: undefined }],
+    widgets: [{ widgetId: ``, order: undefined, inputHidden1: `` }]
 }
 
 
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [tabstabs1Items, setTabstabs1Items] = useState<IGRPTabItem[]>([]);
-  const [selectframingIdOptions, setSelectframingIdOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectbasemapIdOptions, setSelectbasemapIdOptions] = useState<IGRPOptionsProps[]>([]);
   const [formListlayersDefault, setFormListlayersDefault] = useState<any>({});
   const [selectlayerIdOptions, setSelectlayerIdOptions] = useState<IGRPOptionsProps[]>([]);
-  const [selectvisibelOptions, setSelectvisibelOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectvisibilityOptions, setSelectvisibilityOptions] = useState<IGRPOptionsProps[]>([]);
   const [selectgroupIdOptions, setSelectgroupIdOptions] = useState<IGRPOptionsProps[]>([]);
   const [formListwidgetsDefault, setFormListwidgetsDefault] = useState<any>({});
   const [selectwidgetIdOptions, setSelectwidgetIdOptions] = useState<IGRPOptionsProps[]>([]);
@@ -106,8 +106,8 @@ const {isLoading,basemapsOptions, widgetsOptions, layersOptions, visibilityOptio
 useEffect(() => {
   if(isLoading)return
   setSelectlayerIdOptions(layersOptions || [])
-  setSelectvisibelOptions(visibilityOptions||[])
-  setSelectframingIdOptions(basemapsOptions||[]) 
+  setSelectvisibilityOptions(visibilityOptions||[])
+  setSelectbasemapIdOptions(basemapsOptions||[]) 
   setSelectwidgetIdOptions(widgetsOptions||[])
   setSelectgroupIdOptions(groupsOptions||[])
 
@@ -194,7 +194,7 @@ placeholder={ `Descrição do mapa` }
 >
 </IGRPTextarea>
 <IGRPCombobox
-  name={ `framingId` }
+  name={ `basemapId` }
   label={ `Basemap Inicial` }
 variant={ `single` }
 placeholder={ `Selecione uma opção` }
@@ -208,7 +208,7 @@ iconName={ `CornerDownRight` }
 
   className={ cn('','col-span-1','',) }
   
-  options={ selectframingIdOptions }
+  options={ selectbasemapIdOptions }
 >
 </IGRPCombobox>
 <IGRPSwitch
@@ -323,7 +323,7 @@ iconName={ `CornerDownRight` }
 >
 </IGRPCombobox>
 <IGRPCombobox
-  name={ `layers.${index}.visibel` }
+  name={ `layers.${index}.visibility` }
   label={ `Visivel` }
 variant={ `single` }
 placeholder={ `Select an option...` }
@@ -336,7 +336,7 @@ iconName={ `CornerDownRight` }
 
 
   
-  options={ selectvisibelOptions }
+  options={ selectvisibilityOptions }
 >
 </IGRPCombobox>
 <IGRPCombobox
@@ -344,7 +344,6 @@ iconName={ `CornerDownRight` }
   label={ `Grupo` }
 variant={ `single` }
 placeholder={ `Select an option...` }
-required={ undefined }
 selectLabel={ `No option found` }
 showSearch={ true }
 showIcon={ false }

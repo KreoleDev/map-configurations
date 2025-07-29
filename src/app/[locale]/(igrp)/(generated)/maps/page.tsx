@@ -32,8 +32,9 @@ export default function PageMapsComponent() {
   
   type Table1 = {
     name: string;
+    code: string;
     uuid: string;
-    tableTextCell3: string;
+    center: string;
     statusDescription: string;
 }
 
@@ -129,6 +130,14 @@ placeholder={ `Search...` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
+          header: 'Codigo'
+,accessorKey: 'code',
+          cell: ({ row }) => {
+          return row.getValue("code")
+          },
+          filterFn: IGRPDataTableFacetedFilterFn
+        },
+        {
           header: 'UUID'
 ,accessorKey: 'uuid',
           cell: ({ row }) => {
@@ -138,9 +147,9 @@ placeholder={ `Search...` }
         },
         {
           header: 'Enquadramento'
-,accessorKey: 'tableTextCell3',
+,accessorKey: 'center',
           cell: ({ row }) => {
-          return row.getValue("tableTextCell3")
+          return row.getValue("center")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },

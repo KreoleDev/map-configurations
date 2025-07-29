@@ -16,6 +16,29 @@ export interface Basemap {
   link: string;
 }
 
+export enum WidgetType {
+  TIMESLIDER = 'TIMESLIDER',
+  EDIT = 'EDIT',
+  LEGEND = 'LEGEND',
+  ZOOM = 'ZOOM',
+  PAN = 'PAN',
+  MEASURE = 'MEASURE',
+  PRINT = 'PRINT',
+  SEARCH = 'SEARCH',
+  LOCATE = 'LOCATE',
+  FULLSCREEN = 'FULLSCREEN',
+  SCALE = 'SCALE',
+  BASEMAP = 'BASEMAP',
+  LAYERS = 'LAYERS',
+  ATTRIBUTES = 'ATTRIBUTES',
+  DRAW = 'DRAW',
+  GEOLOCATION = 'GEOLOCATION',
+  COORDINATES = 'COORDINATES',
+  HOME = 'HOME',
+  COMPASS = 'COMPASS',
+  ROTATION = 'ROTATION'
+}
+
 export interface Widget {
   uuid: string;
   name: string;
@@ -47,6 +70,10 @@ export interface Map {
     basemapId: string;
     defaultBasemap: number;
   }[];
+  center: string;
+  latitude: number;
+  longitude: number;
+  zoom: number;
 }
 
 export interface GroupMap {

@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const uuid = searchParams.get('uuid');
+  console.log('uuid', uuid);
   const map = await callGateway<Map>(`${ROUTE_BASE_URL}/${uuid}`, {
     method: 'DELETE',
   });
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest) {
 }
 export async function PUT(request: NextRequest) {
   const body = await request.json();
-  const map = await callGateway<Map>(`${ROUTE_BASE_URL}`, {
+  const map = await callGateway<Map>(`${ROUTE_BASE_URL}/${body.uuid}`, {
     method: 'PUT',
     body: JSON.stringify(body),
   });

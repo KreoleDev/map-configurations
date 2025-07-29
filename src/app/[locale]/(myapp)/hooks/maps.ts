@@ -3,15 +3,27 @@ import { getMap, getMaps } from '@/app/[locale]/(myapp)/functions/maps';
 import { convertToNameValue } from '@/app/[locale]/(myapp)/functions/utils';
 import { useLayers } from './layers';
 import { useBasemaps } from './basemaps';
-import { useWidgets } from './widgets';
+import { getWidgetsByType } from './widgets';
 import { getVisibility } from '../functions/configurations';
 import { useGroups } from './group';
 
 export function useMaps() {
-  return useQuery({
+  //i want to join latitude and longitude and zomm to the maps to new field called center
+  const { data: maps } = useQuery({
     queryKey: ['maps'],
     queryFn: () => getMaps(),
   });
+  if (maps) {
+    maps.forEach((map) => {
+      map.center = `${map.latitude},${map.longitude},${map.zoom}`;
+    });
+  }
+  //return the maps with the center field, isLoading and isError
+  return {
+    data: maps,
+    isLoading: false,
+    isError: false,
+  };
 }
 
 export function useDetailMap(uuid: string) {
@@ -22,22 +34,27 @@ export function useDetailMap(uuid: string) {
 }
 
 export function useMapConfiguration() {
+  const widgetsQuery = useQuery({
+    queryKey: ['widgets', 'byType'],
+    queryFn: getWidgetsByType,
+  });
+
   try {
     const layers = useLayers();
     const basemaps = useBasemaps();
-    const widgets = useWidgets();
     const groups = useGroups();
+    const widgetsOptions = widgetsQuery.data || []; // Already in label/value format
 
     const visibilityOptions = getVisibility();
 
     // Extract and convert basemaps, layers, widgets
     const basemapsOptions = convertToNameValue(basemaps.data || []);
     const layersOptions = convertToNameValue(layers.data || []);
-    const widgetsOptions = convertToNameValue(widgets.data || []);
     const groupsOptions = convertToNameValue(groups.data || []);
 
-    const isLoading = layers.isLoading || basemaps.isLoading || widgets.isLoading || groups.isLoading;
-    const isError = layers.isError || basemaps.isError || widgets.isError || groups.isError;
+    const isLoading =
+      layers.isLoading || basemaps.isLoading || widgetsQuery.isLoading || groups.isLoading;
+    const isError = layers.isError || basemaps.isError || widgetsQuery.isError || groups.isError;
 
     return {
       isLoading,
@@ -58,6 +75,6 @@ export function useMapConfiguration() {
       widgetsOptions: [],
       visibilityOptions: [],
       groupsOptions: [],
-      };
+    };
   }
 }
