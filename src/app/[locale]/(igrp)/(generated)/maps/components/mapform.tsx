@@ -41,7 +41,7 @@ export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : {
     longitude: z.number().optional(),
     zoom: z.number().optional(),
     layers: z.array(z.object({ layerId: z.string().optional(), visibility: z.string().optional(), groupId: z.string().optional(), order: z.number().optional() })).optional(),
-    widgets: z.array(z.object({ widgetId: z.string().optional(), order: z.number().optional(), inputHidden1: z.string().optional() })).optional()
+    widgets: z.array(z.object({ widgetType: z.string().optional(), order: z.number().optional(), inputHidden1: z.string().optional() })).optional()
 })
 
 type Form1ZodType = typeof form1;
@@ -55,7 +55,7 @@ const initForm1: z.infer<Form1ZodType> = {
     longitude: undefined,
     zoom: undefined,
     layers: [{ layerId: ``, visibility: ``, groupId: ``, order: undefined }],
-    widgets: [{ widgetId: ``, order: undefined, inputHidden1: `` }]
+    widgets: [{ widgetType: ``, order: undefined, inputHidden1: `` }]
 }
 
 

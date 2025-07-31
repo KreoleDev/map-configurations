@@ -23,7 +23,7 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {deleteMap} from '@/app/[locale]/(myapp)/functions/maps'
 import {useMaps} from '@/app/[locale]/(myapp)/hooks/maps'
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 
 
 export default function PageMapsComponent() {
@@ -61,6 +61,13 @@ try {
 
 }
 
+function goNewMap (): void  | undefined {
+
+  router.push('/maps/new')
+
+}
+
+const router = useRouter()
 const {data, isLoading} = useMaps();
 
 useEffect(() => {
@@ -91,7 +98,7 @@ showIcon={ true }
 iconName={ `Plus` }
 
   className={ cn() }
-  
+  onClick={ goNewMap }
   
 >
   Novo Mapa

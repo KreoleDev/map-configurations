@@ -62,6 +62,12 @@ router.push('/basemaps')
 
 }
 
+function goNewMap (): void  | undefined {
+
+  router.push('basemaps/new')
+
+}
+
     const router = useRouter()
 
 const {data, isLoading} = useBasemaps();
@@ -94,7 +100,7 @@ showIcon={ true }
 iconName={ `Plus` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ goNewMap }
   
 >
   Novo Basemap

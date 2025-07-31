@@ -23,6 +23,7 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {deleteLayer} from '@/app/[locale]/(myapp)/functions/layers'
 import {useLayers} from '@/app/[locale]/(myapp)/hooks/layers'
+import { useRouter } from "next/navigation"
 
 
 export default function PageLayersComponent() {
@@ -61,6 +62,13 @@ try {
 
 }
 
+function goToNewLayer (): void  | undefined {
+
+  router.push('layers/new')
+
+}
+
+const router = useRouter()
 const {data, isLoading} = useLayers();
 
 useEffect(() => {
@@ -91,10 +99,10 @@ showIcon={ true }
 iconName={ `Plus` }
 
   className={ cn() }
-  onClick={ () => {} }
+  onClick={ goToNewLayer }
   
 >
-  Nova Camada
+  Nova Layer
 </IGRPButton>
 </div>
 </IGRPPageHeader>
