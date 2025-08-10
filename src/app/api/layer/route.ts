@@ -1,5 +1,5 @@
-import { callGateway } from '@/app/[locale]/(myapp)/lib/use-server';
-import { Layer } from '@/app/[locale]/(myapp)/types/global';
+import { callGateway } from '@/app/(myapp)/lib/use-server';
+import { Layer } from '@/app/(myapp)/types/global';
 import { NextRequest, NextResponse } from 'next/server';
 
 //use the basepath from the env

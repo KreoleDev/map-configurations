@@ -1,5 +1,5 @@
-import { callGateway } from '@/app/[locale]/(myapp)/lib/use-server';
-import { Map } from '@/app/[locale]/(myapp)/types/global';
+import { callGateway } from '@/app/(myapp)/lib/use-server';
+import { Map } from '@/app/(myapp)/types/global';
 import { NextRequest, NextResponse } from 'next/server';
 
 //change to use API_GATEWAY

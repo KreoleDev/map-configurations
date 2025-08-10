@@ -1,5 +1,5 @@
-import { callGateway } from '@/app/[locale]/(myapp)/lib/use-server';
-import { Basemap } from '@/app/[locale]/(myapp)/types/global';
+import { callGateway } from '@/app/(myapp)/lib/use-server';
+import { Basemap } from '@/app/(myapp)/types/global';
 import { NextRequest, NextResponse } from 'next/server';
 
 const API_GATEWAY = process.env.API_GATEWAY || 'http://localhost:8080';
@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
     });
     return NextResponse.json(basemaps);
   } catch (error) {
+    console.error('Error fetching basemaps', error);
     return NextResponse.json({ error: 'Failed to fetch basemaps' }, { status: 500 });
   }
 }
@@ -38,6 +39,7 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(basemap);
   } catch (error) {
+    console.error('Error creating basemap', error);
     return NextResponse.json({ error: 'Failed to create basemap' }, { status: 500 });
   }
 }
@@ -52,6 +54,7 @@ export async function PUT(request: NextRequest) {
     });
     return NextResponse.json(basemap);
   } catch (error) {
+    console.error('Error updating basemap', error);
     return NextResponse.json({ error: 'Failed to update basemap' }, { status: 500 });
   }
 }
@@ -60,14 +63,13 @@ export async function DELETE(request: NextRequest) {
   try {
     const uuid = request.nextUrl.searchParams.get('uuid');
 
-    console.log('uuid', uuid);
-
     if (!uuid) {
       return NextResponse.json({ error: 'UUID is required' }, { status: 400 });
     }
     await callGateway(`${ROUTE_BASE_URL}?basemapId=${uuid}`, { method: 'DELETE' });
     return NextResponse.json({ message: 'Basemap deleted successfully' });
   } catch (error) {
+    console.error('Error deleting basemap', error);
     return NextResponse.json({ error: 'Failed to delete basemap' }, { status: 500 });
   }
 }
