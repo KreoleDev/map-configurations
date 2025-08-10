@@ -25,8 +25,8 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {deleteMap} from '@/app/(myapp)/functions/maps'
 import {useMaps} from '@/app/(myapp)/hooks/maps'
-import { useRouter } from "next/navigation"
 import {useMapListConfiguration} from '@/app/(myapp)/hooks/maps'
+import { useRouter } from "next/navigation";
 
 
 export default function PageMapsComponent() {
@@ -47,6 +47,8 @@ export default function PageMapsComponent() {
   
 const { igrpToast } = useIGRPToast()
 
+const router = useRouter()
+
 async function handleDelete (row: any): Promise<void  | undefined> {
 
   
@@ -65,13 +67,6 @@ try {
 
 }
 
-function goNewMap (): void  | undefined {
-
-  router.push('/maps/new')
-
-}
-
-const router = useRouter()
 const {data, isLoading} = useMaps();
 
 const {statusOptions}= useMapListConfiguration();
@@ -83,6 +78,10 @@ useEffect(() => {
   setDropdownFiltertableDropdownFilter1Options(statusOptions || [])
 
 },[data, isLoading])
+
+function goTonew (row?: any): void {
+  router.push(`/maps/new`);
+}
 
 
   return (
@@ -106,7 +105,7 @@ showIcon={ true }
 iconName={ `Plus` }
 
   className={ cn() }
-  onClick={ goNewMap }
+  onClick={ () => goTonew() }
   
 >
   Novo Mapa
@@ -170,8 +169,7 @@ badgeClassName={ `` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
-          header: 'Ações'
-,accessorKey: 'tableActionListCell1',
+          id: 'tableActionListCell1',
           enableHiding: false,cell: ({ row }) => {
           const rowData = row.original;
 
@@ -196,7 +194,7 @@ return (
       {
         component: IGRPDataTableDropdownMenuLink,
         props: {
-          labelTrigger: `Viewer`,icon: `Map`,href: `/maps/${row.original.uuid}/map-viewer`,          showIcon: true,          action: (e) => {},
+          labelTrigger: `Visualizar Mapa`,icon: `Map`,href: `/maps/${row.original.uuid}/map-viewer`,          showIcon: true,          action: (e) => {},
 }
       },
 ]

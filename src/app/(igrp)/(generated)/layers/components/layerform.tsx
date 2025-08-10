@@ -29,21 +29,25 @@ export default function Layerform({ initialData, isSubmitting, onAfterSubmit } :
 
   
   const form1 = z.object({
-    name: z.string().optional(),
-    layerType: z.string().optional(),
-    geometryType: z.string().optional(),
-    url: z.string().optional(),
-    nameType: z.string().optional()
+    name: z.string().nonempty(),
+    layerType: z.string().nonempty(),
+    geometryType: z.string().nonempty(),
+    url: z.string().nonempty(),
+    nameType: z.string().nonempty(),
+    editable: z.boolean().optional(),
+    combobox1: z.string().optional()
 })
 
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    name: ``,
-    layerType: ``,
-    geometryType: ``,
-    url: ``,
-    nameType: ``
+    name: undefined,
+    layerType: undefined,
+    geometryType: undefined,
+    url: undefined,
+    nameType: undefined,
+    editable: undefined,
+    combobox1: `A`
 }
 
 
@@ -51,6 +55,7 @@ const initForm1: z.infer<Form1ZodType> = {
   const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [selectlayerTypeOptions, setSelectlayerTypeOptions] = useState<IGRPOptionsProps[]>([]);
   const [selectgeometryTypeOptions, setSelectgeometryTypeOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
 
@@ -79,10 +84,11 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
 
 const router = useRouter()
-const { geometryTypeOptions, layersTypeOptions } = useLayersConfiguration();
+const { geometryTypeOptions, layersTypeOptions, statusOptions } = useLayersConfiguration();
 useEffect(() => {
   setSelectlayerTypeOptions(layersTypeOptions || [])
   setSelectgeometryTypeOptions(geometryTypeOptions || [])
+setSelectcombobox1Options(statusOptions||[])
 
 }, [])
 
@@ -202,20 +208,29 @@ placeholder={ `Nome do serviço...` }
   
 >
 </IGRPInputText>
+  <IGRPCombobox
+  name={ `combobox1` }
+  label={ `Estado` }
+variant={ `single` }
+placeholder={ `Select an option...` }
+required={ undefined }
+selectLabel={ `No option found` }
+showSearch={ true }
+showIcon={ false }
+iconName={ `CornerDownRight` }
+
+
+
+  className={ cn('',) }
+  onChange={ () => {} }
+  options={ selectcombobox1Options }
+>
+</IGRPCombobox>
   <IGRPSwitch
-  name={ `switch2` }
+  name={ `editable` }
   label={ `Layer Editável` }
 gridSize={ `full` }
 
-  className={ cn('',) }
-  
-  
->
-</IGRPSwitch>
-  <IGRPSwitch
-  name={ `switch1` }
-  label={ `Estado` }
-gridSize={ `full` }
 
   className={ cn('',) }
   

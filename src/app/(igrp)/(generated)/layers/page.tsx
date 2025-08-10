@@ -25,8 +25,8 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {deleteLayer} from '@/app/(myapp)/functions/layers'
 import {useLayers} from '@/app/(myapp)/hooks/layers'
-import { useRouter } from "next/navigation"
 import {useLayersConfiguration} from '@/app/(myapp)/hooks/layers'
+import { useRouter } from "next/navigation";
 
 
 export default function PageLayersComponent() {
@@ -48,6 +48,8 @@ export default function PageLayersComponent() {
   
 const { igrpToast } = useIGRPToast()
 
+const router = useRouter()
+
 async function handleDelete (row: any): Promise<void  | undefined> {
 
   console.log(row)
@@ -66,13 +68,6 @@ try {
 
 }
 
-function goToNewLayer (): void  | undefined {
-
-  router.push('layers/new')
-
-}
-
-const router = useRouter()
 const {data, isLoading} = useLayers();
 const {statusOptions}= useLayersConfiguration();
 
@@ -82,6 +77,10 @@ useEffect(() => {
   setDropdownFiltertableDropdownFilter1Options(statusOptions||[])
 
 },[data, isLoading])
+
+function goTonewLayer (row?: any): void {
+  router.push(`/layers/new`);
+}
 
 
   return (
@@ -105,7 +104,7 @@ showIcon={ true }
 iconName={ `Plus` }
 
   className={ cn() }
-  onClick={ goToNewLayer }
+  onClick={ () => goTonewLayer() }
   
 >
   Nova Layer
@@ -167,8 +166,7 @@ badgeClassName={ `` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
-          header: 'Ações'
-,accessorKey: 'tableActionListCell1',
+          id: 'tableActionListCell1',
           enableHiding: false,cell: ({ row }) => {
           const rowData = row.original;
 

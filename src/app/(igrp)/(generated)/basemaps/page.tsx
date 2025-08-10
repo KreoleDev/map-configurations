@@ -15,7 +15,6 @@ import {
   IGRPPageHeader,
 	IGRPButton,
 	IGRPDataTable,
-	IGRPDataTableCellBadge,
 	IGRPDataTableRowAction,
 	IGRPDataTableDropdownMenu,
 	IGRPDataTableDropdownMenuLink,
@@ -25,8 +24,8 @@ import {
 } from "@igrp/igrp-framework-react-design-system";
 import {deleteBasemap} from '@/app/(myapp)/functions/basemaps'
 import {useBasemaps} from '@/app/(myapp)/hooks/basemaps'
-import { useRouter } from "next/navigation"
 import {useBasemapsConfiguration} from '@/app/(myapp)/hooks/basemaps'
+import { useRouter } from "next/navigation";
 
 
 export default function PageBasemapsComponent() {
@@ -46,6 +45,8 @@ export default function PageBasemapsComponent() {
   
   
 const { igrpToast } = useIGRPToast()
+
+const router = useRouter()
 
 async function handleDelete (row: any): Promise<void  | undefined> {
 
@@ -73,7 +74,6 @@ function goNewMap (): void  | undefined {
 
 }
 
-const router = useRouter()
 
 const {statusOptions} = useBasemapsConfiguration();
 
@@ -88,6 +88,10 @@ useEffect(() => {
 useEffect(() => {
   setDropdownFiltertableDropdownFilter1Options(statusOptions || [])
 },[])
+
+function goTonewBasemaps (row?: any): void {
+  router.push(`/basemaps/new`);
+}
 
 
   return (
@@ -111,7 +115,7 @@ showIcon={ true }
 iconName={ `Plus` }
 
   className={ cn() }
-  onClick={ goNewMap }
+  onClick={ () => goTonewBasemaps() }
   
 >
   Novo Basemap
@@ -140,25 +144,7 @@ iconName={ `Plus` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
-          header: 'Estado'
-,accessorKey: 'statusDescription',
-          cell: ({ row }) => {
-          const rowData = row.original;
-
-
-return <IGRPDataTableCellBadge
-  label={ row.original.statusDescription }
-  variant={ `soft` }
-badgeClassName={ `` }
->
-
-</IGRPDataTableCellBadge>
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
-          header: 'Ações'
-,accessorKey: 'tableActionListCell1',
+          id: 'tableActionListCell1',
           enableHiding: false,cell: ({ row }) => {
           const rowData = row.original;
 

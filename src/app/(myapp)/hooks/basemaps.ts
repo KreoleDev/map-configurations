@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getBasemap, getBasemaps } from '../functions/basemaps';
-import { getStatus, getStatusFilter } from '../functions/configurations';
+import { getStatusFilter } from '../functions/configurations';
 
 export function useBasemaps() {
   return useQuery({

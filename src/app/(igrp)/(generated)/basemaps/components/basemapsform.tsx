@@ -16,7 +16,6 @@ import {
 	IGRPCardHeader,
 	IGRPCardContent,
 	IGRPInputText,
-	IGRPSwitch,
 	IGRPCardFooter 
 } from "@igrp/igrp-framework-react-design-system";
 import {createOrUpdateBasemap} from '@/app/(myapp)/functions/basemaps'
@@ -26,15 +25,15 @@ export default function Basemapsform({ initialData, isSubmitting, onAfterSubmit 
 
   
   const form1 = z.object({
-    name: z.string(),
-    link: z.string()
+    name: z.string().nonempty(),
+    link: z.string().nonempty()
 })
 
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    name: ``,
-    link: ``
+    name: undefined,
+    link: undefined
 }
 
 
@@ -134,16 +133,6 @@ placeholder={ `Link do basemap` }
   
 >
 </IGRPInputText>
-  <IGRPSwitch
-  name={ `switch1` }
-  label={ `Estado do basemap` }
-gridSize={ `full` }
-
-  className={ cn('','','block','mt-',) }
-  
-  
->
-</IGRPSwitch>
 </IGRPCardContent>
   <IGRPCardFooter
   className={ cn() }

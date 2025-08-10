@@ -36,7 +36,9 @@ export enum WidgetType {
   COORDINATES = 'COORDINATES',
   HOME = 'HOME',
   COMPASS = 'COMPASS',
-  ROTATION = 'ROTATION'
+  ROTATION = 'ROTATION',
+  IDENTITY = 'IDENTITY',
+  CONTEXTMENU = 'CONTEXTMENU'
 }
 
 export interface Widget {
@@ -44,6 +46,11 @@ export interface Widget {
   name: string;
   code: string;
   link: string;
+}
+
+export interface WidgetMap {
+  widgetId: string;
+  order: number;
 }
 
 export interface Map {
@@ -63,7 +70,7 @@ export interface Map {
     order: number;
   }[];
   widgets: {
-    widgetId: string;
+    widgetType: string;
     order: number;
   }[];
   basemaps: {

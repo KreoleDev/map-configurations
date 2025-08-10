@@ -1,6 +1,5 @@
 import { apiClient } from '@/app/(myapp)/lib/api-client';
 import { Layer } from '@/app/(myapp)/types/global';
-import { getGeometryType, getLayersType } from './configurations';
 
 export async function getLayers(): Promise<Layer[]> {
   const response = await apiClient.get<Layer[]>('/api/layer');
