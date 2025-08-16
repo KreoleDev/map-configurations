@@ -16,26 +16,33 @@ import {
 	IGRPModalDialogTitle,
 	IGRPModalDialogDescription,
 	IGRPText,
-	IGRPModalDialogFooter,
-	IGRPButton,
 	IGRPModalDialogTrigger 
 } from "@igrp/igrp-framework-react-design-system";
 
-export default function Configurarwidgets({ open, setOpen, widget } : { open: boolean, setOpen: (prompt: boolean) => void, widget: any }) {
+export default function Configurarwidgets({ open, setOpen, widget, map } : { open: boolean, setOpen: (prompt: boolean) => void, widget: any, map: any }) {
 
   
   
   
-const [modalDialogTitle1Content, setModalDialogTitle1Content] = useState<string>(``);
+const [modalDialogTitle1Content, setModalDialogTitle1Content] = useState<string>('');
+
+const [layerOptions, setLayerOptions] = useState<any>(undefined);
 
 const { igrpToast } = useIGRPToast()
 
+console.log(map)
 
 useEffect(() => {
   if (widget)
     setModalDialogTitle1Content(`Configurar Widget - ${widget.widgetType}`)
 
-}, [widget])
+  const layers = map.layers.map((layer: any) => ({
+    label: layer.name,
+    value: layer.uuid,
+  }));
+  setLayerOptions(layers);
+
+}, [widget, map])
 
 if (!widget) return (<></>)
 
@@ -96,26 +103,7 @@ animate={ true }
   Widget sem configurações adicionais
 </IGRPText>)}
 { widget.widgetType === 'SEARCH' && (<     >
-	<WidgetSearch    ></WidgetSearch></>)}</>
-  <IGRPModalDialogFooter
-  className={ cn('',) }
-  
-  
->
-  <IGRPButton
-  name={ `button2` }
-  
-variant={ `default` }
-size={ `default` }
-showIcon={ true }
-iconName={ `Save` }
-
-  onClick={ () => {} }
-  
->
-  Salvar
-</IGRPButton>
-</IGRPModalDialogFooter>
+	<WidgetSearch  widget={ widget } layerOptions={ layerOptions }   ></WidgetSearch></>)}</>
 </IGRPModalDialogContent>
   <IGRPModalDialogTrigger
   name={ `modalDialogTrigger1` }

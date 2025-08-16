@@ -34,8 +34,8 @@ export default function Layerform({ initialData, isSubmitting, onAfterSubmit } :
     geometryType: z.string().nonempty(),
     url: z.string().nonempty(),
     nameType: z.string().nonempty(),
-    editable: z.boolean().optional(),
-    combobox1: z.string().optional()
+    status: z.string().optional(),
+    editable: z.boolean().optional()
 })
 
 type Form1ZodType = typeof form1;
@@ -46,8 +46,8 @@ const initForm1: z.infer<Form1ZodType> = {
     geometryType: undefined,
     url: undefined,
     nameType: undefined,
-    editable: undefined,
-    combobox1: `A`
+    status: `A`,
+    editable: undefined
 }
 
 
@@ -55,7 +55,7 @@ const initForm1: z.infer<Form1ZodType> = {
   const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [selectlayerTypeOptions, setSelectlayerTypeOptions] = useState<IGRPOptionsProps[]>([]);
   const [selectgeometryTypeOptions, setSelectgeometryTypeOptions] = useState<IGRPOptionsProps[]>([]);
-  const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
+  const [selectstatusOptions, setSelectstatusOptions] = useState<IGRPOptionsProps[]>([]);
   
 const { igrpToast } = useIGRPToast()
 
@@ -88,7 +88,7 @@ const { geometryTypeOptions, layersTypeOptions, statusOptions } = useLayersConfi
 useEffect(() => {
   setSelectlayerTypeOptions(layersTypeOptions || [])
   setSelectgeometryTypeOptions(geometryTypeOptions || [])
-setSelectcombobox1Options(statusOptions||[])
+setSelectstatusOptions(statusOptions||[])
 
 }, [])
 
@@ -209,7 +209,7 @@ placeholder={ `Nome do serviço...` }
 >
 </IGRPInputText>
   <IGRPCombobox
-  name={ `combobox1` }
+  name={ `status` }
   label={ `Estado` }
 variant={ `single` }
 placeholder={ `Select an option...` }
@@ -222,8 +222,8 @@ iconName={ `CornerDownRight` }
 
 
   className={ cn('',) }
-  onChange={ () => {} }
-  options={ selectcombobox1Options }
+  
+  options={ selectstatusOptions }
 >
 </IGRPCombobox>
   <IGRPSwitch

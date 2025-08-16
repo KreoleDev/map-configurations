@@ -30,3 +30,23 @@ export async function getLayer(uuid: string): Promise<Layer> {
   if (!response.data) throw new Error('Layer not found');
   return response.data;
 }
+
+export async function getDescribeFeatureType(uuid: string): Promise<any> {
+  const layer = await getLayer(uuid);
+  const url = `${layer.url}?service=WFS&request=DescribeFeatureType&typeName=${layer.nameType ?? 'gismap:Polygon_DT'}&version=1.0.0&outputFormat=application/json`;
+
+  const response = await fetch(url);
+  const data = await response.json();
+  
+  if (data && data.featureTypes && data.featureTypes.length > 0) {
+    const properties = data.featureTypes[0].properties;
+    if (properties && properties.length > 0) {
+      return properties.map((prop: { name: string; type: string; }) => ({
+        name: prop.name,
+        type: prop.type,
+      }));
+    }
+  }
+
+  return [];
+}

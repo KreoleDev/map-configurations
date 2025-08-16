@@ -1,0 +1,242 @@
+{
+    "center": [
+        15.959488,
+        -23.022522
+    ],
+    "zoom": 8,
+    "panelLayers": true,
+    "panelWidgets": true,
+    "footer": true,
+    "expand": false,
+    "locate": true,
+    "fullscreen": true,
+    "lock": true,
+    "baseMaps": [
+        {
+            "default": true,
+            "name": "GoogleSatellite"
+        },
+        {
+            "default": false,
+            "name": "Esri.WorldTopoMap"
+        },
+        {
+            "default": false,
+            "name": "OpenStreetMap.BlackAndWhite"
+        },
+        {
+            "default": false,
+            "name": "Esri.DeLorme"
+        },
+        {
+            "default": false,
+            "name": "Esri.NatGeoWorldMap"
+        },
+        {
+            "default": false,
+            "name": "OpenStreetMap"
+        },
+        {
+            "default": false,
+            "name": "Esri.WorldImagery"
+        },
+        {
+            "default": false,
+            "name": "GoogleHybrid"
+        },
+        {
+            "default": false,
+            "name": "Esri.WorldStreetMap"
+        },
+        {
+            "default": false,
+            "name": "GoogleStreets"
+        }
+    ],
+    "groupLayers": [
+        {
+            "id": 234,
+            "code": "states",
+            "name": "states01",
+            "options": {
+                "typeName": "topp:states"
+            },
+            "type": "WFS",
+            "geomType": "PointCluster",
+            "url": "https://gis-teste.nosi.cv/geoserver/topp/ows",
+            "editable": false,
+            "visible": true
+        }
+    ],
+    "widgets": [
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": null,
+            "icon": "fa-pencil",
+            "nome": "edition",
+            "position": "",
+            "title": "Edição",
+            "type": "edition"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-info",
+            "nome": "infowindow",
+            "position": "",
+            "title": "Identificar Objecto",
+            "type": "infowindow"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-list-ol",
+            "nome": "legend",
+            "position": "",
+            "title": "Legenda",
+            "type": "legend"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {},
+            "icon": "fa-medium",
+            "nome": "measurement",
+            "position": "",
+            "title": "Medir distâncias e Áreas",
+            "type": "measurement"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": false
+            },
+            "data": {
+                "menus": [
+                    {
+                        "layer": 128,
+                        "menu": [
+                            {
+                                "type": "",
+                                "url": "webapps?r=gis/Inserireditar_grupo_layers/index&dad=gis&isPublic=1&target=_blank",
+                                "target": "modal",
+                                "label": "Detalhes",
+                                "icon": "",
+                                "param_name": "p_layer_code",
+                                "param_value": "DIV_ADMIN",
+                                "attributes": "cod_interv,nome_benif,objectid"
+                            }
+                        ]
+                    }
+                ],
+                "display": "contextmenu"
+            },
+            "icon": "",
+            "nome": "selection_menu",
+            "position": "",
+            "title": "Selection Menu",
+            "type": "selection_menu"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {
+                "advanced": false,
+                "defaultLayers": true,
+                "btnOptions": false,
+                "layers": [
+                    {
+                        "layer": 128,
+                        "fields": ""
+                    }
+                ]
+            },
+            "icon": "fa-search",
+            "nome": "search",
+            "position": "",
+            "title": "Pesquisar",
+            "type": "search"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": false
+            },
+            "data": {},
+            "icon": "",
+            "nome": "query_expression",
+            "position": "",
+            "title": "Query Expression",
+            "type": "query_expression"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {
+                "layers": []
+            },
+            "icon": "fa-sliders",
+            "nome": "timeslider",
+            "position": "",
+            "title": "TimeSlider",
+            "type": "timeslider"
+        },
+        {
+            "active": true,
+            "control": {
+                "button": false
+            },
+            "data": [
+                {
+                    "layer": 232,
+                    "attributes": [
+                        {
+                            "type": "",
+                            "name": "dominio",
+                            "value": "Dominio"
+                        }
+                    ]
+                }
+            ],
+            "icon": "fa-hand-pointer-o",
+            "nome": "mouseover",
+            "position": "",
+            "title": "Mouseover",
+            "type": "mouseover"
+        },
+        {
+            "active": false,
+            "control": {
+                "button": true
+            },
+            "data": {
+                "bounds": "",
+                "videoUrls": "https://weblab.gov.cv/weblabtour/index.htm",
+                "videoOverlay": false,
+                "iframe": true,
+                "height": null,
+                "width": "600px"
+            },
+            "icon": "fa-file-video-o",
+            "nome": "video",
+            "position": "",
+            "title": "Video",
+            "type": "video"
+        }
+    ]
+}

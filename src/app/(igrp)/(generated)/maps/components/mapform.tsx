@@ -47,6 +47,7 @@ import {
   IGRPDataTableRowAction,
   IGRPDataTableDropdownMenu,
   IGRPDataTableDropdownMenuCustom,
+  IGRPDataTableDropdownMenuAlert,
 } from '@igrp/igrp-framework-react-design-system';
 import { createOrUpdateMap } from '@/app/(myapp)/functions/maps';
 import { Widget } from '@/app/(myapp)/types/global';
@@ -81,6 +82,8 @@ export default function Mapform({
         }),
       )
       .optional(),
+    widgetType: z.string().optional(),
+    associationId: z.string().optional(),
     widgetsPanel: z.boolean().optional(),
     fullScreen: z.boolean().optional(),
     layersPanel: z.boolean().optional(),
@@ -93,10 +96,12 @@ export default function Mapform({
     code: undefined,
     description: ``,
     basemapId: undefined,
-    latitude: undefined,
-    longitude: undefined,
-    zoom: undefined,
+    latitude: 0,
+    longitude: 0,
+    zoom: 0,
     layers: [{ layerId: ``, visibility: ``, groupId: ``, order: undefined }],
+    widgetType: undefined,
+    associationId: undefined,
     widgetsPanel: undefined,
     fullScreen: undefined,
     layersPanel: undefined,
@@ -123,6 +128,8 @@ export default function Mapform({
   const [openConfig, setOpenConfig] = useState<boolean>(false);
 
   const [currentWidget, setCurrentWidget] = useState<any>(undefined);
+
+  const [widgetTypes, setWidgetTypes] = useState<any>([]);
 
   const { igrpToast } = useIGRPToast();
 
@@ -159,6 +166,12 @@ export default function Mapform({
     });
   }
 
+  function handleDeleteWidget(widgetName: string): void | undefined {
+    setWidgets((prev: any[]) => {
+      return prev.filter((w) => w.widgetType !== widgetName);
+    });
+  }
+
   const router = useRouter();
   useEffect(() => {
     const load = async () => {
@@ -169,7 +182,7 @@ export default function Mapform({
       setSelectbasemapIdOptions(basemapsOptions || []);
       setSelectgroupIdOptions(groupsOptions || []);
 
-      setRepetitiveListrepetitiveList1(widgetsOptions || []);
+      setWidgetTypes(widgetsOptions || []);
     };
     load();
   }, []);
@@ -180,8 +193,24 @@ export default function Mapform({
       ...initialData,
       description: initialData.description === null ? '' : initialData.description,
     });
-    setContentTabletable1(initialData.widgets || []);
-  }, [initialData]);
+  }, [initialData, widgets]);
+
+  useEffect(() => {
+    setContentTabletable1(
+      initialData?.widgets && initialData?.widgets.length > 0
+        ? initialData?.widgets
+        : widgets || [],
+    );
+
+    const selectedWidgetTypes = new Set(widgets.map((w: any) => w.widgetType));
+    const availableWidgets = widgetTypes
+      .filter((option: any) => !selectedWidgetTypes.has(option.value))
+      .map((widget: any) => ({
+        ...widget,
+      }));
+
+    setRepetitiveListrepetitiveList1(availableWidgets || []);
+  }, [initialData, widgets, widgetTypes]);
 
   useEffect(() => {
     if (isSubmitting) {
@@ -398,8 +427,8 @@ export default function Mapform({
                 content: (
                   <>
                     <IGRPModalDialog>
-                      <IGRPModalDialogContent size={`md`}>
-                        <IGRPModalDialogHeader>
+                      <IGRPModalDialogContent size={`sm`}>
+                        <IGRPModalDialogHeader className={cn('')}>
                           <IGRPModalDialogTitle name={`modalDialogTitle1`}>
                             Widgets
                           </IGRPModalDialogTitle>
@@ -431,7 +460,7 @@ export default function Mapform({
                                   variant={`outline`}
                                   size={`sm`}
                                   showIcon={true}
-                                  iconName={`MapPinPlusInside`}
+                                  iconName={`CirclePlus`}
                                   className={cn()}
                                   onClick={() => {
                                     associarWidget(item);
@@ -444,7 +473,7 @@ export default function Mapform({
                           )}
                         </IGRPRepetitiveComponent>
 
-                        <IGRPModalDialogFooter></IGRPModalDialogFooter>
+                        <IGRPModalDialogFooter className={cn('')}></IGRPModalDialogFooter>
                       </IGRPModalDialogContent>
                       <IGRPModalDialogTrigger
                         name={`modalDialogTrigger1`}
@@ -499,6 +528,25 @@ export default function Mapform({
                                         },
                                       },
                                     },
+                                    {
+                                      component: IGRPDataTableDropdownMenuAlert,
+                                      props: {
+                                        modalTitle: `Eliminar`,
+                                        labelTrigger: `Eliminar`,
+                                        icon: `Trash`,
+                                        showIcon: true,
+                                        showCancel: true,
+                                        labelCancel: `Cancel`,
+                                        variantCancel: `outline`,
+                                        showConfirm: true,
+                                        labelConfirm: `Confirm`,
+                                        variantConfirm: `default`,
+                                        onClickConfirm: () => {
+                                          handleDeleteWidget(rowData.widgetType);
+                                        },
+                                        children: <>Deseja confirmar essa operaçāo?</>,
+                                      },
+                                    },
                                   ]}
                                 ></IGRPDataTableDropdownMenu>
                               </IGRPDataTableRowAction>
@@ -513,6 +561,7 @@ export default function Mapform({
                     <ConfigurarWidgets
                       open={openConfig}
                       widget={currentWidget}
+                      map={initialData}
                       setOpen={() => {
                         setOpenConfig(!openConfig);
                       }}

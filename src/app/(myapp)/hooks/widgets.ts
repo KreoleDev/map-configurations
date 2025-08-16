@@ -12,11 +12,11 @@ export function useWidgets() {
 
 export async function getWidgetsByType() {
   ///i want on process the getWidgetTypes to label and value
-  const widgetTypes = getWidgetTypes().map(type => ({
+  const widgetTypes = getWidgetTypes().map((type) => ({
     label: type,
-    value: type
+    value: type,
   }));
-  
+
   return widgetTypes;
 }
 
@@ -44,4 +44,8 @@ export function useWidgetsConfiguration() {
   return {
     positionOptions,
   };
+}
+
+export function createOrUpdateWidgetData(data: any) {
+  console.log(data);
 }
