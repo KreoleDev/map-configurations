@@ -171,12 +171,10 @@ export const apiClient = new ApiClient({
 // Add default interceptors for logging
 if (process.env.NODE_ENV === 'development') {
   apiClient.addRequestInterceptor((config) => {
-    console.log('🚀 API Request:', config);
     return config;
   });
 
   apiClient.addResponseInterceptor((response) => {
-    console.log('📥 API Response:', response.status, response.statusText);
     return response;
   });
 }

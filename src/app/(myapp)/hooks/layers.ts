@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import {  getLayer, getLayers } from '../functions/layers';
-import { getGeometryType, getLayersType, getStatusFilter } from '../functions/configurations';
+import { getGeometryType, getLayersType, getStatus, } from '../functions/configurations';
 
 export function useLayers() {
   return useQuery({
@@ -19,7 +19,7 @@ export function useDetailLayer(uuid: string) {
 export function useLayersConfiguration() {
   const geometryTypeOptions = getGeometryType();
   const layersTypeOptions = getLayersType();
-  const statusOptions = getStatusFilter();
+  const statusOptions = getStatus();
 
   return {
     geometryTypeOptions,

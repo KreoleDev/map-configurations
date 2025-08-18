@@ -17,19 +17,16 @@ export async function createOrUpdateMap(map: Map): Promise<Map> {
   //layers layerd is null remove it and widgets widgetId is null remove it
   if (map.layers && map.layers.length > 0) {
     map.layers = map.layers.filter(
-      (layer: { layerId: string; }) => layer.layerId !== '' && layer.layerId !== null && layer.layerId !== undefined,
+      (layer: { layerId: string }) =>
+        layer.layerId !== '' && layer.layerId !== null && layer.layerId !== undefined,
     );
   }
   if (map.widgets && map.widgets.length > 0) {
     map.widgets = map.widgets.filter(
       (widget: { widgetType: string }) =>
-        widget.widgetType !== '' &&
-        widget.widgetType !== null &&
-        widget.widgetType !== undefined
+        widget.widgetType !== '' && widget.widgetType !== null && widget.widgetType !== undefined,
     );
   }
-
-  console.log('map', map);
 
   if (map.uuid) {
     const response = await apiClient.put<Map>(`/api/map?uuid=${map.uuid}`, map);
@@ -47,3 +44,4 @@ export async function getMap(uuid: string): Promise<Map> {
   if (!response.data) throw new Error('Map not found');
   return response.data;
 }
+

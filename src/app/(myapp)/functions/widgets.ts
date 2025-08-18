@@ -30,3 +30,13 @@ export async function getWidget(uuid: string): Promise<Widget> {
   if (!response.data) throw new Error('Widget not found');
   return response.data;
 }
+
+export async function createOrUpdateWidgetData(associationId: string, data: any) {
+  console.log(data);
+  const response = await apiClient.post<string>(
+    `/api/widget/configuration?uuid=${associationId}`,
+    data,
+  );
+  if (!response.data) throw new Error('Failed to update widget configuration');
+  return response.data;
+}

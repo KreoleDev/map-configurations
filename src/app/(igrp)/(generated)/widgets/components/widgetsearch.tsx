@@ -19,15 +19,14 @@ import {
 	IGRPInputText,
 	IGRPButton 
 } from "@igrp/igrp-framework-react-design-system";
-import {createOrUpdateWidgetData} from '@/app/(myapp)/hooks/widgets'
-import {getDescribeLayer} from '@/app/(myapp)/functions/layers'
+import {createOrUpdateWidgetData} from '@/app/(myapp)/functions/widgets'
 import {getDescribeFeatureType} from '@/app/(myapp)/functions/layers'
 
 export default function Widgetsearch({ widget, layerOptions } : { widget: any, layerOptions: any }) {
 
   
   const form1 = z.object({
-    layers: z.array(z.object({ layer: z.string().nonempty(), fields: z.string().optional() })).optional(),
+    layers: z.array(z.object({ layer: z.string().nonempty(), fields: z.array(z.string()).optional() })).optional(),
     country: z.string().optional()
 })
 
@@ -42,8 +41,8 @@ const initForm1: z.infer<Form1ZodType> = {
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [formListlayersDefault, setFormListlayersDefault] = useState<any>({});
-  const [selectcombobox1Options, setSelectcombobox1Options] = useState<IGRPOptionsProps[]>([]);
-  const [selectcombobox2Options, setSelectcombobox2Options] = useState<IGRPOptionsProps[]>([]);
+  const [selectlayerOptions, setSelectlayerOptions] = useState<IGRPOptionsProps[]>([]);
+  const [selectfieldsOptions, setSelectfieldsOptions] = useState<IGRPOptionsProps[]>([]);
   
 const [currentMapLayer, setCurrentMapLayer] = useState<string>('');
 
@@ -52,8 +51,7 @@ const { igrpToast } = useIGRPToast()
 async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
   try {
-  const data = {widget,...values}
-  const response = await createOrUpdateWidgetData(data);
+  const response = await createOrUpdateWidgetData(widget.associationId,values);
   igrpToast({
     title: 'Sucesso',
     description: 'Configuração adicionado com sucesso',
@@ -71,7 +69,7 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 }
 
 useEffect(() => {
-  setSelectcombobox1Options(layerOptions||[])
+  setSelectlayerOptions(layerOptions||[])
 },[])
 
 
@@ -79,7 +77,7 @@ useEffect(() => {
   
    if (currentMapLayer) {
     getDescribeFeatureType(currentMapLayer).then((response) => {
-      setSelectcombobox2Options(response)
+      setSelectfieldsOptions(response)
     })
   }
 
@@ -111,8 +109,8 @@ renderItem={ (_: any, index: number) => (
       <>
         <div className={ cn('grid','grid-cols-1 ','md:grid-cols-2 ','lg:grid-cols-2 ',' gap-4',)}    >
 	<IGRPCombobox
-  name={ `layers.${index}.combobox1` }
-  label={ `Map Layer` }
+  name={ `layers.${index}.layer` }
+  label={ `Layer` }
 variant={ `single` }
 placeholder={ `Select an option...` }
 required={ true }
@@ -126,11 +124,11 @@ iconName={ `CornerDownRight` }
   className={ cn('col-span-1',) }
   onChange={ (value) => {setCurrentMapLayer(value as string)
 } }
-  options={ selectcombobox1Options }
+  options={ selectlayerOptions }
 >
 </IGRPCombobox>
 <IGRPCombobox
-  name={ `layers.${index}.combobox2` }
+  name={ `layers.${index}.fields` }
   label={ `Atributos` }
 variant={ `multiple` }
 placeholder={ `Select an option...` }
@@ -143,8 +141,8 @@ iconName={ `CornerDownRight` }
 
 
   className={ cn('col-span-1',) }
-  onChange={ () => {} }
-  options={ selectcombobox2Options }
+  
+  options={ selectfieldsOptions }
 >
 </IGRPCombobox></div>
 </>

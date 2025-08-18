@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getWidget, getWidgets } from '../functions/widgets';
 import { getWidgetPosition } from '../functions/configurations';
 import { WidgetType } from '../types/global';
+import { apiClient } from '../lib/api-client';
 
 export function useWidgets() {
   return useQuery({
@@ -46,6 +47,4 @@ export function useWidgetsConfiguration() {
   };
 }
 
-export function createOrUpdateWidgetData(data: any) {
-  console.log(data);
-}
+

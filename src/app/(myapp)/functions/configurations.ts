@@ -1,7 +1,7 @@
 function getStatus() {
   return [
-    { label: 'Active', value: 'active' },
-    { label: 'Inactive', value: 'inactive' },
+    { label: 'Active', value: 'A' },
+    { label: 'Inactive', value: 'I' },
   ];
 }
 

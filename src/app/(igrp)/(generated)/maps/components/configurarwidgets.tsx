@@ -30,11 +30,10 @@ const [layerOptions, setLayerOptions] = useState<any>(undefined);
 
 const { igrpToast } = useIGRPToast()
 
-console.log(map)
-
 useEffect(() => {
-  if (widget)
-    setModalDialogTitle1Content(`Configurar Widget - ${widget.widgetType}`)
+  if (!widget || !map) return;
+
+  setModalDialogTitle1Content(`Configurar Widget - ${widget.widgetType}`)
 
   const layers = map.layers.map((layer: any) => ({
     label: layer.name,
