@@ -1,0 +1,227 @@
+{
+  "name": "GIS",
+  "center": {
+    "lat": 16,
+    "lng": -24
+  },
+  "zoom": 8,
+  "panelLayers": true,
+  "panelWidgets": true,
+  "locate": true,
+  "fullscreen": true,
+  "lock": true,
+  "baseMaps": [
+    {
+      "default": true,
+      "name": "openstreetmap",
+      "active": true
+    },
+    {
+      "default": false,
+      "name": "googlesatellite",
+      "active": true
+    },
+    {
+      "default": false,
+      "name": "googlemaps",
+      "active": true
+    },
+    {
+      "default": false,
+      "name": "esrisatellite",
+      "active": true
+    },
+    {
+      "default": false,
+      "name": "esriworldtopo",
+      "active": true
+    },
+    {
+      "default": false,
+      "name": "esriterrain",
+      "active": true
+    },
+    {
+      "default": false,
+      "name": "cartodb",
+      "active": true
+    },    
+    {
+      "default": false,
+      "name": "opentopomap",
+      "active": true
+    }
+  ],
+  "groupLayers": [
+    {
+      "title": "GIS TEST",
+      "visible": true,
+      "layers": [        
+        {
+          "id": 250,
+          "code": "Line_DV",
+          "name": "Line_DV",
+          "options": {
+            "typeName": "Line_DV",
+            "maxFeatures": 10
+          },
+          "type": "WFS",
+          "geomType": "LineString",
+          "url": "/geoserver/gismap/ows",
+          "editable": true,
+          "visible": true
+        },
+        {
+          "id": 249,
+          "code": "Polygon_DT",
+          "name": "Polygon_DT",
+          "options": {
+            "typeName": "Polygon_DT",
+            "maxFeatures": 50
+          },
+          "type": "WFS",
+          "geomType": "Polygon",
+          "url": "/geoserver/gismap/ows",
+          "editable": true,
+          "visible": true
+        },
+        {
+          "id": 294,
+          "code": "ZDTI_Demo",
+          "name": "ZDTI_Demo",
+          "options": {
+            "typeName": "ZDTI_Demo",
+            "maxFeatures": 50
+          },
+          "type": "WFS",
+          "geomType": "Polygon",
+          "url": "/geoserver/gismap/ows",
+          "editable": true,
+          "visible": true
+        },
+        {
+          "id": 388,
+          "code": "Point_DT",
+          "name": "Point_DT",
+          "options": {
+            "typeName": "Point_DT",
+            "maxFeatures": 10
+          },
+          "type": "WFS",
+          "geomType": "Point",
+          "url": "/geoserver/gismap/ows",
+          "editable": false,
+          "visible": true          
+        },
+        {
+          "id": 389,
+          "code": "DEMO_TEST_WMS",
+          "name": "DEMO_TEST_WMS",
+          "options": {
+            "typeName": "gismap:Point_DT",
+            "bbox": [
+              [14.904376689867508, -23.519513292323015],
+              [14.94252663276271, -23.480774918432]
+            ]
+          },
+          "type": "WMS",
+          "geomType": "Polygon",
+          "url": "http://173.212.196.54:8080/geoserver/gismap/wms",
+          "editable": false,
+          "visible": true
+        },
+        {
+          "id": 390,
+          "code": "DEMO_TEST_WMS_2",
+          "name": "DEMO_TEST_WMS_2",
+          "options": {
+            "typeName": "gismap:Line_DV",
+            "bbox": [
+              [14.909837724404234, -23.550893680087736],
+              [14.959961185642605, -23.467533271290232]
+            ]
+          },
+          "type": "WMS",
+          "geomType": "Polygon",
+          "url": "http://173.212.196.54:8080/geoserver/gismap/wms",
+          "editable": false,
+          "visible": true
+        },
+        {
+          "id": 391,
+          "code": "DEMO_TEST_WMS_3",
+          "name": "DEMO_TEST_WMS_3",
+          "options": {
+            "typeName": "gismap:Polygon_DT",
+            "bbox": [
+              [16.585305384490145, -22.92986558718187],
+              [16.605737966897742, -22.90578202460591]
+            ]
+          },
+          "type": "WMS",
+          "geomType": "Polygon",
+          "url": "http://173.212.196.54:8080/geoserver/gismap/wms",
+          "editable": false,
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "active": true,
+      "control": {
+        "button": true
+      },
+      "data": {
+        "infos": [
+          {
+            "layer": 388,
+            "attributes": [
+              {
+                "defaultValue": "50",
+                "name": "sigla",
+                "description": "sigla"
+              }
+            ]
+          },
+          {
+            "layer": 249,
+            "attributes": [
+              {
+                "defaultValue": "",
+                "name": "tipologia",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "layer": 393,
+            "attributes": [
+              {
+                "defaultValue": "",
+                "name": "id",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "layer": 250,
+            "attributes": [
+              {
+                "defaultValue": "",
+                "name": "terreno",
+                "description": ""
+              }
+            ]
+          }
+        ]
+      },
+      "icon": "fa-pencil",
+      "nome": "edition",
+      "position": "",
+      "title": "Edição",
+      "type": "edition"
+    }
+  ]
+}

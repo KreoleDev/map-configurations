@@ -8,6 +8,7 @@
 
 import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
+import {MapViewer} from '@/app/(myapp)/components/maps'
 
 
 export default function PageMapviewerComponent({ params } : { params: Promise<{ uuid: string }> } ) {
@@ -22,6 +23,7 @@ const { igrpToast } = useIGRPToast()
 
   return (
 <div className={ cn('page','space-y-6',)}    >
-	<div className={ cn('section',' space-x-6 space-y-6',)}    ></div></div>
+	<div className={ cn('section',' space-x-6 space-y-6',)}    >
+	<MapViewer    ></MapViewer></div></div>
   );
 }
