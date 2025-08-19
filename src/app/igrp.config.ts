@@ -44,6 +44,7 @@
 export default {
   types: ['types/global'],
   actions: [],
-  functions: ['functions/group', 'hooks/group', 'functions/configurations', 'hooks/layers', 'hooks/basemaps', 'hooks/widgets', 'hooks/maps', 'functions/layers', 'functions/basemaps', 'functions/maps', 'functions/widgets'],
+  functions: ['functions/group', 'hooks/group', 'functions/configurations', 'hooks/layers', 'hooks/basemaps',
+     'hooks/widgets', 'hooks/maps', 'functions/layers', 'functions/basemaps', 'functions/maps', 'functions/widgets'],
   components: ['components/MapGetCoordinants']
 };
