@@ -45,3 +45,8 @@ export async function getMap(uuid: string): Promise<Map> {
   return response.data;
 }
 
+export async function getMapByCode(code: string): Promise<Map> {
+  const response = await apiClient.get<Map>(`/api/map?code=${code}`);
+  if (!response.data) throw new Error('Map not found');
+  return response.data;
+}

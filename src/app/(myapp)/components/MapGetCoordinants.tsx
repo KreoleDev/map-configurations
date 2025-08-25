@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
+import { SimpleGisMap } from '@simple/maps-ui';
 
 // Fix for default markers in react-leaflet
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,9 +61,24 @@ export const MapGetCoordinants = ({
     }
   };
 
+  const config = {
+    name: 'Get Enquandramento',
+    center: { lat: initialLat || CAPE_VERDE_CENTER[0], lng: initialLng || CAPE_VERDE_CENTER[1] },
+    zoom: initialZoom,
+    groupLayers: [],
+    baseMaps: [
+      {
+        default: true,
+        name: 'openstreetmap',
+        active: true
+      }
+    ]
+  };
+
   return (
-    <div className="w-full h-[300px] relative border rounded-lg overflow-hidden mt-3">
-      <div style={{ height: '300px', width: '100%' }}>
+    <div className="w-full relative border rounded-lg overflow-hidden mt-3" style={{ height: '400px', width: '100%' }}>
+       <SimpleGisMap {...config}/>
+     {/*  <div style={{ height: '300px', width: '100%' }}>
         <MapContainer
           center={[initialLat, initialLng] as [number, number]}
           zoom={initialZoom}
@@ -75,7 +91,6 @@ export const MapGetCoordinants = ({
         
         <MapClickHandler onCoordinatesChange={handleMapClick} />
         
-        {/* Display all clicked markers */}
         {clickedMarkers.map((marker, index) => (
           <Marker key={index} position={[marker.lat, marker.lng]}>
             <Popup>
@@ -90,7 +105,6 @@ export const MapGetCoordinants = ({
         ))}
       </MapContainer>
       
-      {/* Coordinates display panel */}
       <div className="absolute top-4 left-4 bg-white p-4 rounded-lg shadow-lg border max-w-sm hidden">
         <h3 className="font-bold text-lg mb-2">Map Coordinates</h3>
         {coordinates ? (
@@ -118,7 +132,7 @@ export const MapGetCoordinants = ({
           </div>
         )}
       </div>
-      </div>
+      </div> */}
     </div>
   );
 };

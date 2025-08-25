@@ -9,6 +9,7 @@
 import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
 import WidgetSearch from '@/app/(igrp)/(generated)/widgets/components/widgetsearch'
+import WidgetEdicao from '@/app/(igrp)/(generated)/widgets/components/widgetedicao'
 import { 
   IGRPModalDialog,
 	IGRPModalDialogContent,
@@ -83,7 +84,7 @@ if (!widget) return (<></>)
 </IGRPModalDialogDescription>
 </IGRPModalDialogHeader>
   <     >
-	{ widget.widgetType !== 'SEARCH'  && (<IGRPText
+	{ widget.widgetType !== 'SEARCH' || widget.widgetType !== 'EDIT'  && (<IGRPText
   name={ `text1` }
   
 variant={ `warning` }
@@ -102,7 +103,9 @@ animate={ true }
   Widget sem configurações adicionais
 </IGRPText>)}
 { widget.widgetType === 'SEARCH' && (<     >
-	<WidgetSearch  widget={ widget } layerOptions={ layerOptions }   ></WidgetSearch></>)}</>
+	<WidgetSearch  widget={ widget } layerOptions={ layerOptions }   ></WidgetSearch></>)}
+{ widget.widgetType === 'EDIT' && (<     >
+	<WidgetEdicao  widget={ widget } layerOptions={ layerOptions }   ></WidgetEdicao></>)}</>
 </IGRPModalDialogContent>
   <IGRPModalDialogTrigger
   name={ `modalDialogTrigger1` }

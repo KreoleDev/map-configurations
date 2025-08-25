@@ -10,8 +10,18 @@ const ROUTE_BASE_URL = `${GATEWAY_BASE_URL}/map`;
 
 export async function GET(request: NextRequest) {
   const uuid = request.nextUrl.searchParams.get('uuid');
+  const code = request.nextUrl.searchParams.get('code');
   if (uuid) {
     const map = await callGateway<Map>(`${ROUTE_BASE_URL}/${uuid}`, {
+      method: 'GET',
+    });
+    if (!map) {
+      return NextResponse.json({ error: 'Map not found' }, { status: 404 });
+    }
+    return NextResponse.json(map);
+  }
+  if (code) {
+    const map = await callGateway<Map>(`${ROUTE_BASE_URL}/integration?code=${code}`, {
       method: 'GET',
     });
     if (!map) {

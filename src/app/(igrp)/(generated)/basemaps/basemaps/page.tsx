@@ -15,7 +15,6 @@ import {
   IGRPPageHeader,
 	IGRPButton,
 	IGRPDataTable,
-	IGRPDataTableCellBadge,
 	IGRPDataTableRowAction,
 	IGRPDataTableDropdownMenu,
 	IGRPDataTableDropdownMenuLink,
@@ -23,22 +22,22 @@ import {
 	IGRPDataTableFilterInput,
 	IGRPDataTableFilterDropdown 
 } from "@igrp/igrp-framework-react-design-system";
-import {deleteMap} from '@/app/(myapp)/functions/maps'
-import {useMaps} from '@/app/(myapp)/hooks/maps'
-import {useMapListConfiguration} from '@/app/(myapp)/hooks/maps'
+import {deleteBasemap} from '@/app/(myapp)/functions/basemaps'
+import {useBasemaps} from '@/app/(myapp)/hooks/basemaps'
+import {useBasemapsConfiguration} from '@/app/(myapp)/hooks/basemaps'
 import { useRouter } from "next/navigation";
 
 
-export default function PageMapsComponent() {
+export default function PageBasemapsComponent() {
 
 
   
   type Table1 = {
     name: string;
-    code: string;
-    uuid: string;
-    center: string;
+    link: string;
+    status: string;
     statusDescription: string;
+    uuid: string;
 }
 
   const [contentTabletable1, setContentTabletable1] = useState<Table1[]>([]);
@@ -53,34 +52,45 @@ async function handleDelete (row: any): Promise<void  | undefined> {
 
   
 try {
-  await deleteMap(row.uuid);
+  await deleteBasemap(row.uuid);
   igrpToast({
     type: 'success',
-    title: 'Map deleted successfully',
+    title: 'Basemap deleted successfully',
   });
+
+router.push('/basemaps')
 } catch (error) {
   igrpToast({
     type: 'error',
-    title: 'Error deleting map',
+    title: 'Error deleting basemap',
   });
 }
 
 }
 
-const {data, isLoading} = useMaps();
+function goNewMap (): void  | undefined {
 
-const {statusOptions}= useMapListConfiguration();
+  router.push('basemaps/new')
+
+}
+
+
+const {statusOptions} = useBasemapsConfiguration();
+
+const { data, isLoading } = useBasemaps();
 
 useEffect(() => {
-  if(isLoading || !data) return
+  if (isLoading || !data) return
   setContentTabletable1(data || [])
-  
+
+}, [data, isLoading])
+
+useEffect(() => {
   setDropdownFiltertableDropdownFilter1Options(statusOptions || [])
+},[])
 
-},[data, isLoading])
-
-function goTonew (row?: any): void {
-  router.push(`/maps/new`);
+function goTonewBasemaps (row?: any): void {
+  router.push(`/basemaps/new`);
 }
 
 
@@ -89,8 +99,8 @@ function goTonew (row?: any): void {
 	<div className={ cn('section',' space-x-6 space-y-6',)}    >
 	<IGRPPageHeader
   name={ `pageHeader1` }
-  title={ `Gestão de Mapas` }
-  description={ `Configure mapas, associe layers e widgets, e gerencie as configurações de visualização.` }
+  title={ `Gestão de Basemaps` }
+  description={ `Configure basemaps, associe a mapas` }
   iconBackButton={ `Search` }
   variant={ `h3` }
   
@@ -105,18 +115,16 @@ showIcon={ true }
 iconName={ `Plus` }
 
   className={ cn() }
-  onClick={ () => goTonew() }
+  onClick={ () => goTonewBasemaps() }
   
 >
-  Novo Mapa
+  Novo Basemap
 </IGRPButton>
 </div>
 </IGRPPageHeader>
 
 <IGRPDataTable<Table1, Table1>
   showFilter={ true }
-  tableClassName={ `rounded-none` }
-  className={ cn('',) }
   columns={
     [
         {
@@ -128,43 +136,10 @@ iconName={ `Plus` }
           filterFn: IGRPDataTableFacetedFilterFn
         },
         {
-          header: 'Codigo'
-,accessorKey: 'code',
+          header: 'Link'
+,accessorKey: 'link',
           cell: ({ row }) => {
-          return row.getValue("code")
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
-          header: 'UUID'
-,accessorKey: 'uuid',
-          cell: ({ row }) => {
-          return row.getValue("uuid")
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
-          header: 'Enquadramento'
-,accessorKey: 'center',
-          cell: ({ row }) => {
-          return row.getValue("center")
-          },
-          filterFn: IGRPDataTableFacetedFilterFn
-        },
-        {
-          header: 'Estado'
-,accessorKey: 'statusDescription',
-          cell: ({ row }) => {
-          const rowData = row.original;
-
-
-return <IGRPDataTableCellBadge
-  label={ row.original.statusDescription }
-  variant={ `soft` }
-badgeClassName={ `` }
->
-
-</IGRPDataTableCellBadge>
+          return row.getValue("link")
           },
           filterFn: IGRPDataTableFacetedFilterFn
         },
@@ -181,7 +156,7 @@ return (
       {
         component: IGRPDataTableDropdownMenuLink,
         props: {
-          labelTrigger: `Editar`,icon: `SquarePen`,href: `/maps/${row.original.uuid}/edit`,          showIcon: true,          action: (e) => {},
+          labelTrigger: `Editar`,icon: `SquarePen`,href: `/basemaps/${row.original.uuid}/edit`,          showIcon: true,          action: (e) => {},
 }
       },
       {
@@ -189,12 +164,6 @@ return (
         props: {
           modalTitle: `Eliminar`,labelTrigger: `Eliminar`,icon: `Trash2`,          showIcon: true,showCancel: true,labelCancel: `Cancel`,variantCancel: `outline`,showConfirm: true,labelConfirm: `Confirm`,variantConfirm: `default`,          onClickConfirm: () => {handleDelete(rowData)},
           children: <>Deseja efectuar essa operaçāo?</>
-}
-      },
-      {
-        component: IGRPDataTableDropdownMenuLink,
-        props: {
-          labelTrigger: `Visualizar Mapa`,icon: `Map`,href: `/maps/${row.original.code}`,          showIcon: true,          action: (e) => {},
 }
       },
 ]
