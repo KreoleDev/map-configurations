@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 /* THIS FILE WAS GENERATED AUTOMATICALLY BY iGRP STUDIO. */
 /* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
@@ -8,170 +8,195 @@
 
 import { use, useState, useEffect, useRef } from 'react';
 import { cn, useIGRPMenuNavigation, useIGRPToast } from '@igrp/igrp-framework-react-design-system';
-import { IGRPFormHandle } from '@igrp/igrp-framework-react-design-system';
-import { z } from 'zod';
-import { IGRPOptionsProps } from '@igrp/igrp-framework-react-design-system';
-import {
+import { IGRPFormHandle } from "@igrp/igrp-framework-react-design-system";
+import { z } from "zod"
+import { IGRPOptionsProps } from "@igrp/igrp-framework-react-design-system";
+import { 
   IGRPForm,
-  IGRPFormList,
-  IGRPCombobox,
-  IGRPInputText,
-  IGRPButton,
-} from '@igrp/igrp-framework-react-design-system';
-import { createOrUpdateWidgetData } from '@/app/(myapp)/functions/widgets';
-import { getDescribeFeatureType } from '@/app/(myapp)/functions/layers';
+	IGRPFormList,
+	IGRPCombobox,
+	IGRPInputText,
+	IGRPButton 
+} from "@igrp/igrp-framework-react-design-system";
+import {createOrUpdateWidgetData} from '@/app/(myapp)/functions/widgets'
+import {getDescribeFeatureType} from '@/app/(myapp)/functions/layers'
 
-export default function Widgetedicao({ widget, layerOptions }: { widget: any; layerOptions: any }) {
+export default function Widgetedicao({ widget, layerOptions, initialData } : { widget: any, layerOptions: any, initialData: any }) {
+
+  
   const form1 = z.object({
-    layers: z.array(z.object({ layer: z.string().nonempty(), fields: z.array(z.string()).optional() })).optional(),
-  });
+    layers: z.array(z.object({ layer: z.string().nonempty(), fields: z.array(z.string()).optional(), description: z.string().optional(), defaultValue: z.string().optional() })).optional()
+})
 
-  type Form1ZodType = typeof form1;
+type Form1ZodType = typeof form1;
 
-  const initForm1: z.infer<Form1ZodType> = {
-    layers: [
-      { layer: undefined, fields: undefined, description: undefined, defaultValue: undefined },
-    ],
-  };
+const initForm1: z.infer<Form1ZodType> = {
+    layers: [{ layer: undefined, fields: undefined, description: undefined, defaultValue: undefined }]
+}
+
 
   const formform1Ref = useRef<IGRPFormHandle<Form1ZodType> | null>(null);
   const [form1Data, setForm1Data] = useState<any>(initForm1);
   const [formListlayersDefault, setFormListlayersDefault] = useState<any>({});
   const [selectlayerOptions, setSelectlayerOptions] = useState<IGRPOptionsProps[]>([]);
   const [selectfieldsOptions, setSelectfieldsOptions] = useState<IGRPOptionsProps[]>([]);
+  
+const [currentMapLayer, setCurrentMapLayer] = useState<string>('');
 
-  const [currentMapLayer, setCurrentMapLayer] = useState<string>('');
+const { igrpToast } = useIGRPToast()
 
-  const { igrpToast } = useIGRPToast();
+async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
-  async function handleSubmit(values: z.infer<any>): Promise<void | undefined> {
-    try {
-      const response = await createOrUpdateWidgetData(widget.associationId, values);
-      igrpToast({
-        title: 'Sucesso',
-        description: 'Configuração adicionado com sucesso',
-        type: 'success',
-      });
-    } catch (error: any) {
-      igrpToast({
-        title: 'Erro',
-        description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
-        type: 'error',
-      });
-      console.log(error);
-    }
+  try {
+  const response = await createOrUpdateWidgetData(widget.associationId,values);
+  igrpToast({
+    title: 'Sucesso',
+    description: 'Configuração adicionado com sucesso',
+    type: 'success',
+  });
+} catch (error: any) {
+  igrpToast({
+    title: 'Erro',
+    description: `Ocorreu um erro ao processar o formulário. [${error.message}]`,
+    type: 'error',
+  });
+  console.log(error);
+}
+
+}
+
+useEffect(() => {
+  setSelectlayerOptions(layerOptions||[])
+},[])
+
+
+useEffect(() => {
+  
+   if (currentMapLayer) {
+    getDescribeFeatureType(currentMapLayer).then((response) => {
+      setSelectfieldsOptions(response)
+    })
   }
 
-  useEffect(() => {
-    setSelectlayerOptions(layerOptions || []);
-  }, []);
+   if(initialData)
+  setForm1Data(initialData.configuration)
 
-  useEffect(() => {
-    if (currentMapLayer) {
-      getDescribeFeatureType(currentMapLayer).then((response) => {
-        setSelectfieldsOptions(response);
-      });
-    }
-  }, [currentMapLayer]);
+},[currentMapLayer,initialData])
+
 
   return (
-    <div className={cn('component')}>
-      <IGRPForm
-        schema={form1}
-        validationMode={`onBlur`}
-        formRef={formform1Ref}
-        className={cn()}
-        onSubmit={handleSubmit}
-        defaultValues={form1Data}
-      >
-        <>
-          <IGRPFormList
-            id={`formlist_ttyaxu`}
-            name={`layers`}
-            label={`Map Layer`}
-            color={`primary`}
-            variant={`solid`}
-            addButtonLabel={`Add`}
-            addButtonIconName={`Plus`}
-            dot={true}
-            badgeValue={`Obrigatório`}
-            renderItem={(_: any, index: number) => (
-              <>
-                <div
-                  className={cn(
-                    'grid',
-                    'grid-cols-1 ',
-                    'md:grid-cols-2 ',
-                    'lg:grid-cols-2 ',
-                    ' gap-4',
-                  )}
-                >
-                  <IGRPCombobox
-                    name={`layers.${index}.layer`}
-                    label={`Layer`}
-                    variant={`single`}
-                    placeholder={`Select an option...`}
-                    required={true}
-                    selectLabel={`No option found`}
-                    showSearch={true}
-                    showIcon={false}
-                    iconName={`CornerDownRight`}
-                    className={cn('col-span-1')}
-                    onChange={(value) => {
-                      setCurrentMapLayer(value as string);
-                    }}
-                    options={selectlayerOptions}
-                  ></IGRPCombobox>
-                  <IGRPCombobox
-                    name={`layers.${index}.fields`}
-                    label={`Atributos`}
-                    variant={`multiple`}
-                    placeholder={`Select an option...`}
-                    required={false}
-                    selectLabel={`No option found`}
-                    showSearch={true}
-                    showIcon={false}
-                    iconName={`CornerDownRight`}
-                    className={cn('col-span-1')}
-                    options={selectfieldsOptions}
-                  ></IGRPCombobox>
-                  <IGRPInputText
-                    name={`layers.${index}.inputText2`}
-                    label={`Descriçāo`}
-                    showIcon={false}
-                    required={false}
-                    className={cn('col-span-1')}
-                  ></IGRPInputText>
-                  <IGRPInputText
-                    name={`layers.${index}.inputText1`}
-                    label={`Valor por Defeito`}
-                    showIcon={false}
-                    required={false}
-                    className={cn('col-span-1')}
-                  ></IGRPInputText>
-                </div>
-              </>
-            )}
-            computeLabel={(item: any, index: number) => `Item ${index}`}
-            className={cn('gap-3')}
-            defaultItem={formListlayersDefault}
-          ></IGRPFormList>
+<div className={ cn('component',)}    >
+	<IGRPForm
+  schema={ form1 }
+  validationMode={ `onBlur` }
+formRef={ formform1Ref }
+  className={ cn() }
+  onSubmit={ handleSubmit }
+  defaultValues={ form1Data }
+>
+  <>
+  <IGRPFormList
+  id={ `formlist_ttyaxu` }
+  name={ `layers` }
+  label={ `Map Layer` }
+  color={ `primary` }
+  variant={ `solid` }
+  addButtonLabel={ `Add` }
+  addButtonIconName={ `Plus` }
+  dot={ true }
+  badgeValue={ `Obrigatório` }
+renderItem={ (_: any, index: number) => (
+      <>
+        <div className={ cn('grid','grid-cols-1 ','md:grid-cols-2 ','lg:grid-cols-2 ',' gap-4',)}    >
+	<IGRPCombobox
+  name={ `layers.${index}.layer` }
+  label={ `Layer` }
+variant={ `single` }
+placeholder={ `Select an option...` }
+required={ true }
+selectLabel={ `No option found` }
+showSearch={ true }
+showIcon={ false }
+iconName={ `CornerDownRight` }
 
-          <div className={cn('flex', 'flex flex-row flex-nowrap items-stretch justify-end gap-2')}>
-            <IGRPButton
-              name={`button1`}
-              variant={`default`}
-              size={`default`}
-              showIcon={true}
-              iconName={`Save`}
-              className={cn()}
-              onClick={() => formform1Ref.current?.submit()}
-            >
-              Gravar
-            </IGRPButton>
-          </div>
-        </>
-      </IGRPForm>
-    </div>
+
+
+  className={ cn('col-span-1',) }
+  onChange={ (value) => {setCurrentMapLayer(value as string)
+} }
+  options={ selectlayerOptions }
+>
+</IGRPCombobox>
+<IGRPCombobox
+  name={ `layers.${index}.fields` }
+  label={ `Atributos` }
+variant={ `multiple` }
+placeholder={ `Select an option...` }
+required={ false }
+selectLabel={ `No option found` }
+showSearch={ true }
+showIcon={ false }
+iconName={ `CornerDownRight` }
+
+
+
+  className={ cn('col-span-1',) }
+  
+  options={ selectfieldsOptions }
+>
+</IGRPCombobox>
+<IGRPInputText
+  name={ `layers.${index}.inputText2` }
+  label={ `Descriçāo` }
+showIcon={ false }
+required={ false }
+
+
+  className={ cn('col-span-1',) }
+  
+  
+>
+</IGRPInputText>
+<IGRPInputText
+  name={ `layers.${index}.inputText1` }
+  label={ `Valor por Defeito` }
+showIcon={ false }
+required={ false }
+
+
+  className={ cn('col-span-1',) }
+  
+  
+>
+</IGRPInputText></div>
+</>
+    )
+  }
+  computeLabel={
+    (item: any, index: number) => `Item ${index}`
+  }
+  className={ cn('gap-3',) }
+  
+  defaultItem={ formListlayersDefault }
+>
+</IGRPFormList>
+
+  <div className={ cn('flex','flex flex-row flex-nowrap items-stretch justify-end gap-2',)}    >
+	<IGRPButton
+  name={ `button1` }
+  
+variant={ `default` }
+size={ `default` }
+showIcon={ true }
+iconName={ `Save` }
+
+  className={ cn() }
+  onClick={ () => formform1Ref.current?.submit() }
+  
+>
+  Gravar
+</IGRPButton></div>
+</>
+</IGRPForm></div>
   );
 }

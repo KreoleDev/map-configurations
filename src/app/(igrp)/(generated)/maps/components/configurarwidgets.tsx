@@ -19,6 +19,7 @@ import {
 	IGRPText,
 	IGRPModalDialogTrigger 
 } from "@igrp/igrp-framework-react-design-system";
+import {useWidgetData} from '@/app/(myapp)/hooks/widgets'
 
 export default function Configurarwidgets({ open, setOpen, widget, map } : { open: boolean, setOpen: (prompt: boolean) => void, widget: any, map: any }) {
 
@@ -44,7 +45,13 @@ useEffect(() => {
 
 }, [widget, map])
 
+console.log(widget)
+
+
+const { data, isLoading } = useWidgetData(widget?.associationId);
+
 if (!widget) return (<></>)
+
 
 
   return (
@@ -103,9 +110,9 @@ animate={ true }
   Widget sem configurações adicionais
 </IGRPText>)}
 { widget.widgetType === 'SEARCH' && (<     >
-	<WidgetSearch  widget={ widget } layerOptions={ layerOptions }   ></WidgetSearch></>)}
+	<WidgetSearch  widget={ widget } layerOptions={ layerOptions } initialData={ data }   ></WidgetSearch></>)}
 { widget.widgetType === 'EDIT' && (<     >
-	<WidgetEdicao  widget={ widget } layerOptions={ layerOptions }   ></WidgetEdicao></>)}</>
+	<WidgetEdicao  widget={ widget } layerOptions={ layerOptions } initialData={ data }   ></WidgetEdicao></>)}</>
 </IGRPModalDialogContent>
   <IGRPModalDialogTrigger
   name={ `modalDialogTrigger1` }

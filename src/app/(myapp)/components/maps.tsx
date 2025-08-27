@@ -17,12 +17,23 @@ function MapComponent({ code }: { code: string }) {
 
   useEffect(() => {
     getMapByCode(code).then((map) => {
-      setCurrentMap(map);
-      console.log(map);
+      setCurrentMap({
+        ...map,
+        showHeader: true,
+        showLayers: true,
+        showZoom: true,
+        showLocation: true,
+        showHome: true,
+        showFullscreen: true  ,
+        showWidgets: true,
+        showScale: true
+      });
     });
   }, [code]);
 
-  return currentMap ? <SimpleGisMap {...currentMap} /> : <div>Mapa não encontrado</div>;
+  console.log(currentMap);
+
+  return currentMap ? <SimpleGisMap config={currentMap} /> : <div>Mapa não encontrado</div>;
 }
 
 export { MapComponent };

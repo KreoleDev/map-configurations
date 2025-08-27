@@ -8,6 +8,14 @@ const GATEWAY_BASE_URL = `${API_GATEWAY}${BASEPATH_API_GATEWAY}`;
 
 const ROUTE_BASE_URL = `${GATEWAY_BASE_URL}/widget`;
 
+export async function GET(request: NextRequest) {
+  const widgetAssociationId = request.nextUrl.searchParams.get('widgetAssociationId');
+  const widget = await callGateway<any>(
+    `${ROUTE_BASE_URL}/configuration?widgetAssociationId=${widgetAssociationId}`,
+  );
+  return NextResponse.json(widget);
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const uuid = request.nextUrl.searchParams.get('uuid');

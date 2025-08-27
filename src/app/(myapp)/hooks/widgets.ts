@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getWidget, getWidgets } from '../functions/widgets';
+import { getWidget, getWidgetData, getWidgets } from '../functions/widgets';
 import { getWidgetPosition } from '../functions/configurations';
 import { WidgetType } from '../types/global';
 import { apiClient } from '../lib/api-client';
@@ -47,4 +47,11 @@ export function useWidgetsConfiguration() {
   };
 }
 
-
+export function useWidgetData(associationId: string) {
+  console.log(associationId)
+  return useQuery({
+    queryKey: ['widgetData', associationId],
+    queryFn: () => getWidgetData(associationId),
+    enabled: !!associationId,
+  });
+}

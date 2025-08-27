@@ -40,3 +40,9 @@ export async function createOrUpdateWidgetData(associationId: string, data: any)
   if (!response.data) throw new Error('Failed to update widget configuration');
   return response.data;
 }
+
+export async function getWidgetData(associationId: string): Promise<any> {
+  const response = await apiClient.get<any>(`/api/widget/configuration?widgetAssociationId=${associationId}`);
+  if (!response.data) throw new Error('Widget not found');
+  return response.data;
+}

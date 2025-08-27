@@ -63,9 +63,14 @@ export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : {
     layers: z.array(z.object({ layerId: z.string().optional(), visibility: z.string().optional(), groupId: z.string().optional(), order: z.number().optional(), associationId: z.string().optional() })).optional(),
     widgetType: z.string().optional(),
     associationId: z.string().optional(),
-    widgetsPanel: z.boolean().optional(),
-    fullScreen: z.boolean().optional(),
-    layersPanel: z.boolean().optional()
+    showHeader: z.boolean().optional(),
+    showLayers: z.boolean().optional(),
+    showZoom: z.boolean().optional(),
+    showLocation: z.boolean().optional(),
+    showHome: z.boolean().optional(),
+    showFullscreen: z.boolean().optional(),
+    showWidgets: z.boolean().optional(),
+    showScale: z.boolean().optional()
 })
 
 type Form1ZodType = typeof form1;
@@ -81,9 +86,14 @@ const initForm1: z.infer<Form1ZodType> = {
     layers: [{ layerId: ``, visibility: ``, groupId: ``, order: undefined, associationId: undefined }],
     widgetType: undefined,
     associationId: undefined,
-    widgetsPanel: undefined,
-    fullScreen: undefined,
-    layersPanel: undefined
+    showHeader: true,
+    showLayers: true,
+    showZoom: true,
+    showLocation: true,
+    showHome: true,
+    showFullscreen: true,
+    showWidgets: true,
+    showScale: true
 }
 
 
@@ -136,9 +146,9 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
 function handleChangeCoord (coords: any): void  | undefined {
 
-  /* formform1Ref.current?.setValue('latitude', coords.lat);
+   formform1Ref.current?.setValue('latitude', coords.lat);
 formform1Ref.current?.setValue('longitude', coords.lng);
-formform1Ref.current?.setValue('zoom', coords.zoom); */
+formform1Ref.current?.setValue('zoom', coords.zoom); 
 
 }
 
@@ -660,8 +670,8 @@ return (
 content: (<>
             <div className={ cn('grid','grid-cols-1 ',' gap-4',)}    >
 	<IGRPSwitch
-  name={ `widgetsPanel` }
-  label={ `Painel de Widgets` }
+  name={ `showHeader` }
+  label={ `Show Header` }
 gridSize={ `full` }
 
 
@@ -672,8 +682,8 @@ gridSize={ `full` }
 >
 </IGRPSwitch>
 <IGRPSwitch
-  name={ `fullScreen` }
-  label={ `Tela Cheia` }
+  name={ `showLayers` }
+  label={ `Show Zoom` }
 gridSize={ `full` }
 
 
@@ -684,8 +694,68 @@ gridSize={ `full` }
 >
 </IGRPSwitch>
 <IGRPSwitch
-  name={ `layersPanel` }
-  label={ `Painel de Layers` }
+  name={ `showZoom` }
+  label={ `Show Layers` }
+gridSize={ `full` }
+
+
+  className={ cn('col-span-1',) }
+  
+
+  
+>
+</IGRPSwitch>
+<IGRPSwitch
+  name={ `showLocation` }
+  label={ `Show Home` }
+gridSize={ `full` }
+
+
+  className={ cn('col-span-1',) }
+  
+
+  
+>
+</IGRPSwitch>
+<IGRPSwitch
+  name={ `showHome` }
+  label={ `Show Location` }
+gridSize={ `full` }
+
+
+  className={ cn('col-span-1',) }
+  
+
+  
+>
+</IGRPSwitch>
+<IGRPSwitch
+  name={ `showFullscreen` }
+  label={ `Show Fullscreen` }
+gridSize={ `full` }
+
+
+  className={ cn('col-span-1',) }
+  
+
+  
+>
+</IGRPSwitch>
+<IGRPSwitch
+  name={ `showWidgets` }
+  label={ `Show Widgets` }
+gridSize={ `full` }
+
+
+  className={ cn('col-span-1',) }
+  
+
+  
+>
+</IGRPSwitch>
+<IGRPSwitch
+  name={ `showScale` }
+  label={ `Show Scale` }
 gridSize={ `full` }
 
 

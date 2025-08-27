@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
-import { SimpleGisMap } from '@simple/maps-ui';
+import { GisBaseMapsTypeArgs, GisMapProps, SimpleGisMap } from '@simple/maps-ui';
 
 // Fix for default markers in react-leaflet
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,7 +15,7 @@ L.Icon.Default.mergeOptions({
 });
 
 // Cape Verde coordinates (center of the country)
-const CAPE_VERDE_CENTER = [16.5388, -23.0418]; // [lat, lng]
+const CAPE_VERDE_CENTER = [ 16.024695711685315, -24.301757812500004]; // [lat, lng]
 
 interface Coordinates {
   lat: number;
@@ -31,7 +31,11 @@ interface MapGetCoordinantsProps {
 }
 
 // Component to handle map click events
-function MapClickHandler({ onCoordinatesChange }: { onCoordinatesChange: (coords: Coordinates) => void }) {
+function MapClickHandler({
+  onCoordinatesChange,
+}: {
+  onCoordinatesChange: (coords: Coordinates) => void;
+}) {
   const map = useMapEvents({
     click: (e) => {
       const { lat, lng } = e.latlng;
@@ -42,97 +46,48 @@ function MapClickHandler({ onCoordinatesChange }: { onCoordinatesChange: (coords
   return null;
 }
 
-export const MapGetCoordinants = ({ 
-  onCoordinatesChange, 
-  initialLat = CAPE_VERDE_CENTER[0], 
-  initialLng = CAPE_VERDE_CENTER[1], 
-  initialZoom = 8 
+export const MapGetCoordinants = ({
+  onCoordinatesChange,
+  initialLat = CAPE_VERDE_CENTER[0],
+  initialLng = CAPE_VERDE_CENTER[1],
+  initialZoom = 8,
 }: MapGetCoordinantsProps) => {
-  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
-  const [clickedMarkers, setClickedMarkers] = useState<Coordinates[]>([]);
+ 
+  const handleMapClick = (coords: any) => {
 
-  const handleMapClick = (coords: Coordinates) => {
-    setCoordinates(coords);
-    setClickedMarkers(prev => [...prev, coords]);
-    
+    console.log(coords);
+
     // Call the callback function to pass coordinates to parent component
     if (onCoordinatesChange) {
-      onCoordinatesChange(coords);
+      onCoordinatesChange({...coords, zoom: initialZoom});
     }
   };
 
-  const config = {
+  const config: GisMapProps = {
     name: 'Get Enquandramento',
-    center: { lat: initialLat || CAPE_VERDE_CENTER[0], lng: initialLng || CAPE_VERDE_CENTER[1] },
+    center: { lat: initialLat, lng: initialLng  },
     zoom: initialZoom,
+    showHeader: false,
+    showLayers: false,
+    showZoom: false,
+    showLocation: false,
+    showHome: false,
+    showFullscreen: false,
+    showWidgets: false,
+    showScale: false,
     groupLayers: [],
-    baseMaps: [
-      {
-        default: true,
-        name: 'openstreetmap',
-        active: true
-      }
-    ]
+    baseMaps: [],
   };
 
+
   return (
-    <div className="w-full relative border rounded-lg overflow-hidden mt-3" style={{ height: '400px', width: '100%' }}>
-       <SimpleGisMap {...config}/>
-     {/*  <div style={{ height: '300px', width: '100%' }}>
-        <MapContainer
-          center={[initialLat, initialLng] as [number, number]}
-          zoom={initialZoom}
-          style={{ height: '100%', width: '100%' }}
-        >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        
-        <MapClickHandler onCoordinatesChange={handleMapClick} />
-        
-        {clickedMarkers.map((marker, index) => (
-          <Marker key={index} position={[marker.lat, marker.lng]}>
-            <Popup>
-              <div>
-                <h3 className="font-bold">Coordinates {index + 1}</h3>
-                <p>Latitude: {marker.lat.toFixed(6)}</p>
-                <p>Longitude: {marker.lng.toFixed(6)}</p>
-                <p>Zoom: {marker.zoom}</p>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-      
-      <div className="absolute top-4 left-4 bg-white p-4 rounded-lg shadow-lg border max-w-sm hidden">
-        <h3 className="font-bold text-lg mb-2">Map Coordinates</h3>
-        {coordinates ? (
-          <div className="space-y-1">
-            <p><span className="font-semibold">Latitude:</span> {coordinates.lat.toFixed(6)}</p>
-            <p><span className="font-semibold">Longitude:</span> {coordinates.lng.toFixed(6)}</p>
-            <p><span className="font-semibold">Zoom:</span> {coordinates.zoom}</p>
-            <p className="text-sm text-gray-600 mt-2">
-              Click anywhere on the map to get coordinates
-            </p>
-          </div>
-        ) : (
-          <p className="text-gray-600">Click on the map to get coordinates</p>
-        )}
-        
-        {clickedMarkers.length > 0 && (
-          <div className="mt-4">
-            <h4 className="font-semibold mb-2">Clicked Points ({clickedMarkers.length})</h4>
-            <button
-              onClick={() => setClickedMarkers([])}
-              className="text-sm bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-            >
-              Clear All
-            </button>
-          </div>
-        )}
-      </div>
-      </div> */}
+    <div
+      className="w-full relative border rounded-lg overflow-hidden mt-3"
+      style={{ height: '400px', width: '100%' }}
+    >
+      {config && <SimpleGisMap  config={config} onCoordinatesChange={handleMapClick}/>}
     </div>
   );
 };
+
+

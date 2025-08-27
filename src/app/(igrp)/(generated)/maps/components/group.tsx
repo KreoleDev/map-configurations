@@ -31,7 +31,7 @@ export default function Group({ open, setOpen } : { open: boolean, setOpen: (pro
 
   
   const form1 = z.object({
-    groups: z.array(z.object({ name: z.string(), uuid: z.string().optional() })).optional()
+    groups: z.array(z.object({ name: z.string().nonempty(), uuid: z.string().optional() })).optional()
 })
 
 type Form1ZodType = typeof form1;
@@ -131,7 +131,6 @@ formRef={ formform1Ref }
   variant={ `solid` }
   addButtonLabel={ `Add` }
   addButtonIconName={ `Plus` }
-  badgeValue={ `Form List` }
 renderItem={ (_: any, index: number) => (
       <>
         <IGRPInputText

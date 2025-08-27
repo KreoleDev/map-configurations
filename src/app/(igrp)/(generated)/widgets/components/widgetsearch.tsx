@@ -22,7 +22,7 @@ import {
 import {createOrUpdateWidgetData} from '@/app/(myapp)/functions/widgets'
 import {getDescribeFeatureType} from '@/app/(myapp)/functions/layers'
 
-export default function Widgetsearch({ widget, layerOptions } : { widget: any, layerOptions: any }) {
+export default function Widgetsearch({ widget, layerOptions, initialData } : { widget: any, layerOptions: any, initialData: any }) {
 
   
   const form1 = z.object({
@@ -80,8 +80,12 @@ useEffect(() => {
       setSelectfieldsOptions(response)
     })
   }
+console.log(initialData)
+  if(initialData)
+  setForm1Data(initialData.configuration)
 
-},[currentMapLayer])
+
+},[currentMapLayer,initialData])
 
 
   return (
