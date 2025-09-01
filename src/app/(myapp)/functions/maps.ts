@@ -1,5 +1,6 @@
 import { apiClient } from '@/app/(myapp)/lib/api-client';
 import { Map } from '@/app/(myapp)/types/global';
+import { GisMapProps } from '@simple/maps-ui';
 
 export async function getMaps(): Promise<Map[]> {
   const response = await apiClient.get<Map[]>('/api/map');
@@ -45,8 +46,8 @@ export async function getMap(uuid: string): Promise<Map> {
   return response.data;
 }
 
-export async function getMapByCode(code: string): Promise<Map> {
-  const response = await apiClient.get<Map>(`/api/map?code=${code}`);
+export async function getMapByCode(code: string): Promise<GisMapProps> {
+  const response = await apiClient.get<GisMapProps>(`/api/map?code=${code}`);
   if (!response.data) throw new Error('Map not found');
   return response.data;
 }

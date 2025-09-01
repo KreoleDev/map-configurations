@@ -6,10 +6,11 @@ import { getStatusFilter, getVisibility } from '../functions/configurations';
 import { getBasemaps } from '../functions/basemaps';
 import { getGroups } from '../functions/group';
 import { getLayers } from '../functions/layers';
+import { Map } from '../types/global';
 
 export function useMaps() {
   //i want to join latitude and longitude and zomm to the maps to new field called center
-  const { data: maps } = useQuery({
+  const { data: maps } = useQuery<Map[]>({
     queryKey: ['maps'],
     queryFn: () => getMaps(),
   });
@@ -33,7 +34,7 @@ export function useDetailMap(uuid: string) {
   });
 }
 
-export async function useMapConfiguration() {
+export async function getMapConfiguration() {
   const widgetsQuery = await getWidgetsByType();
 
   try {

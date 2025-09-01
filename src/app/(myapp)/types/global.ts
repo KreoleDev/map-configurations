@@ -7,6 +7,9 @@ export interface Layer {
   editable: boolean;
   geometryType: string;
   status: string;
+  statusDescription: string;
+  geometryTypeDescription: string;
+  layerTypeDescription: string;
 }
 
 export interface Basemap {
@@ -14,6 +17,8 @@ export interface Basemap {
   name: string;
   code: string;
   link: string;
+  status: string;
+  statusDescription: string;
 }
 
 export enum WidgetType {
@@ -46,6 +51,10 @@ export interface Widget {
   name: string;
   code: string;
   link: string;
+  statusDescription: string;
+  tooltip: string;
+  position: string;
+  page: string;
 }
 
 export interface WidgetMap {
@@ -63,6 +72,8 @@ export interface Map {
   locate: boolean;
   layersPanel: boolean;
   widgetsPanel: boolean;
+  statusDescription: string;
+  code: string;
   layers: {
     layerId: string;
     groupId: string;
@@ -90,4 +101,12 @@ export interface GroupMap {
 
 export interface FormGroupMap {
   groups: GroupMap[];
+}
+
+export interface WidgetData {
+  [key: string]: unknown;
+}
+
+export interface WidgetConfiguration {
+  data: WidgetData;
 }

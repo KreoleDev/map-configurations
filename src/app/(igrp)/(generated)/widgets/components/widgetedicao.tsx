@@ -31,7 +31,7 @@ export default function Widgetedicao({ widget, layerOptions, initialData } : { w
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    layers: [{ layer: undefined, fields: undefined, description: undefined, defaultValue: undefined }]
+    layers: [{ layer: '', fields: [], description: '', defaultValue: '' }]
 }
 
 

@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import {  getLayer, getLayers } from '../functions/layers';
 import { getGeometryType, getLayersType, getStatus, } from '../functions/configurations';
+import { Layer } from '../types/global';
 
 export function useLayers() {
-  return useQuery({
+  return useQuery<Layer[]>({
     queryKey: ['layers'],
     queryFn: () => getLayers(),
   });

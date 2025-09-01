@@ -1,5 +1,5 @@
 import { apiClient } from '@/app/(myapp)/lib/api-client';
-import { Widget } from '@/app/(myapp)/types/global';
+import { Widget, WidgetData, WidgetConfiguration } from '@/app/(myapp)/types/global';
 
 export async function getWidgets(): Promise<Widget[]> {
   const response = await apiClient.get<Widget[]>('/api/widget');
@@ -31,7 +31,7 @@ export async function getWidget(uuid: string): Promise<Widget> {
   return response.data;
 }
 
-export async function createOrUpdateWidgetData(associationId: string, data: any) {
+export async function createOrUpdateWidgetData(associationId: string, data: WidgetData) {
   console.log(data);
   const response = await apiClient.post<string>(
     `/api/widget/configuration?uuid=${associationId}`,
@@ -41,8 +41,8 @@ export async function createOrUpdateWidgetData(associationId: string, data: any)
   return response.data;
 }
 
-export async function getWidgetData(associationId: string): Promise<any> {
-  const response = await apiClient.get<any>(`/api/widget/configuration?widgetAssociationId=${associationId}`);
+export async function getWidgetData(associationId: string): Promise<WidgetConfiguration> {
+  const response = await apiClient.get<WidgetConfiguration>(`/api/widget/configuration?widgetAssociationId=${associationId}`);
   if (!response.data) throw new Error('Widget not found');
   return response.data;
 }

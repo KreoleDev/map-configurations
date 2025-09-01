@@ -45,10 +45,8 @@ useEffect(() => {
 
 }, [widget, map])
 
-console.log(widget)
 
-
-const { data, isLoading } = useWidgetData(widget?.associationId);
+const { data, isLoading } = useWidgetData(widget?.ssociationId);
 
 if (!widget) return (<></>)
 
@@ -72,7 +70,6 @@ if (!widget) return (<></>)
   
 >
   <IGRPModalDialogTitle
-  name={ `modalDialogTitle1` }
   
 
   
@@ -81,7 +78,6 @@ if (!widget) return (<></>)
   { modalDialogTitle1Content }
 </IGRPModalDialogTitle>
   <IGRPModalDialogDescription
-  name={ `modalDialogDescription1` }
   
 
   
@@ -91,7 +87,7 @@ if (!widget) return (<></>)
 </IGRPModalDialogDescription>
 </IGRPModalDialogHeader>
   <     >
-	{ widget.widgetType !== 'SEARCH' || widget.widgetType !== 'EDIT'  && (<IGRPText
+	{ widget.widgetType !== 'SEARCH' && widget.widgetType !== 'EDIT'  && (<IGRPText
   name={ `text1` }
   
 variant={ `warning` }
@@ -116,8 +112,6 @@ animate={ true }
 </IGRPModalDialogContent>
   <IGRPModalDialogTrigger
   name={ `modalDialogTrigger1` }
-  variant={ `default` }
-size={ `default` }
 
 
   className={ cn() }

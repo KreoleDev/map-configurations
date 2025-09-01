@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import React from 'react';
 import L from 'leaflet';
-import { GisBaseMapsTypeArgs, GisMapProps, SimpleGisMap } from '@simple/maps-ui';
+import { GisMapProps, SimpleGisMap } from '@simple/maps-ui';
 
 // Fix for default markers in react-leaflet
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,22 +29,6 @@ interface MapGetCoordinantsProps {
   initialZoom?: number;
 }
 
-// Component to handle map click events
-function MapClickHandler({
-  onCoordinatesChange,
-}: {
-  onCoordinatesChange: (coords: Coordinates) => void;
-}) {
-  const map = useMapEvents({
-    click: (e) => {
-      const { lat, lng } = e.latlng;
-      const zoom = map.getZoom();
-      onCoordinatesChange({ lat, lng, zoom });
-    },
-  });
-  return null;
-}
-
 export const MapGetCoordinants = ({
   onCoordinatesChange,
   initialLat = CAPE_VERDE_CENTER[0],
@@ -53,13 +36,18 @@ export const MapGetCoordinants = ({
   initialZoom = 8,
 }: MapGetCoordinantsProps) => {
  
-  const handleMapClick = (coords: any) => {
+  const handleMapClick = (coords: L.LatLng | null) => {
+    if (!coords) return;
 
     console.log(coords);
 
     // Call the callback function to pass coordinates to parent component
     if (onCoordinatesChange) {
-      onCoordinatesChange({...coords, zoom: initialZoom});
+      onCoordinatesChange({
+        lat: coords.lat,
+        lng: coords.lng,
+        zoom: initialZoom
+      });
     }
   };
 

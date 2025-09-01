@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { getWidget, getWidgetData, getWidgets } from '../functions/widgets';
 import { getWidgetPosition } from '../functions/configurations';
-import { WidgetType } from '../types/global';
-import { apiClient } from '../lib/api-client';
+import { Widget, WidgetType } from '../types/global';
 
 export function useWidgets() {
-  return useQuery({
+  return useQuery<Widget[]>({
     queryKey: ['widgets'],
     queryFn: () => getWidgets(),
   });
@@ -23,13 +22,8 @@ export async function getWidgetsByType() {
 
 export function getWidgetTypes(): WidgetType[] {
   return [
-    WidgetType.TIMESLIDER,
     WidgetType.EDIT,
-    WidgetType.LEGEND,
-    WidgetType.SEARCH,
-    WidgetType.COORDINATES,
-    WidgetType.IDENTITY,
-    WidgetType.CONTEXTMENU,
+    WidgetType.SEARCH
   ];
 }
 

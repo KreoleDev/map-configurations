@@ -37,7 +37,7 @@ export default function Group({ open, setOpen } : { open: boolean, setOpen: (pro
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    groups: [{ name: ``, uuid: `` }]
+    groups: [{ name: '', uuid: `` }]
 }
 
 
@@ -50,7 +50,8 @@ const { igrpToast } = useIGRPToast()
 async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
   try {
-  await createOrUpdateGroup({ ...values });
+  const data = await createOrUpdateGroup({ ...values });
+   setForm1Data({groups: data.map((item: any) => ({ name: item.name, uuid: item.uuid }))});
   igrpToast({
     title: 'Sucesso',
     description: 'Grupo atualizado com sucesso',
@@ -70,10 +71,8 @@ async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 const { data, isLoading } = useGroups();
 
 useEffect(() => {
-    console.log(data)
-
   if (isLoading) return
-  setForm1Data({groups: data})
+  setForm1Data({ groups: data?.map((item: any) => ({ name: item.name, uuid: item.uuid })) });
 
 }, [isLoading])
 
@@ -96,7 +95,6 @@ useEffect(() => {
   
 >
   <IGRPModalDialogTitle
-  name={ `modalDialogTitle1` }
   
 
   
@@ -105,7 +103,6 @@ useEffect(() => {
   Grupo
 </IGRPModalDialogTitle>
   <IGRPModalDialogDescription
-  name={ `modalDialogDescription1` }
   
 
   
@@ -148,7 +145,7 @@ placeholder={ `Nome do grupo` }
 </IGRPInputText>
         <IGRPInputHidden
   name={ `groups.${index}.uuid` }
-  label={ `Hidden` }
+  label={ `uuid` }
 required={ false }
 
 

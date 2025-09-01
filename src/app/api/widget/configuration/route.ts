@@ -1,5 +1,6 @@
 import { callGateway } from '@/app/(myapp)/lib/use-server';
 import { NextRequest, NextResponse } from 'next/server';
+import { WidgetConfiguration } from '@/app/(myapp)/types/global';
 
 const API_GATEWAY = process.env.API_GATEWAY || 'http://localhost:8080';
 //use the basepath from the env
@@ -10,7 +11,7 @@ const ROUTE_BASE_URL = `${GATEWAY_BASE_URL}/widget`;
 
 export async function GET(request: NextRequest) {
   const widgetAssociationId = request.nextUrl.searchParams.get('widgetAssociationId');
-  const widget = await callGateway<any>(
+  const widget = await callGateway<WidgetConfiguration>(
     `${ROUTE_BASE_URL}/configuration?widgetAssociationId=${widgetAssociationId}`,
   );
   return NextResponse.json(widget);

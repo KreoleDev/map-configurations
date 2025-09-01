@@ -46,10 +46,10 @@ import {
 import {createOrUpdateMap} from '@/app/(myapp)/functions/maps'
 import {Widget} from '@/app/(myapp)/types/global'
 import {WidgetMap} from '@/app/(myapp)/types/global'
-import {useMapConfiguration} from '@/app/(myapp)/hooks/maps'
 import { useRouter } from "next/navigation";
+import {getMapConfiguration} from '@/app/(myapp)/hooks/maps'
 
-export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void }) {
+export default function Mapform({ initialData, isSubmitting, onAfterSubmit, openGroup } : { initialData?: any, isSubmitting: boolean, onAfterSubmit: () => void, openGroup: boolean }) {
 
   
   const form1 = z.object({
@@ -76,8 +76,8 @@ export default function Mapform({ initialData, isSubmitting, onAfterSubmit } : {
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    name: undefined,
-    code: undefined,
+    name: '',
+    code: '',
     description: ``,
     basemapId: undefined,
     latitude: 0,
@@ -121,12 +121,15 @@ const [currentWidget, setCurrentWidget] = useState<any>(undefined);
 
 const [widgetTypes, setWidgetTypes] = useState<any>([]);
 
+const [data, setData] = useState<any>(initialData);
+
 const { igrpToast } = useIGRPToast()
 
 async function handleSubmit (values: z.infer<any>): Promise<void  | undefined> {
 
   try {
-  const response = await createOrUpdateMap({ uuid: initialData?.uuid, ...values, widgets });
+  const response = await createOrUpdateMap({ uuid: data?.uuid, ...values, widgets });
+  setData(response)
   igrpToast({
     title: 'Sucesso',
     description: values.uuid ? 'Mapa atualizado com sucesso' : 'Mapa gravado com sucesso',
@@ -171,10 +174,15 @@ function handleDeleteWidget (widgetName: string): void  | undefined {
 }
 
 const router = useRouter()
+
+useEffect(()=>{
+setData(initialData)
+},[initialData])
+
 useEffect(() => {
   const load = async () => {
     const { basemapsOptions, widgetsOptions, layersOptions, visibilityOptions, groupsOptions } =
-      await useMapConfiguration();
+      await getMapConfiguration();
     setSelectlayerIdOptions(layersOptions || []);
     setSelectvisibilityOptions(visibilityOptions || []);
     setSelectbasemapIdOptions(basemapsOptions || []);
@@ -184,14 +192,14 @@ useEffect(() => {
 
   };
   load();
-}, []);
+}, [openGroup]);
 
 
 useEffect(() => {
-  if (!initialData) return
+  if (!data) return
   setForm1Data({
-    ...initialData, description: initialData.description === null ? "" : initialData.description,
-    layers: initialData.layers.map((layer: any) => ({
+    ...data, description: data.description === null ? "" : data.description,
+    layers: data.layers.map((layer: any) => ({
       layerId: layer.uuid,
       visibility: layer.visibility,
       groupId: layer.groupId === null ? "" : layer.groupId,
@@ -199,9 +207,9 @@ useEffect(() => {
       associationId: layer.associationId
     })),
   })
-  setWidgets(initialData.widgets)
+  setWidgets(data.widgets)
 
-}, [initialData])
+}, [data,isSubmitting])
 
 useEffect(() => {
     setContentTabletable1(widgets || []);
@@ -214,7 +222,7 @@ useEffect(() => {
       }));
 
   setRepetitiveListrepetitiveList1(availableWidgets || []);
-}, [initialData, widgets, widgetTypes])
+}, [data, widgets, widgetTypes,isSubmitting])
 
 useEffect(() => {
   if (isSubmitting) {
@@ -512,7 +520,6 @@ content: (<>
   
 >
   <IGRPModalDialogTitle
-  name={ `modalDialogTitle1` }
   
 
   
@@ -521,7 +528,6 @@ content: (<>
   Widgets
 </IGRPModalDialogTitle>
   <IGRPModalDialogDescription
-  name={ `modalDialogDescription1` }
   
 
   
@@ -580,9 +586,6 @@ iconName={ `CirclePlus` }
 </IGRPModalDialogContent>
   <IGRPModalDialogTrigger
   name={ `modalDialogTrigger1` }
-  variant={ `default` }
-size={ `default` }
-showIcon={ false }
 
   onClick={ () => {} }
   
@@ -659,7 +662,7 @@ return (
   
   data={ contentTabletable1 }
 />
-            <ConfigurarWidgets  open={ openConfig } widget={ currentWidget } map={ initialData }  setOpen={ ()=>{setOpenConfig(!openConfig)
+            <ConfigurarWidgets  open={ openConfig } widget={ currentWidget } map={ data }  setOpen={ ()=>{setOpenConfig(!openConfig)
 } } ></ConfigurarWidgets>
 </>),
         },

@@ -178,7 +178,7 @@ return (
       {
         component: IGRPDataTableDropdownMenuLink,
         props: {
-          labelTrigger: `Editar`,icon: `SquarePen`,href: `/layers/${row.original.uuid}/edit`,          showIcon: true,          action: (e) => {},
+          labelTrigger: `Editar`,icon: `SquarePen`,href: `/layers/${row.original.uuid}/edit`,          showIcon: true,          
 }
       },
       {

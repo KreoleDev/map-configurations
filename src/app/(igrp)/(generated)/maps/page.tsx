@@ -181,7 +181,7 @@ return (
       {
         component: IGRPDataTableDropdownMenuLink,
         props: {
-          labelTrigger: `Editar`,icon: `SquarePen`,href: `/maps/${row.original.uuid}/edit`,          showIcon: true,          action: (e) => {},
+          labelTrigger: `Editar`,icon: `SquarePen`,href: `/maps/${row.original.uuid}/edit`,          showIcon: true,          
 }
       },
       {
@@ -194,7 +194,7 @@ return (
       {
         component: IGRPDataTableDropdownMenuLink,
         props: {
-          labelTrigger: `Visualizar Mapa`,icon: `Map`,href: `/maps/${row.original.code}`,          showIcon: true,          action: (e) => {},
+          labelTrigger: `Visualizar Mapa`,icon: `Map`,href: `/maps/${row.original.code}`,          showIcon: true,          
 }
       },
 ]

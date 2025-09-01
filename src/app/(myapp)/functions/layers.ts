@@ -31,7 +31,7 @@ export async function getLayer(uuid: string): Promise<Layer> {
   return response.data;
 }
 
-export async function getDescribeFeatureType(uuid: string): Promise<any> {
+export async function getDescribeFeatureType(uuid: string): Promise<Array<{ value: string; label: string }>> {
   const layer = await getLayer(uuid);
   const url = `${layer.url}?service=WFS&request=DescribeFeatureType&typeName=${layer.nameType}&version=1.0.0&outputFormat=application/json`;
 

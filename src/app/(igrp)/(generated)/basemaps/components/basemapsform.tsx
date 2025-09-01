@@ -32,8 +32,8 @@ export default function Basemapsform({ initialData, isSubmitting, onAfterSubmit 
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    name: undefined,
-    link: undefined
+    name: '',
+    link: ''
 }
 
 

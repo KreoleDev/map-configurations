@@ -33,7 +33,7 @@ export default function Widgetsearch({ widget, layerOptions, initialData } : { w
 type Form1ZodType = typeof form1;
 
 const initForm1: z.infer<Form1ZodType> = {
-    layers: [{ layer: undefined, fields: undefined }],
+    layers: [{ layer: '', fields: [] }],
     country: undefined
 }
 

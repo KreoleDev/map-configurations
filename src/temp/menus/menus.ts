@@ -1,6 +1,6 @@
-import { IGRPMenuProps } from '@/features/menus/types';
+import { IGRPMenuItemArgs } from '@igrp/framework-next-types';
 
-export const IGRP_DEFAULT_MENU: IGRPMenuProps[] = [
+export const IGRP_DEFAULT_MENU: IGRPMenuItemArgs[] = [
   {
     id: 9,
     name: 'Maps',
@@ -13,10 +13,6 @@ export const IGRP_DEFAULT_MENU: IGRPMenuProps[] = [
     parentId: null,
     applicationId: 1,
     resourceId: null,
-    createdBy: 'admin',
-    createdDate: '2022-01-01T12:00:00.000Z',
-    lastModifiedBy: 'admin',
-    lastModifiedDate: '2022-01-01T12:00:00.000Z',
   },
   {
     id: 99,
@@ -29,11 +25,7 @@ export const IGRP_DEFAULT_MENU: IGRPMenuProps[] = [
     url: 'layers',
     parentId: null,
     applicationId: 1,
-    resourceId: null,
-    createdBy: 'admin',
-    createdDate: '2022-01-01T12:00:00.000Z',
-    lastModifiedBy: 'admin',
-    lastModifiedDate: '2022-01-01T12:00:00.000Z',
+    resourceId: null
   },
   {
     id: 15,
@@ -47,10 +39,6 @@ export const IGRP_DEFAULT_MENU: IGRPMenuProps[] = [
     parentId: null,
     applicationId: 1,
     resourceId: null,
-    createdBy: 'admin',
-    createdDate: '2022-01-01T12:00:00.000Z',
-    lastModifiedBy: 'admin',
-    lastModifiedDate: '2022-01-01T12:00:00.000Z',
   },/* 
   {
     id: 14,
@@ -98,9 +86,5 @@ export const IGRP_DEFAULT_MENU: IGRPMenuProps[] = [
     parentId: null,
     applicationId: 1,
     resourceId: null,
-    createdBy: 'admin',
-    createdDate: '2022-01-01T12:00:00.000Z',
-    lastModifiedBy: 'admin',
-    lastModifiedDate: '2022-01-01T12:00:00.000Z',
   },
 ];

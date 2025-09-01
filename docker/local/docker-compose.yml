@@ -1,0 +1,9 @@
+services:
+  maps-ui-local:
+    build:
+      context: ../../
+      dockerfile: docker/local/Dockerfile
+
+    image: maps-ui-local
+    ports:
+      - '3001:3000'

@@ -47,11 +47,11 @@ export default function Layerform({
   type Form1ZodType = typeof form1;
 
   const initForm1: z.infer<Form1ZodType> = {
-    name: undefined,
-    layerType: undefined,
-    geometryType: undefined,
-    url: undefined,
-    nameType: undefined,
+    name: '',
+    layerType: '',
+    geometryType: '',
+    url: '',
+    nameType: '',
     status: `A`,
     editable: undefined,
   };

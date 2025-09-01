@@ -13,9 +13,8 @@ export async function deleteGroup(uuid: string): Promise<void> {
   }
 }
 
-export async function createOrUpdateGroup(group: Partial<FormGroupMap>): Promise<GroupMap> {
-  console.log('group', group);
-  const response = await apiClient.post<GroupMap>('/api/map/group', group.groups);
+export async function createOrUpdateGroup(group: Partial<FormGroupMap>): Promise<GroupMap[]> {
+  const response = await apiClient.post<GroupMap[]>('/api/map/group', group.groups);
   if (!response.data) throw new Error('Failed to create group');
   return response.data;
 }
